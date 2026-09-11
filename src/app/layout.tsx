@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Instrument_Serif } from "next/font/google";
+import { Navigation } from "@/components/Navigation";
+import { Footer } from "@/components/Footer";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
@@ -23,7 +25,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.variable} ${instrumentSerif.variable} font-sans bg-brand-white text-brand-black`}>
-        {children}
+        <Navigation />
+        <div className="pt-20"> {/* Offset for fixed header */}
+          {children}
+        </div>
+        <Footer />
       </body>
     </html>
   );

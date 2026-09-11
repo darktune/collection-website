@@ -5,22 +5,24 @@ export default function Home() {
   return (
     <main className="flex min-h-screen flex-col">
       {/* HERO SECTION */}
-      <section className="relative h-screen w-full flex flex-col justify-end p-8 md:p-16 lg:p-24 overflow-hidden">
-        {/* Abstract/Placeholder luxury fashion image */}
+      <section className="relative h-[calc(100vh-5rem)] w-full flex flex-col justify-end p-8 md:p-16 lg:p-24 overflow-hidden">
+        {/* Background Video */}
         <div className="absolute inset-0 z-0">
-          <Image
-            src="https://images.unsplash.com/photo-1618886487325-f665032b6352?q=80&w=2000&auto=format&fit=crop"
-            alt="Abraham Collection - Clothing That Suits"
-            fill
-            className="object-cover object-center"
-            priority
-          />
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="w-full h-full object-cover object-center"
+          >
+            <source src="/media/hero_video.mp4" type="video/mp4" />
+          </video>
           {/* Subtle overlay for text readability */}
-          <div className="absolute inset-0 bg-black/30" />
+          <div className="absolute inset-0 bg-black/40" />
         </div>
 
         <div className="relative z-10 text-brand-white max-w-4xl">
-          <p className="text-sm md:text-base tracking-widest uppercase mb-4 font-medium">Abraham Collection</p>
+          <p className="text-sm md:text-base tracking-widest uppercase mb-4 font-medium text-brand-cream/90">Abraham Collection</p>
           <h1 className="font-display text-6xl md:text-8xl lg:text-9xl leading-[0.9] mb-6">
             Clothing<br />That Suits.
           </h1>
@@ -35,7 +37,7 @@ export default function Home() {
               Explore the Collection
             </Link>
             <Link 
-              href="/bespoke/consultation" 
+              href="/bespoke/commission" 
               className="inline-flex items-center justify-center px-8 py-4 border border-brand-white text-brand-white hover:bg-brand-white hover:text-brand-black transition-colors duration-300 text-sm tracking-wider uppercase"
             >
               Book a Consultation
@@ -72,10 +74,10 @@ export default function Home() {
       <section className="py-24 px-8 md:px-16 lg:px-24 bg-brand-cream flex flex-col lg:flex-row gap-16 items-center">
         <div className="w-full lg:w-1/2 relative aspect-[3/4]">
           <Image
-            src="https://images.unsplash.com/photo-1583391733958-d25e07fac0ec?q=80&w=1200&auto=format&fit=crop"
+            src="/media/heritage_1.jpg"
             alt="Heritage Collection"
             fill
-            className="object-cover"
+            className="object-cover object-top"
           />
         </div>
         <div className="w-full lg:w-1/2 max-w-xl">
@@ -113,10 +115,10 @@ export default function Home() {
         </div>
         <div className="w-full lg:w-1/2 relative aspect-[3/4]">
           <Image
-            src="https://images.unsplash.com/photo-1593030761757-71fae45fa0e7?q=80&w=1200&auto=format&fit=crop"
+            src="/media/tailoring_1.jpg"
             alt="Contemporary Tailoring"
             fill
-            className="object-cover"
+            className="object-cover object-top"
           />
         </div>
       </section>

@@ -3,8 +3,33 @@
 @tailwind utilities;
 
 @layer base {
+  :root {
+    --background: #FCFAF7; /* Warm White */
+    --foreground: #111111; /* Black */
+    --card: #F1E8DA; /* Cream */
+    --card-foreground: #111111;
+    --accent: #641C2F; /* Burgundy */
+    --accent-foreground: #FCFAF7;
+    --border: rgba(17, 17, 17, 0.1);
+  }
+
+  .dark {
+    --background: #0a0a0a; /* Deep Black for luxury dark mode */
+    --foreground: #FCFAF7; /* Warm White text */
+    --card: #1a1a1a; /* Slightly lighter black */
+    --card-foreground: #FCFAF7;
+    --accent: #641C2F; /* Burgundy remains the same */
+    --accent-foreground: #FCFAF7;
+    --border: rgba(252, 250, 247, 0.1);
+  }
+
   body {
-    @apply bg-brand-white text-brand-black antialiased selection:bg-brand-burgundy selection:text-white;
+    @apply bg-[var(--background)] text-[var(--foreground)] antialiased selection:bg-[var(--accent)] selection:text-[var(--accent-foreground)] transition-colors duration-500;
+  }
+
+  /* Luxury interaction physics for all interactive elements */
+  a, button, input, select, textarea {
+    @apply transition-all duration-luxury ease-luxury font-sans;
   }
 }
 
@@ -12,4 +37,9 @@
   .text-balance {
     text-wrap: balance;
   }
+  
+  .glass {
+    @apply bg-white/50 dark:bg-black/50 backdrop-blur-xl border border-[var(--border)];
+  }
 }
+

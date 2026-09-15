@@ -1,43 +1,77 @@
+"use client";
+
 import Link from 'next/link';
+import { useTheme } from 'next-themes';
+import { Moon, Sun, Menu } from 'lucide-react';
+import { useEffect, useState } from 'react';
 
 export function Navigation() {
+  const { theme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-brand-white/80 backdrop-blur-md border-b border-brand-cream transition-colors duration-300">
-      <nav className="flex items-center justify-between px-8 md:px-16 lg:px-24 h-20 text-xs md:text-sm uppercase tracking-widest font-medium">
+    <header className="fixed top-0 left-0 right-0 z-50 glass transition-all duration-300">
+      <nav className="flex items-center justify-between px-6 md:px-12 lg:px-24 h-20 text-xs md:text-sm uppercase tracking-widest font-medium w-full">
         
         {/* Left Side Navigation Links */}
-        <div className="hidden lg:flex items-center gap-8">
-          <Link href="/new" className="hover:text-brand-burgundy transition-colors">New</Link>
-          <Link href="/heritage" className="hover:text-brand-burgundy transition-colors">Heritage</Link>
-          <Link href="/men" className="hover:text-brand-burgundy transition-colors">Men</Link>
-          <Link href="/women" className="hover:text-brand-burgundy transition-colors">Women</Link>
+        <div className="hidden lg:flex items-center gap-8 flex-1">
+          <Link href="/new" className="hover:text-brand-burgundy hover:scale-105 transition-all duration-300">New</Link>
+          <Link href="/heritage" className="hover:text-brand-burgundy hover:scale-105 transition-all duration-300">Heritage</Link>
+          <Link href="/men" className="hover:text-brand-burgundy hover:scale-105 transition-all duration-300">Men</Link>
+          <Link href="/women" className="hover:text-brand-burgundy hover:scale-105 transition-all duration-300">Women</Link>
         </div>
 
         {/* Brand Center */}
-        <div className="absolute left-1/2 -translate-x-1/2">
-          <Link href="/" className="font-display normal-case text-2xl md:text-3xl tracking-normal whitespace-nowrap hover:opacity-80 transition-opacity">
-            Abraham Collection
+        <div className="flex-shrink-0 flex justify-center mx-8">
+          <Link href="/" className="hover:opacity-80 transition-opacity block">
+            <img 
+              src="/media/logo_transparent.png" 
+              alt="Abraham Collection Logo" 
+              className="h-12 md:h-16 w-auto object-contain dark:brightness-0 dark:invert transition-all duration-300"
+            />
           </Link>
         </div>
 
         {/* Right Side Navigation Links & Actions */}
-        <div className="hidden lg:flex items-center gap-8">
-          <Link href="/corporate" className="hover:text-brand-burgundy transition-colors">Corporate</Link>
-          <Link href="/bespoke" className="hover:text-brand-burgundy transition-colors">Bespoke</Link>
-          <Link href="/stories" className="hover:text-brand-burgundy transition-colors">Stories</Link>
+        <div className="hidden lg:flex items-center gap-8 flex-1 justify-end">
+          <Link href="/corporate" className="hover:text-brand-burgundy hover:scale-105 transition-all duration-300">Corporate</Link>
+          <Link href="/bespoke" className="hover:text-brand-burgundy hover:scale-105 transition-all duration-300">Bespoke</Link>
+          <Link href="/stories" className="hover:text-brand-burgundy hover:scale-105 transition-all duration-300">Stories</Link>
           
-          <div className="flex items-center gap-6 ml-4 border-l border-brand-stone pl-8">
-            <button className="hover:text-brand-burgundy transition-colors">Search</button>
-            <Link href="/account" className="hover:text-brand-burgundy transition-colors">Account</Link>
-            <button className="hover:text-brand-burgundy transition-colors">Bag (0)</button>
+          <div className="flex items-center gap-6 ml-4 border-l border-[var(--border)] pl-8">
+            <Link href="/account" className="hover:text-brand-burgundy hover:scale-105 transition-all duration-300">Account</Link>
+            
+            {/* Theme Toggle */}
+            {mounted && (
+              <button 
+                onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+                className="hover:text-brand-burgundy hover:scale-110 transition-all duration-300"
+                aria-label="Toggle Dark Mode"
+              >
+                {theme === 'dark' ? <Sun size={18} strokeWidth={1.5} /> : <Moon size={18} strokeWidth={1.5} />}
+              </button>
+            )}
           </div>
         </div>
 
         {/* Mobile Menu Button */}
-        <div className="flex lg:hidden items-center gap-6">
-          <button className="hover:text-brand-burgundy transition-colors">Search</button>
-          <button className="hover:text-brand-burgundy transition-colors">Bag (0)</button>
-          <button className="hover:text-brand-burgundy transition-colors ml-2">Menu</button>
+        <div className="flex lg:hidden items-center justify-end flex-1 gap-6">
+          {mounted && (
+              <button 
+                onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+                className="hover:text-brand-burgundy hover:scale-110 transition-all duration-300"
+                aria-label="Toggle Dark Mode"
+              >
+                {theme === 'dark' ? <Sun size={18} strokeWidth={1.5} /> : <Moon size={18} strokeWidth={1.5} />}
+              </button>
+          )}
+          <button className="hover:text-brand-burgundy hover:scale-110 transition-all duration-300">
+            <Menu size={20} strokeWidth={1.5} />
+          </button>
         </div>
       </nav>
     </header>

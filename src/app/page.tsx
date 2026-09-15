@@ -5,7 +5,7 @@ export default function Home() {
   return (
     <main className="flex min-h-screen flex-col">
       {/* HERO SECTION */}
-      <section className="relative h-[calc(100vh-5rem)] w-full flex flex-col justify-end p-8 md:p-16 lg:p-24 overflow-hidden">
+      <section className="relative min-h-[calc(100vh-5rem)] w-full flex flex-col justify-end p-8 md:p-16 lg:p-24 overflow-hidden">
         {/* Background Video */}
         <div className="absolute inset-0 z-0">
           <video
@@ -27,7 +27,7 @@ export default function Home() {
             Clothing<br />That Suits.
           </h1>
           <p className="text-lg md:text-xl font-light max-w-2xl mb-10 text-brand-white/90 leading-relaxed">
-            Traditional heritage. Contemporary tailoring. Corporate excellence. Crafted with intention for over 25 years.
+            It is not made to measure. It is made to dominate. A second skin that does not give you power, but reveals the power you already possess.
           </p>
           <div className="flex flex-col sm:flex-row gap-6">
             <Link 
@@ -50,11 +50,11 @@ export default function Home() {
       </section>
 
       {/* BRAND STORY SECTION */}
-      <section className="py-32 px-8 md:px-16 lg:px-24 bg-brand-white text-brand-black text-center max-w-5xl mx-auto">
+      <section className="py-32 px-8 md:px-16 lg:px-24 text-center max-w-5xl mx-auto">
         <h2 className="font-display text-5xl md:text-7xl mb-10 leading-tight">
           25 Years of<br />Intentional Craft.
         </h2>
-        <div className="text-lg md:text-xl font-light text-brand-black/80 leading-relaxed max-w-3xl mx-auto space-y-6">
+        <div className="text-lg md:text-xl font-light opacity-80 leading-relaxed max-w-3xl mx-auto space-y-6">
           <p>
             For more than two decades, Abraham Collection has created clothing around one principle: what you wear should suit who you are, where you are going and what the moment requires.
           </p>
@@ -71,7 +71,7 @@ export default function Home() {
       </section>
 
       {/* HERITAGE CAMPAIGN */}
-      <section className="py-24 px-8 md:px-16 lg:px-24 bg-brand-cream flex flex-col lg:flex-row gap-16 items-center">
+      <section className="py-24 px-8 md:px-16 lg:px-24 bg-black/5 dark:bg-white/5 flex flex-col lg:flex-row gap-16 items-center transition-colors duration-500">
         <div className="w-full lg:w-1/2 relative aspect-[3/4]">
           <Image
             src="/media/heritage_1.jpg"
@@ -85,12 +85,12 @@ export default function Home() {
           <h2 className="font-display text-5xl md:text-7xl mb-8 leading-[1.1]">
             Before anyone asks who the celebrant is, the agbada has already answered.
           </h2>
-          <p className="text-lg font-light text-brand-black/80 mb-10 leading-relaxed">
+          <p className="text-lg font-light opacity-80 mb-10 leading-relaxed">
             A big occasion deserves presence to match. Traditional pieces shaped by proportion, craftsmanship and occasion.
           </p>
           <Link 
             href="/heritage" 
-            className="inline-flex items-center justify-center px-8 py-4 bg-brand-black text-brand-white hover:bg-brand-burgundy transition-colors duration-300 text-sm tracking-wider uppercase"
+            className="inline-flex items-center justify-center px-8 py-4 bg-brand-black dark:bg-white text-white dark:text-black hover:bg-brand-burgundy dark:hover:bg-brand-burgundy dark:hover:text-white transition-colors duration-300 text-sm tracking-wider uppercase"
           >
             Discover Heritage
           </Link>
@@ -98,17 +98,17 @@ export default function Home() {
       </section>
 
       {/* CONTEMPORARY TAILORING */}
-      <section className="py-24 px-8 md:px-16 lg:px-24 bg-brand-white flex flex-col-reverse lg:flex-row gap-16 items-center">
+      <section className="py-24 px-8 md:px-16 lg:px-24 flex flex-col-reverse lg:flex-row gap-16 items-center">
         <div className="w-full lg:w-1/2 max-w-xl lg:pl-12">
           <h2 className="font-display text-5xl md:text-7xl mb-8 leading-[1.1]">
             Made for how you enter the room.
           </h2>
-          <p className="text-lg font-light text-brand-black/80 mb-10 leading-relaxed">
+          <p className="text-lg font-light opacity-80 mb-10 leading-relaxed">
             Tailored suits, shirts, trousers and contemporary pieces built around fit, character and purpose.
           </p>
           <Link 
             href="/men" 
-            className="inline-flex items-center justify-center px-8 py-4 border border-brand-black text-brand-black hover:bg-brand-black hover:text-brand-white transition-colors duration-300 text-sm tracking-wider uppercase"
+            className="inline-flex items-center justify-center px-8 py-4 border border-brand-black dark:border-white text-brand-black dark:text-white hover:bg-brand-black dark:hover:bg-white hover:text-white dark:hover:text-black transition-colors duration-300 text-sm tracking-wider uppercase"
           >
             Explore Tailoring
           </Link>
@@ -124,7 +124,7 @@ export default function Home() {
       </section>
 
       {/* CORPORATE BUSINESS */}
-      <section className="py-32 px-8 md:px-16 lg:px-24 bg-brand-black text-brand-white text-center">
+      <section className="py-32 px-8 md:px-16 lg:px-24 bg-brand-black dark:bg-brand-black text-brand-white text-center">
         <div className="max-w-4xl mx-auto">
           <p className="text-xs tracking-widest uppercase mb-6 font-medium text-brand-white/70">Abraham Collection For Business</p>
           <h2 className="font-display text-5xl md:text-7xl mb-10 leading-[1.1]">

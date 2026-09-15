@@ -1,20 +1,52 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
+import { supabase } from "@/lib/supabase";
 
-export default function CommissionForm() {
+function CommissionFormInner() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const searchParams = useSearchParams();
+  const defaultGarment = searchParams.get("garment") || "";
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setIsSubmitting(true);
     
-    // Simulate API call for now. We will integrate Supabase here later.
-    setTimeout(() => {
-      setIsSubmitting(false);
+    const formData = new FormData(e.currentTarget);
+    const occasion = formData.get("occasion") as string;
+    const desired_garment = formData.get("garment") as string;
+    const event_date = formData.get("date") as string;
+    const location = formData.get("location") as string;
+    const budget_guidance = formData.get("budget") as string;
+    const consultation_preference = formData.get("consultation") as string;
+    const additional_details = formData.get("details") as string;
+    const contact_name = formData.get("contact_name") as string;
+    const contact_email = formData.get("contact_email") as string;
+    const contact_phone = formData.get("contact_phone") as string;
+
+    const { error } = await supabase.from('commissions').insert([{
+      occasion,
+      desired_garment,
+      event_date: event_date || null,
+      location,
+      budget_guidance,
+      consultation_preference,
+      additional_details,
+      contact_name,
+      contact_email,
+      contact_phone
+    }]);
+
+    setIsSubmitting(false);
+    
+    if (error) {
+      console.error(error);
+      alert("There was an error submitting your request. Please try again.");
+    } else {
       setSubmitted(true);
-    }, 1500);
+    }
   }
 
   if (submitted) {
@@ -32,7 +64,7 @@ export default function CommissionForm() {
   return (
     <main className="max-w-3xl mx-auto py-24 px-8">
       <h1 className="font-display text-5xl mb-4">Begin a Commission</h1>
-      <p className="font-light text-brand-black/70 mb-12">
+      <p className="font-light opacity-70 mb-12">
         Please provide details about the garment you wish to commission. We will use this information to prepare for your initial consultation.
       </p>
 
@@ -44,8 +76,9 @@ export default function CommissionForm() {
             <input 
               type="text" 
               id="occasion" 
+              name="occasion"
               placeholder="e.g. Traditional Wedding, Corporate Award"
-              className="border-b border-brand-black/20 bg-transparent py-2 outline-none focus:border-brand-burgundy transition-colors font-light"
+              className="border-b border-brand-black/20 dark:border-white/20 bg-transparent py-2 outline-none focus:border-brand-burgundy transition-colors font-light"
               required 
             />
           </div>
@@ -55,8 +88,10 @@ export default function CommissionForm() {
             <input 
               type="text" 
               id="garment" 
+              name="garment"
+              defaultValue={defaultGarment}
               placeholder="e.g. 3-Piece Agbada, Bespoke Suit"
-              className="border-b border-brand-black/20 bg-transparent py-2 outline-none focus:border-brand-burgundy transition-colors font-light"
+              className="border-b border-brand-black/20 dark:border-white/20 bg-transparent py-2 outline-none focus:border-brand-burgundy transition-colors font-light"
               required 
             />
           </div>
@@ -68,7 +103,8 @@ export default function CommissionForm() {
             <input 
               type="date" 
               id="date" 
-              className="border-b border-brand-black/20 bg-transparent py-2 outline-none focus:border-brand-burgundy transition-colors font-light"
+              name="date"
+              className="border-b border-brand-black/20 dark:border-white/20 bg-transparent py-2 outline-none focus:border-brand-burgundy transition-colors font-light"
             />
           </div>
           
@@ -77,8 +113,9 @@ export default function CommissionForm() {
             <input 
               type="text" 
               id="location" 
+              name="location"
               placeholder="City, Country"
-              className="border-b border-brand-black/20 bg-transparent py-2 outline-none focus:border-brand-burgundy transition-colors font-light"
+              className="border-b border-brand-black/20 dark:border-white/20 bg-transparent py-2 outline-none focus:border-brand-burgundy transition-colors font-light"
             />
           </div>
         </div>
@@ -88,7 +125,8 @@ export default function CommissionForm() {
             <label htmlFor="budget" className="text-xs uppercase tracking-widest font-medium">Budget Guidance (Optional)</label>
             <select 
               id="budget" 
-              className="border-b border-brand-black/20 bg-transparent py-2 outline-none focus:border-brand-burgundy transition-colors font-light text-brand-black/70"
+              name="budget"
+              className="border-b border-brand-black/20 dark:border-white/20 bg-transparent py-2 outline-none focus:border-brand-burgundy transition-colors font-light text-brand-black/70 dark:text-white/70"
             >
               <option value="">Select a range</option>
               <option value="standard">Standard Bespoke</option>
@@ -101,7 +139,8 @@ export default function CommissionForm() {
             <label htmlFor="consultation" className="text-xs uppercase tracking-widest font-medium">Consultation Preference</label>
             <select 
               id="consultation" 
-              className="border-b border-brand-black/20 bg-transparent py-2 outline-none focus:border-brand-burgundy transition-colors font-light text-brand-black/70"
+              name="consultation"
+              className="border-b border-brand-black/20 dark:border-white/20 bg-transparent py-2 outline-none focus:border-brand-burgundy transition-colors font-light text-brand-black/70 dark:text-white/70"
               required
             >
               <option value="">Select preference</option>
@@ -115,17 +154,54 @@ export default function CommissionForm() {
           <label htmlFor="details" className="text-xs uppercase tracking-widest font-medium">Additional Details / References</label>
           <textarea 
             id="details" 
+            name="details"
             rows={4}
             placeholder="Describe any specific fabric preferences, colors, or reference styles."
-            className="border-b border-brand-black/20 bg-transparent py-2 outline-none focus:border-brand-burgundy transition-colors font-light resize-none"
+            className="border-b border-brand-black/20 dark:border-white/20 bg-transparent py-2 outline-none focus:border-brand-burgundy transition-colors font-light resize-none"
           ></textarea>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 border-t border-brand-black/10 dark:border-white/10 pt-8 mt-8">
+          <div className="flex flex-col gap-2">
+            <label htmlFor="contact_name" className="text-xs uppercase tracking-widest font-medium">Full Name</label>
+            <input 
+              type="text" 
+              id="contact_name" 
+              name="contact_name"
+              className="border-b border-brand-black/20 dark:border-white/20 bg-transparent py-2 outline-none focus:border-brand-burgundy transition-colors font-light"
+              required 
+            />
+          </div>
+          <div className="flex flex-col gap-2">
+            <label htmlFor="contact_email" className="text-xs uppercase tracking-widest font-medium">Email Address</label>
+            <input 
+              type="email" 
+              id="contact_email" 
+              name="contact_email"
+              className="border-b border-brand-black/20 dark:border-white/20 bg-transparent py-2 outline-none focus:border-brand-burgundy transition-colors font-light"
+              required 
+            />
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="flex flex-col gap-2">
+            <label htmlFor="contact_phone" className="text-xs uppercase tracking-widest font-medium">Phone Number</label>
+            <input 
+              type="tel" 
+              id="contact_phone" 
+              name="contact_phone"
+              className="border-b border-brand-black/20 dark:border-white/20 bg-transparent py-2 outline-none focus:border-brand-burgundy transition-colors font-light"
+              required 
+            />
+          </div>
         </div>
 
         <div className="pt-8 flex justify-end">
           <button 
             type="submit" 
             disabled={isSubmitting}
-            className="px-8 py-4 bg-brand-black text-brand-white hover:bg-brand-burgundy transition-colors duration-300 text-sm tracking-wider uppercase disabled:opacity-50"
+            className="px-8 py-4 bg-brand-black dark:bg-white text-white dark:text-black hover:bg-brand-burgundy dark:hover:bg-brand-burgundy dark:hover:text-white transition-colors duration-300 text-sm tracking-wider uppercase disabled:opacity-50"
           >
             {isSubmitting ? "Submitting..." : "Submit Commission Request"}
           </button>
@@ -133,5 +209,13 @@ export default function CommissionForm() {
 
       </form>
     </main>
+  );
+}
+
+export default function CommissionForm() {
+  return (
+    <Suspense fallback={<div className="min-h-[70vh] flex items-center justify-center font-display text-2xl">Loading...</div>}>
+      <CommissionFormInner />
+    </Suspense>
   );
 }

@@ -15,6 +15,7 @@ import { QuickBuyModal } from "@/components/dock/QuickBuyModal";
 import { VisualSearchModal } from "@/components/dock/VisualSearchModal";
 import { AuthModal } from "@/components/auth/AuthModal";
 import { StorytellingAuthPopup } from "@/components/auth/StorytellingAuthPopup";
+import { PwaManager } from "@/components/pwa/PwaManager";
 
 const displayFont = Jost({
   weight: ["300", "400", "500", "600"],
@@ -86,6 +87,7 @@ export default function RootLayout({
             <VisualSearchModal />
             <AuthModal />
             <StorytellingAuthPopup />
+            <PwaManager />
           </AtelierProvider>
         </ThemeProvider>
       </body>

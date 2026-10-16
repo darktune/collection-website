@@ -105,7 +105,7 @@ export function AtelierAssistantModal() {
       newSuggestions = ["View Saved Silhouettes", "Book Bespoke Fitting Instead"];
     } else {
       replyText = `Thank you for sharing your thoughts on "${q}". At Abraham Collection, tailoring is an intentional dialogue between your identity and master craftsmanship. Let us guide your next milestone.`;
-      actionLink = { label: "Book Atelier Consultation", href: "/bespoke/commission" };
+      actionLink = { label: "Book Bespoke", href: "/bespoke/commission" };
       newSuggestions = ["Direct Call: 0812 264 0820", "View Customer Stories"];
     }
 

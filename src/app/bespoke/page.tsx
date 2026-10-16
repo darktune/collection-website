@@ -235,7 +235,7 @@ export default function BespokeLanding() {
             className="inline-flex items-center gap-3 px-10 py-5 bg-brand-crimson text-brand-white hover:bg-brand-burgundy-light text-xs tracking-luxury uppercase font-semibold transition-colors shadow-lg"
           >
             <PempamsieIcon size={16} className="text-brand-gold" />
-            <span>Schedule Initial Consultation</span>
+            <span>Book Bespoke</span>
           </Link>
         </div>
       </section>

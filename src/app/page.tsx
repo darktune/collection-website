@@ -51,7 +51,7 @@ export default function Home() {
               className="inline-flex items-center justify-center gap-3 px-9 py-4 bg-brand-crimson text-brand-white hover:bg-brand-burgundy-light transition-colors duration-300 text-xs tracking-luxury uppercase font-medium shadow-md"
             >
               <PempamsieIcon size={16} className="text-brand-gold" />
-              <span>Book a Consultation</span>
+              <span>Book Bespoke</span>
             </Link>
             <Link
               href="/heritage"

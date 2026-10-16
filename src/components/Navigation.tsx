@@ -257,7 +257,7 @@ export function Navigation() {
               className="flex items-center justify-center gap-2 w-full py-4 bg-brand-crimson text-white uppercase tracking-luxury text-xs font-semibold hover:bg-brand-burgundy-light transition-colors"
             >
               <PempamsieIcon size={16} className="text-brand-gold" />
-              <span>Book a Bespoke Consultation</span>
+              <span>Book Bespoke</span>
             </Link>
             <p className="text-[10px] tracking-widest text-center text-white/50 uppercase">
               Lagos Flagship &bull; London &bull; North America

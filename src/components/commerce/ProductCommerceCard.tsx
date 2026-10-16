@@ -55,13 +55,13 @@ export function ProductCommerceCard({ product, priority = false }: ProductCommer
         {/* Bottom Hover/Touch Action Curtain (REAVO & Luxury Reference Pattern) */}
         <div className="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-black/90 via-black/60 to-transparent flex flex-col gap-2 opacity-90 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity duration-300 z-10">
           
-          {/* Primary Action: Book Bespoke Consultation Call (Brand Main Focus) */}
+          {/* Primary Action: Book Bespoke */}
           <Link
             href={`/bespoke/commission?garment=${encodeURIComponent(product.name)}`}
             className="w-full py-2.5 px-3 bg-brand-crimson text-white hover:bg-brand-burgundy-light uppercase tracking-luxury text-[10px] font-semibold flex items-center justify-center gap-1.5 transition-colors shadow-md text-center rounded-sm"
           >
             <PempamsieIcon size={13} className="text-brand-gold" />
-            <span>Book Bespoke Consultation</span>
+            <span>Book Bespoke</span>
           </Link>
 
           {/* Secondary Action: Buy */}

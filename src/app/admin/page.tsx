@@ -1,209 +1,505 @@
 "use client";
 
-import { useState } from 'react';
-import { Users, Briefcase, Ruler, Package, Settings, LogOut, ChevronRight } from 'lucide-react';
+import { useState } from "react";
+import Link from "next/link";
+import {
+  PempamsieIcon,
+  OjuOyaIcon,
+  AdeAreIcon,
+  AdinkraheneIcon,
+  IrukereIcon,
+  SankofaDiasporaIcon,
+  AbereIcon,
+  AsoOkeWeaveIcon,
+} from "@/components/icons/BespokeIcons";
+import {
+  Users,
+  Briefcase,
+  Package,
+  LogOut,
+  ChevronRight,
+  Search,
+  Filter,
+  CheckCircle2,
+  Clock,
+  MapPin,
+  Calendar,
+  ExternalLink,
+  ShieldAlert,
+} from "lucide-react";
+
+interface BespokeCommission {
+  id: string;
+  client: string;
+  email: string;
+  phone: string;
+  location: string;
+  occasion: string;
+  silhouette: string;
+  status: "Inscription" | "Consultation" | "Basting" | "Production" | "Delivered";
+  dateNeeded: string;
+  isDiaspora: boolean;
+  garmentCount: number;
+}
+
+const mockCommissions: BespokeCommission[] = [
+  {
+    id: "AB-2026-8941",
+    client: "Chief Adeleke Coker",
+    email: "coker.a@lagosgroup.ng",
+    phone: "+234 803 555 0192",
+    location: "Ikoyi, Lagos",
+    occasion: "Chieftaincy Installation",
+    silhouette: "Grand 3-Piece Agbada (Alaari Silk)",
+    status: "Basting",
+    dateNeeded: "Nov 14, 2026",
+    isDiaspora: false,
+    garmentCount: 1,
+  },
+  {
+    id: "AB-2026-7230",
+    client: "Dr. Oluwaseun Adeleke",
+    email: "o.adeleke@nhs.uk",
+    phone: "+44 7911 123456",
+    location: "London, UK",
+    occasion: "Diaspora Traditional Wedding",
+    silhouette: "Ceremonial Agbada & Bridal Couple",
+    status: "Consultation",
+    dateNeeded: "Dec 05, 2026",
+    isDiaspora: true,
+    garmentCount: 4,
+  },
+  {
+    id: "AB-2026-6184",
+    client: "Toluwani Banjo",
+    email: "tbanjo@fintechcapital.com",
+    phone: "+1 404 892 4410",
+    location: "Atlanta, GA, USA",
+    occasion: "Black-Tie Gala",
+    silhouette: "Bespoke Double-Breasted Tuxedo",
+    status: "Production",
+    dateNeeded: "Oct 28, 2026",
+    isDiaspora: true,
+    garmentCount: 1,
+  },
+  {
+    id: "AB-2026-5519",
+    client: "Folake Alabi & Family",
+    email: "folake.alabi@yahoo.ca",
+    phone: "+1 416 332 9981",
+    location: "Toronto, Canada",
+    occasion: "Diaspora Entourage Celebration",
+    silhouette: "Ceremonial Kaftan Suite",
+    status: "Inscription",
+    dateNeeded: "Dec 18, 2026",
+    isDiaspora: true,
+    garmentCount: 8,
+  },
+];
 
 export default function AdminDashboard() {
-  const [activeTab, setActiveTab] = useState('dashboard');
+  const [activeTab, setActiveTab] = useState<"dashboard" | "bespoke" | "clients" | "corporate" | "heritage">("dashboard");
+  const [selectedCommission, setSelectedCommission] = useState<BespokeCommission | null>(mockCommissions[0]);
+  const [filterQuery, setFilterQuery] = useState("");
+
+  const filteredCommissions = mockCommissions.filter(
+    (c) =>
+      c.client.toLowerCase().includes(filterQuery.toLowerCase()) ||
+      c.id.toLowerCase().includes(filterQuery.toLowerCase()) ||
+      c.location.toLowerCase().includes(filterQuery.toLowerCase())
+  );
 
   return (
-    <main className="flex min-h-screen bg-brand-white dark:bg-black text-brand-black dark:text-white pt-24 pb-12 px-8">
-      
-      {/* Sidebar */}
-      <aside className="w-64 flex-shrink-0 pr-8 border-r border-brand-black/10 dark:border-white/10 hidden md:block">
-        <h1 className="font-display text-2xl mb-12">Studio Admin</h1>
-        <nav className="flex flex-col gap-2 font-medium text-sm tracking-wide">
-          <button onClick={() => setActiveTab('dashboard')} className={`flex items-center gap-3 p-3 text-left transition-colors ${activeTab === 'dashboard' ? 'bg-brand-black text-brand-white dark:bg-white dark:text-black' : 'hover:bg-black/5 dark:hover:bg-white/5'}`}>
-            <Package size={16} /> Dashboard
-          </button>
-          <button onClick={() => setActiveTab('bespoke')} className={`flex items-center gap-3 p-3 text-left transition-colors ${activeTab === 'bespoke' ? 'bg-brand-black text-brand-white dark:bg-white dark:text-black' : 'hover:bg-black/5 dark:hover:bg-white/5'}`}>
-            <Ruler size={16} /> Bespoke Orders
-          </button>
-          <button onClick={() => setActiveTab('corporate')} className={`flex items-center gap-3 p-3 text-left transition-colors ${activeTab === 'corporate' ? 'bg-brand-black text-brand-white dark:bg-white dark:text-black' : 'hover:bg-black/5 dark:hover:bg-white/5'}`}>
-            <Briefcase size={16} /> Corporate Leads
-          </button>
-          <button onClick={() => setActiveTab('clients')} className={`flex items-center gap-3 p-3 text-left transition-colors ${activeTab === 'clients' ? 'bg-brand-black text-brand-white dark:bg-white dark:text-black' : 'hover:bg-black/5 dark:hover:bg-white/5'}`}>
-            <Users size={16} /> Client Vault
-          </button>
-          <button onClick={() => setActiveTab('products')} className={`flex items-center gap-3 p-3 text-left transition-colors ${activeTab === 'products' ? 'bg-brand-black text-brand-white dark:bg-white dark:text-black' : 'hover:bg-black/5 dark:hover:bg-white/5'}`}>
-            <Package size={16} /> Product Catalog
-          </button>
-        </nav>
-        <div className="mt-auto pt-12">
-          <button className="flex items-center gap-3 p-3 w-full text-left hover:bg-black/5 dark:hover:bg-white/5 text-sm font-medium tracking-wide text-brand-burgundy transition-colors">
-            <LogOut size={16} /> Sign Out
+    <main className="flex min-h-screen bg-brand-silk dark:bg-brand-onyx text-brand-onyx dark:text-brand-silk pt-24 pb-16 px-6 md:px-12 font-sans transition-colors duration-500">
+      {/* Sidebar Navigation */}
+      <aside className="w-64 flex-shrink-0 pr-8 border-r border-brand-black/10 dark:border-white/10 hidden lg:flex flex-col justify-between">
+        <div>
+          <div className="flex items-center gap-3 mb-10">
+            <AdinkraheneIcon size={22} className="text-brand-crimson dark:text-brand-gold" />
+            <div>
+              <h1 className="font-display text-xl leading-none">Atelier Studio</h1>
+              <p className="text-[10px] tracking-ultra-wide uppercase opacity-60 mt-1">Abraham Admin</p>
+            </div>
+          </div>
+
+          <nav className="flex flex-col gap-2 text-xs uppercase tracking-luxury font-medium">
+            <button
+              onClick={() => setActiveTab("dashboard")}
+              className={`flex items-center gap-3 p-3 text-left transition-colors ${
+                activeTab === "dashboard"
+                  ? "bg-brand-onyx text-brand-silk dark:bg-brand-silk dark:text-brand-onyx shadow-sm"
+                  : "hover:bg-black/5 dark:hover:bg-white/5"
+              }`}
+            >
+              <Package size={15} /> Dashboard Overview
+            </button>
+            <button
+              onClick={() => setActiveTab("bespoke")}
+              className={`flex items-center gap-3 p-3 text-left transition-colors ${
+                activeTab === "bespoke"
+                  ? "bg-brand-onyx text-brand-silk dark:bg-brand-silk dark:text-brand-onyx shadow-sm"
+                  : "hover:bg-black/5 dark:hover:bg-white/5"
+              }`}
+            >
+              <PempamsieIcon size={15} /> Bespoke Inscriptions
+            </button>
+            <button
+              onClick={() => setActiveTab("clients")}
+              className={`flex items-center gap-3 p-3 text-left transition-colors ${
+                activeTab === "clients"
+                  ? "bg-brand-onyx text-brand-silk dark:bg-brand-silk dark:text-brand-onyx shadow-sm"
+                  : "hover:bg-black/5 dark:hover:bg-white/5"
+              }`}
+            >
+              <OjuOyaIcon size={15} /> Anatomical Vault
+            </button>
+            <button
+              onClick={() => setActiveTab("heritage")}
+              className={`flex items-center gap-3 p-3 text-left transition-colors ${
+                activeTab === "heritage"
+                  ? "bg-brand-onyx text-brand-silk dark:bg-brand-silk dark:text-brand-onyx shadow-sm"
+                  : "hover:bg-black/5 dark:hover:bg-white/5"
+              }`}
+            >
+              <AdeAreIcon size={15} /> Heritage Archives
+            </button>
+            <button
+              onClick={() => setActiveTab("corporate")}
+              className={`flex items-center gap-3 p-3 text-left transition-colors ${
+                activeTab === "corporate"
+                  ? "bg-brand-onyx text-brand-silk dark:bg-brand-silk dark:text-brand-onyx shadow-sm"
+                  : "hover:bg-black/5 dark:hover:bg-white/5"
+              }`}
+            >
+              <Briefcase size={15} /> Corporate B2B
+            </button>
+          </nav>
+        </div>
+
+        <div className="pt-8 border-t border-brand-black/10 dark:border-white/10">
+          <Link
+            href="/"
+            className="flex items-center gap-2 p-2.5 text-xs tracking-luxury uppercase text-brand-muted hover:text-brand-crimson dark:hover:text-brand-gold transition-colors"
+          >
+            <ExternalLink size={14} /> View Flagship Store
+          </Link>
+          <button className="flex items-center gap-2 p-2.5 w-full text-left text-xs tracking-luxury uppercase text-brand-crimson hover:opacity-80 transition-opacity">
+            <LogOut size={14} /> Exit Vault
           </button>
         </div>
       </aside>
 
-      {/* Main Content */}
-      <section className="flex-1 pl-0 md:pl-12">
-        {activeTab === 'dashboard' && (
-          <div className="space-y-8 animate-in fade-in duration-500">
-            <header className="mb-10">
-              <h2 className="font-display text-4xl mb-2">Welcome Back.</h2>
-              <p className="font-light opacity-70">Here is what is happening at the studio today.</p>
+      {/* Main Section */}
+      <section className="flex-1 pl-0 lg:pl-10">
+        {/* Mobile Navigation Tabs */}
+        <div className="lg:hidden flex overflow-x-auto gap-2 pb-4 mb-6 border-b border-brand-black/10 dark:border-white/10 text-xs uppercase tracking-luxury font-medium whitespace-nowrap">
+          <button
+            onClick={() => setActiveTab("dashboard")}
+            className={`px-3 py-2 ${activeTab === "dashboard" ? "bg-brand-onyx text-white dark:bg-white dark:text-black" : "bg-black/5 dark:bg-white/5"}`}
+          >
+            Dashboard
+          </button>
+          <button
+            onClick={() => setActiveTab("bespoke")}
+            className={`px-3 py-2 ${activeTab === "bespoke" ? "bg-brand-onyx text-white dark:bg-white dark:text-black" : "bg-black/5 dark:bg-white/5"}`}
+          >
+            Bespoke Orders
+          </button>
+          <button
+            onClick={() => setActiveTab("clients")}
+            className={`px-3 py-2 ${activeTab === "clients" ? "bg-brand-onyx text-white dark:bg-white dark:text-black" : "bg-black/5 dark:bg-white/5"}`}
+          >
+            Client Vault
+          </button>
+        </div>
+
+        {/* 1. DASHBOARD OVERVIEW TAB */}
+        {activeTab === "dashboard" && (
+          <div className="space-y-10 animate-in fade-in duration-300">
+            <header className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+              <div>
+                <p className="text-xs uppercase tracking-ultra-wide text-brand-crimson dark:text-brand-gold font-medium mb-1">
+                  Atelier Status &bull; Lagos Studio
+                </p>
+                <h2 className="font-display text-4xl md:text-5xl">Executive Overview</h2>
+              </div>
+              <p className="text-xs font-mono opacity-60">SYSTEM STATUS: ALL REPOSITORIES ONLINE</p>
             </header>
-            
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div className="p-6 border border-brand-black/10 dark:border-white/10 flex flex-col gap-2">
-                <span className="text-xs uppercase tracking-widest opacity-60">Active Bespoke</span>
-                <span className="font-display text-4xl">12</span>
-                <span className="text-xs text-green-600 mt-2">+3 this week</span>
+
+            {/* Metric KPI Cards */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              <div className="p-6 border border-brand-black/10 dark:border-white/10 bg-brand-cream/30 dark:bg-white/[0.02]">
+                <div className="flex justify-between items-start mb-4">
+                  <span className="text-[10px] tracking-ultra-wide uppercase opacity-70">Active Commissions</span>
+                  <PempamsieIcon size={18} className="text-brand-crimson dark:text-brand-gold" />
+                </div>
+                <div className="font-display text-4xl mb-1">18</div>
+                <span className="text-[11px] text-green-700 dark:text-green-400 font-medium">+4 this fortnight</span>
               </div>
-              <div className="p-6 border border-brand-black/10 dark:border-white/10 flex flex-col gap-2">
-                <span className="text-xs uppercase tracking-widest opacity-60">Corporate Leads</span>
-                <span className="font-display text-4xl">4</span>
-                <span className="text-xs opacity-60 mt-2">2 pending review</span>
+
+              <div className="p-6 border border-brand-black/10 dark:border-white/10 bg-brand-cream/30 dark:bg-white/[0.02]">
+                <div className="flex justify-between items-start mb-4">
+                  <span className="text-[10px] tracking-ultra-wide uppercase opacity-70">Diaspora Entourages</span>
+                  <SankofaDiasporaIcon size={18} className="text-brand-crimson dark:text-brand-gold" />
+                </div>
+                <div className="font-display text-4xl mb-1">7</div>
+                <span className="text-[11px] opacity-70">London &bull; Atlanta &bull; Toronto</span>
               </div>
-              <div className="p-6 border border-brand-black/10 dark:border-white/10 flex flex-col gap-2">
-                <span className="text-xs uppercase tracking-widest opacity-60">Vault Clients</span>
-                <span className="font-display text-4xl">145</span>
-                <span className="text-xs opacity-60 mt-2">Measurements on file</span>
+
+              <div className="p-6 border border-brand-black/10 dark:border-white/10 bg-brand-cream/30 dark:bg-white/[0.02]">
+                <div className="flex justify-between items-start mb-4">
+                  <span className="text-[10px] tracking-ultra-wide uppercase opacity-70">In-Studio Fittings</span>
+                  <IrukereIcon size={18} className="text-brand-crimson dark:text-brand-gold" />
+                </div>
+                <div className="font-display text-4xl mb-1">12</div>
+                <span className="text-[11px] opacity-70">Scheduled for October</span>
+              </div>
+
+              <div className="p-6 border border-brand-black/10 dark:border-white/10 bg-brand-cream/30 dark:bg-white/[0.02]">
+                <div className="flex justify-between items-start mb-4">
+                  <span className="text-[10px] tracking-ultra-wide uppercase opacity-70">Vault Profiles</span>
+                  <OjuOyaIcon size={18} className="text-brand-crimson dark:text-brand-gold" />
+                </div>
+                <div className="font-display text-4xl mb-1">142</div>
+                <span className="text-[11px] opacity-70">Verified 28-point profiles</span>
               </div>
             </div>
 
-            <div className="pt-8">
-              <h3 className="font-display text-2xl mb-6">Recent Activity</h3>
-              <div className="space-y-4">
-                {[1, 2, 3].map((i) => (
-                  <div key={i} className="p-4 border border-brand-black/10 dark:border-white/10 flex justify-between items-center hover:border-brand-burgundy transition-colors cursor-pointer group">
-                    <div>
-                      <div className="font-medium mb-1">New Bespoke Commission</div>
-                      <div className="text-xs opacity-60">Adebayo O. - Traditional Agbada - 2 hours ago</div>
+            {/* Recent Inscription Pipeline */}
+            <div className="space-y-4">
+              <div className="flex justify-between items-center">
+                <h3 className="font-display text-2xl">Recent Bespoke Inscriptions</h3>
+                <button onClick={() => setActiveTab("bespoke")} className="text-xs uppercase tracking-luxury text-brand-crimson dark:text-brand-gold hover:underline">
+                  View Full Registry &rarr;
+                </button>
+              </div>
+
+              <div className="border border-brand-black/10 dark:border-white/10 overflow-x-auto">
+                <table className="w-full text-left text-xs">
+                  <thead className="bg-brand-black/5 dark:bg-white/5 border-b border-brand-black/10 dark:border-white/10 uppercase tracking-wider text-[10px] opacity-75">
+                    <tr>
+                      <th className="p-4">Reference</th>
+                      <th className="p-4">Client</th>
+                      <th className="p-4">Occasion & Silhouette</th>
+                      <th className="p-4">Location</th>
+                      <th className="p-4">Status</th>
+                      <th className="p-4">Due Date</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-brand-black/10 dark:divide-white/10">
+                    {mockCommissions.map((comm) => (
+                      <tr key={comm.id} className="hover:bg-black/5 dark:hover:bg-white/5 transition-colors">
+                        <td className="p-4 font-mono font-medium text-brand-crimson dark:text-brand-gold">{comm.id}</td>
+                        <td className="p-4 font-medium">{comm.client}</td>
+                        <td className="p-4 font-light opacity-80">{comm.silhouette}</td>
+                        <td className="p-4 font-light flex items-center gap-1.5">
+                          {comm.isDiaspora ? <SankofaDiasporaIcon size={14} className="text-brand-gold flex-shrink-0" /> : <MapPin size={12} className="opacity-60 flex-shrink-0" />}
+                          <span>{comm.location}</span>
+                        </td>
+                        <td className="p-4">
+                          <span
+                            className={`px-2.5 py-1 uppercase tracking-wider text-[9px] font-semibold ${
+                              comm.status === "Basting"
+                                ? "bg-amber-100 text-amber-900 dark:bg-amber-950/50 dark:text-amber-300"
+                                : comm.status === "Production"
+                                ? "bg-blue-100 text-blue-900 dark:bg-blue-950/50 dark:text-blue-300"
+                                : comm.status === "Consultation"
+                                ? "bg-purple-100 text-purple-900 dark:bg-purple-950/50 dark:text-purple-300"
+                                : "bg-neutral-200 text-neutral-800 dark:bg-neutral-800 dark:text-neutral-200"
+                            }`}
+                          >
+                            {comm.status}
+                          </span>
+                        </td>
+                        <td className="p-4 font-light opacity-70">{comm.dateNeeded}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* 2. BESPOKE ORDERS TAB */}
+        {activeTab === "bespoke" && (
+          <div className="space-y-8 animate-in fade-in duration-300">
+            <header className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+              <div>
+                <p className="text-xs uppercase tracking-ultra-wide text-brand-crimson dark:text-brand-gold font-medium mb-1">
+                  Master Cutting Pipeline
+                </p>
+                <h2 className="font-display text-4xl">Bespoke Inscriptions</h2>
+              </div>
+              <div className="flex items-center gap-3">
+                <div className="relative">
+                  <Search size={14} className="absolute left-3 top-3 text-brand-muted" />
+                  <input
+                    type="text"
+                    placeholder="Search client, ID, city..."
+                    value={filterQuery}
+                    onChange={(e) => setFilterQuery(e.target.value)}
+                    className="pl-9 pr-4 py-2 border border-brand-black/20 dark:border-white/20 bg-transparent text-xs outline-none focus:border-brand-crimson"
+                  />
+                </div>
+              </div>
+            </header>
+
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+              {/* Order List */}
+              <div className="lg:col-span-2 space-y-4">
+                {filteredCommissions.map((item) => (
+                  <div
+                    key={item.id}
+                    onClick={() => setSelectedCommission(item)}
+                    className={`p-6 border transition-all cursor-pointer ${
+                      selectedCommission?.id === item.id
+                        ? "border-brand-crimson bg-brand-crimson/5 dark:border-brand-gold dark:bg-brand-gold/5 shadow-sm"
+                        : "border-brand-black/10 dark:border-white/10 hover:border-brand-black/30 dark:hover:border-white/30"
+                    }`}
+                  >
+                    <div className="flex justify-between items-start mb-2">
+                      <span className="font-mono text-xs text-brand-crimson dark:text-brand-gold font-semibold">{item.id}</span>
+                      <span className="text-[10px] uppercase tracking-wider font-semibold px-2 py-0.5 bg-black/5 dark:bg-white/5">
+                        {item.status}
+                      </span>
                     </div>
-                    <ChevronRight size={16} className="opacity-0 group-hover:opacity-100 transition-opacity" />
+                    <h4 className="font-display text-xl mb-1">{item.client}</h4>
+                    <p className="text-xs font-light opacity-75 mb-3">{item.silhouette}</p>
+                    <div className="flex flex-wrap items-center gap-4 text-[11px] opacity-60">
+                      <span className="flex items-center gap-1">
+                        <Calendar size={12} /> {item.dateNeeded}
+                      </span>
+                      <span className="flex items-center gap-1">
+                        <MapPin size={12} /> {item.location}
+                      </span>
+                      <span>Pieces: {item.garmentCount}</span>
+                    </div>
                   </div>
                 ))}
               </div>
-            </div>
-          </div>
-        )}
 
-        {activeTab === 'bespoke' && (
-          <div className="space-y-8 animate-in fade-in duration-500">
-            <header className="mb-10">
-              <h2 className="font-display text-4xl mb-2">Bespoke Orders</h2>
-              <p className="font-light opacity-70">Manage active commissions and fittings.</p>
-            </header>
-            <div className="border border-brand-black/10 dark:border-white/10 rounded-sm overflow-hidden">
-              <table className="w-full text-left text-sm">
-                <thead className="bg-black/5 dark:bg-white/5 border-b border-brand-black/10 dark:border-white/10">
-                  <tr>
-                    <th className="p-4 font-medium">Client</th>
-                    <th className="p-4 font-medium">Garment</th>
-                    <th className="p-4 font-medium">Status</th>
-                    <th className="p-4 font-medium">Date Needed</th>
-                    <th className="p-4 font-medium text-right">Action</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-brand-black/10 dark:divide-white/10">
-                  <tr className="hover:bg-black/5 dark:hover:bg-white/5 transition-colors">
-                    <td className="p-4">David N.</td>
-                    <td className="p-4">Double Breasted Suit</td>
-                    <td className="p-4"><span className="px-2 py-1 bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-400 text-xs rounded-full">Fitting</span></td>
-                    <td className="p-4">Oct 12, 2026</td>
-                    <td className="p-4 text-right"><button className="text-brand-burgundy font-medium hover:underline">View</button></td>
-                  </tr>
-                  <tr className="hover:bg-black/5 dark:hover:bg-white/5 transition-colors">
-                    <td className="p-4">Oluwaseun A.</td>
-                    <td className="p-4">Ceremonial Dandogo</td>
-                    <td className="p-4"><span className="px-2 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-400 text-xs rounded-full">Production</span></td>
-                    <td className="p-4">Nov 05, 2026</td>
-                    <td className="p-4 text-right"><button className="text-brand-burgundy font-medium hover:underline">View</button></td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        )}
-
-        {activeTab === 'corporate' && (
-          <div className="space-y-8 animate-in fade-in duration-500">
-            <header className="mb-10">
-              <h2 className="font-display text-4xl mb-2">Corporate Leads</h2>
-              <p className="font-light opacity-70">Review B2B manufacturing and uniform enquiries.</p>
-            </header>
-            <div className="border border-brand-black/10 dark:border-white/10 rounded-sm overflow-hidden">
-              <table className="w-full text-left text-sm">
-                <thead className="bg-black/5 dark:bg-white/5 border-b border-brand-black/10 dark:border-white/10">
-                  <tr>
-                    <th className="p-4 font-medium">Organisation</th>
-                    <th className="p-4 font-medium">Contact</th>
-                    <th className="p-4 font-medium">Quantity</th>
-                    <th className="p-4 font-medium text-right">Action</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-brand-black/10 dark:divide-white/10">
-                  <tr className="hover:bg-black/5 dark:hover:bg-white/5 transition-colors">
-                    <td className="p-4">Lagos Heritage Bank</td>
-                    <td className="p-4">info@lhb.com</td>
-                    <td className="p-4">500+</td>
-                    <td className="p-4 text-right"><button className="text-brand-burgundy font-medium hover:underline">Review</button></td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        )}
-
-        {activeTab === 'clients' && (
-          <div className="space-y-8 animate-in fade-in duration-500">
-            <header className="mb-10">
-              <h2 className="font-display text-4xl mb-2">Client Vault</h2>
-              <p className="font-light opacity-70">Secure measurement profiles and order histories.</p>
-            </header>
-            <div className="flex items-center gap-4 mb-6">
-              <input type="text" placeholder="Search clients..." className="flex-1 max-w-md p-3 border border-brand-black/20 dark:border-white/20 bg-transparent outline-none focus:border-brand-burgundy" />
-              <button className="px-6 py-3 bg-brand-black dark:bg-white text-white dark:text-black font-medium text-sm">Add Client</button>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-               <div className="p-6 border border-brand-black/10 dark:border-white/10 hover:border-brand-burgundy transition-colors cursor-pointer">
-                  <h3 className="font-display text-2xl mb-1">David N.</h3>
-                  <p className="text-sm opacity-60 mb-4">david.n@example.com</p>
-                  <div className="flex gap-2">
-                    <span className="px-2 py-1 bg-black/5 dark:bg-white/5 text-xs">Measurements: Active</span>
-                    <span className="px-2 py-1 bg-black/5 dark:bg-white/5 text-xs">Orders: 3</span>
+              {/* Detail Inspection Card */}
+              {selectedCommission && (
+                <div className="p-6 border-basting bg-brand-cream/40 dark:bg-brand-charcoal space-y-6">
+                  <div>
+                    <span className="text-[10px] tracking-ultra-wide uppercase text-brand-crimson dark:text-brand-gold font-medium">
+                      Atelier Dossier
+                    </span>
+                    <h3 className="font-display text-2xl mt-1">{selectedCommission.client}</h3>
+                    <p className="font-mono text-xs opacity-60">{selectedCommission.id}</p>
                   </div>
-               </div>
+
+                  <div className="space-y-3 text-xs">
+                    <div>
+                      <span className="text-brand-muted block uppercase text-[10px] tracking-wider">Garment Silhouette</span>
+                      <p className="font-medium mt-0.5">{selectedCommission.silhouette}</p>
+                    </div>
+                    <div>
+                      <span className="text-brand-muted block uppercase text-[10px] tracking-wider">Occasion</span>
+                      <p className="font-medium mt-0.5">{selectedCommission.occasion}</p>
+                    </div>
+                    <div>
+                      <span className="text-brand-muted block uppercase text-[10px] tracking-wider">Client Contact</span>
+                      <p className="font-light mt-0.5">{selectedCommission.email}</p>
+                      <p className="font-light">{selectedCommission.phone}</p>
+                    </div>
+                    <div>
+                      <span className="text-brand-muted block uppercase text-[10px] tracking-wider">Consultation Type</span>
+                      <p className="font-medium mt-0.5">{selectedCommission.isDiaspora ? "Sankofa Diaspora Remote Video" : "Lagos Atelier In-Studio"}</p>
+                    </div>
+                  </div>
+
+                  <div className="pt-4 border-t border-brand-black/10 dark:border-white/10 space-y-2">
+                    <span className="text-[10px] uppercase tracking-wider text-brand-muted block">Advance Fitting Status</span>
+                    <div className="flex gap-2">
+                      <button className="flex-1 py-2 bg-brand-crimson text-white text-[10px] uppercase tracking-luxury font-medium hover:bg-brand-burgundy-light transition-colors">
+                        Advance Stage
+                      </button>
+                      <button className="px-4 py-2 border border-brand-black/20 dark:border-white/20 text-[10px] uppercase tracking-luxury font-medium hover:bg-black/5">
+                        WhatsApp Lead
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         )}
 
-        {activeTab === 'products' && (
-          <div className="space-y-8 animate-in fade-in duration-500">
-            <header className="mb-10 flex justify-between items-end">
-              <div>
-                <h2 className="font-display text-4xl mb-2">Product Catalog</h2>
-                <p className="font-light opacity-70">Manage collections and enquiry pieces.</p>
-              </div>
-              <button className="px-6 py-3 bg-brand-black dark:bg-white text-white dark:text-black font-medium text-sm">Add Product</button>
+        {/* 3. CLIENT ANATOMICAL VAULT TAB */}
+        {activeTab === "clients" && (
+          <div className="space-y-8 animate-in fade-in duration-300">
+            <header>
+              <p className="text-xs uppercase tracking-ultra-wide text-brand-crimson dark:text-brand-gold font-medium mb-1">
+                Oju Oya Proportional Archive
+              </p>
+              <h2 className="font-display text-4xl">Client Measurement Vault</h2>
             </header>
-            <div className="border border-brand-black/10 dark:border-white/10 rounded-sm overflow-hidden">
-              <table className="w-full text-left text-sm">
-                <thead className="bg-black/5 dark:bg-white/5 border-b border-brand-black/10 dark:border-white/10">
-                  <tr>
-                    <th className="p-4 font-medium">Name</th>
-                    <th className="p-4 font-medium">Category</th>
-                    <th className="p-4 font-medium">Type</th>
-                    <th className="p-4 font-medium text-right">Action</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-brand-black/10 dark:divide-white/10">
-                  <tr className="hover:bg-black/5 dark:hover:bg-white/5 transition-colors">
-                    <td className="p-4">The Double Breasted Suit</td>
-                    <td className="p-4"><span className="capitalize">Men</span></td>
-                    <td className="p-4">Bespoke Enquiry</td>
-                    <td className="p-4 text-right"><button className="text-brand-burgundy font-medium hover:underline">Edit</button></td>
-                  </tr>
-                  <tr className="hover:bg-black/5 dark:hover:bg-white/5 transition-colors">
-                    <td className="p-4">The Structured Midi</td>
-                    <td className="p-4"><span className="capitalize">Women</span></td>
-                    <td className="p-4">Bespoke Enquiry</td>
-                    <td className="p-4 text-right"><button className="text-brand-burgundy font-medium hover:underline">Edit</button></td>
-                  </tr>
-                </tbody>
-              </table>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {[
+                {
+                  name: "Chief Adeleke Coker",
+                  city: "Ikoyi, Lagos",
+                  measures: { chest: "44.5 in", waist: "38 in", shoulder: "19.5 in", agbada_span: "64 in", posture: "Erect / Chieftaincy Stance" },
+                },
+                {
+                  name: "Dr. Oluwaseun Adeleke",
+                  city: "London, UK",
+                  measures: { chest: "41.0 in", waist: "34 in", shoulder: "18.0 in", agbada_span: "60 in", posture: "Square Shoulders" },
+                },
+              ].map((c, i) => (
+                <div key={i} className="p-6 border border-brand-black/10 dark:border-white/10 bg-brand-cream/30 dark:bg-white/[0.02] space-y-4">
+                  <div className="flex justify-between items-start">
+                    <div>
+                      <h4 className="font-display text-2xl">{c.name}</h4>
+                      <p className="text-xs opacity-60 flex items-center gap-1 mt-0.5">
+                        <MapPin size={12} /> {c.city}
+                      </p>
+                    </div>
+                    <OjuOyaIcon size={20} className="text-brand-crimson dark:text-brand-gold" />
+                  </div>
+                  <div className="grid grid-cols-2 gap-3 text-xs border-t border-brand-black/10 dark:border-white/10 pt-3">
+                    <div>
+                      <span className="opacity-60 text-[10px] uppercase">Chest</span>
+                      <p className="font-mono font-medium">{c.measures.chest}</p>
+                    </div>
+                    <div>
+                      <span className="opacity-60 text-[10px] uppercase">Waist</span>
+                      <p className="font-mono font-medium">{c.measures.waist}</p>
+                    </div>
+                    <div>
+                      <span className="opacity-60 text-[10px] uppercase">Shoulder Breadth</span>
+                      <p className="font-mono font-medium">{c.measures.shoulder}</p>
+                    </div>
+                    <div>
+                      <span className="opacity-60 text-[10px] uppercase">Agbada Wing Span</span>
+                      <p className="font-mono font-medium">{c.measures.agbada_span}</p>
+                    </div>
+                  </div>
+                  <p className="text-[11px] text-brand-muted font-light border-t border-dashed border-brand-black/10 dark:border-white/10 pt-2">
+                    Stance Profile: {c.measures.posture}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* 4. HERITAGE ARCHIVES & CORPORATE */}
+        {(activeTab === "heritage" || activeTab === "corporate") && (
+          <div className="space-y-8 animate-in fade-in duration-300">
+            <header>
+              <h2 className="font-display text-4xl capitalize">{activeTab} Management</h2>
+              <p className="text-xs font-light opacity-70 mt-1">Manage institutional contracts and heritage textile records.</p>
+            </header>
+            <div className="p-8 border border-brand-black/10 dark:border-white/10 text-center max-w-xl mx-auto space-y-4">
+              <AdinkraheneIcon size={32} className="text-brand-gold mx-auto" />
+              <h3 className="font-display text-2xl">Archival Access Verified</h3>
+              <p className="text-xs font-light opacity-80 leading-relaxed">
+                Records are synchronized with the 25-Year Lagos master archive. Institutional leads and Aso Oke loom registries are active.
+              </p>
             </div>
           </div>
         )}

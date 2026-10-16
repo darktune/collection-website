@@ -4,32 +4,56 @@
 
 @layer base {
   :root {
-    --background: #FCFAF7; /* Warm White */
-    --foreground: #111111; /* Black */
-    --card: #F1E8DA; /* Cream */
+    --background: #FCFAF7; /* Warm Raw Silk */
+    --foreground: #111111; /* Formal Obsidian */
+    --card: #F1E8DA; /* Savanna Cream */
     --card-foreground: #111111;
-    --accent: #641C2F; /* Burgundy */
+    --accent: #5B1424; /* Oyo Imperial Crimson */
     --accent-foreground: #FCFAF7;
-    --border: rgba(17, 17, 17, 0.1);
+    --border: rgba(17, 17, 17, 0.08);
+    --bronze: #B38F4D;
+    --gold: #C8A858;
   }
 
   .dark {
-    --background: #0a0a0a; /* Deep Black for luxury dark mode */
+    --background: #0D0D0D; /* Deep Onyx */
     --foreground: #FCFAF7; /* Warm White text */
-    --card: #1a1a1a; /* Slightly lighter black */
+    --card: #171717; /* Charcoal Wool */
     --card-foreground: #FCFAF7;
-    --accent: #641C2F; /* Burgundy remains the same */
+    --accent: #5B1424; /* Oyo Imperial Crimson */
     --accent-foreground: #FCFAF7;
     --border: rgba(252, 250, 247, 0.1);
+    --bronze: #C8A858;
+    --gold: #E5C368;
+  }
+
+  html {
+    scroll-behavior: smooth;
   }
 
   body {
-    @apply bg-[var(--background)] text-[var(--foreground)] antialiased selection:bg-[var(--accent)] selection:text-[var(--accent-foreground)] transition-colors duration-500;
+    @apply bg-[var(--background)] text-[var(--foreground)] antialiased selection:bg-[var(--accent)] selection:text-[var(--accent-foreground)] transition-colors duration-500 overflow-x-hidden;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
   }
 
   /* Luxury interaction physics for all interactive elements */
   a, button, input, select, textarea {
     @apply transition-all duration-luxury ease-luxury font-sans;
+  }
+
+  /* Custom luxury scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: rgba(100, 28, 47, 0.35);
+    border-radius: 9999px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(100, 28, 47, 0.75);
   }
 }
 
@@ -39,7 +63,31 @@
   }
   
   .glass {
-    @apply bg-white/50 dark:bg-black/50 backdrop-blur-xl border border-[var(--border)];
+    @apply bg-white/60 dark:bg-black/60 backdrop-blur-xl border border-[var(--border)];
+  }
+
+  .glass-dark {
+    @apply bg-black/75 backdrop-blur-2xl border border-white/10;
+  }
+
+  /* Basting stitch border - mimicking master tailor basting threads */
+  .border-basting {
+    border: 1px dashed rgba(91, 20, 36, 0.35);
+  }
+  .dark .border-basting {
+    border: 1px dashed rgba(200, 168, 88, 0.35);
+  }
+
+  /* Benin Bronze metallic gradient text */
+  .text-bronze-gradient {
+    background: linear-gradient(135deg, #B38F4D 0%, #D4AF37 50%, #8C6A28 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  /* Loom weave divider pattern */
+  .divider-loom {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(179, 143, 77, 0.35) 20%, rgba(91, 20, 36, 0.45) 50%, rgba(179, 143, 77, 0.35) 80%, transparent);
   }
 }
-

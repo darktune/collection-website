@@ -64,7 +64,7 @@ export function ProductCommerceCard({ product, priority = false }: ProductCommer
             <span>Book Bespoke Consultation</span>
           </Link>
 
-          {/* Secondary Action: 3-Click Instant Buy */}
+          {/* Secondary Action: Buy */}
           <button
             type="button"
             onClick={(e) => {
@@ -75,7 +75,7 @@ export function ProductCommerceCard({ product, priority = false }: ProductCommer
             className="w-full py-2 px-3 bg-brand-gold text-brand-onyx hover:bg-brand-cream uppercase tracking-luxury text-[10px] font-bold flex items-center justify-center gap-1.5 transition-colors text-center rounded-sm"
           >
             <ShoppingBag size={12} />
-            <span>3-Click Instant Buy</span>
+            <span>Buy</span>
           </button>
         </div>
       </div>

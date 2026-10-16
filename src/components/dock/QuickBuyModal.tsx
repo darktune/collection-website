@@ -106,20 +106,20 @@ export function QuickBuyModal() {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-in fade-in duration-200">
-      <div className="bg-brand-onyx text-brand-white border border-brand-gold/40 rounded-2xl max-w-lg w-full overflow-hidden shadow-2xl relative">
+      <div className="bg-[#FCFAF7] dark:bg-brand-onyx text-brand-black dark:text-brand-white border border-brand-gold/40 rounded-2xl max-w-lg w-full overflow-hidden shadow-2xl relative transition-colors duration-300">
         
         {/* Header */}
-        <div className="flex items-center justify-between p-5 border-b border-white/10 bg-brand-black/60">
+        <div className="flex items-center justify-between p-5 border-b border-brand-black/10 dark:border-white/10 bg-[#F5EFE6] dark:bg-brand-black/60">
           <div className="flex items-center gap-2">
             <PempamsieIcon size={18} className="text-brand-gold" />
-            <h3 className="font-display text-lg tracking-wide">3-Click Resilient Checkout</h3>
+            <h3 className="font-display text-lg tracking-wide">Atelier Checkout</h3>
           </div>
           <button
             onClick={() => {
               setActiveModal("none");
               setOrderComplete(false);
             }}
-            className="text-white/60 hover:text-white p-1 rounded-full transition-colors"
+            className="text-brand-black/60 dark:text-white/60 hover:text-brand-black dark:hover:text-white p-1 rounded-full transition-colors"
           >
             <X size={18} />
           </button>
@@ -153,8 +153,8 @@ export function QuickBuyModal() {
         ) : (
           /* Checkout Steps */
           <div className="p-6 space-y-5 max-h-[80vh] overflow-y-auto">
-            {/* Step 1: Selected Product Card */}
-            <div className="flex gap-4 p-3 bg-white/5 border border-white/10 rounded-xl items-center">
+            {/* Selected Product Card */}
+            <div className="flex gap-4 p-3 bg-brand-black/5 dark:bg-white/5 border border-brand-black/10 dark:border-white/10 rounded-xl items-center">
               <div className="relative w-16 h-20 bg-brand-black rounded-lg overflow-hidden flex-shrink-0">
                 <Image src={product.image} alt={product.name} fill className="object-cover" />
               </div>
@@ -163,17 +163,17 @@ export function QuickBuyModal() {
                 <h4 className="font-display text-base leading-tight mt-0.5">{product.name}</h4>
                 <div className="flex items-center gap-3 mt-1.5 font-mono text-sm text-brand-gold font-medium">
                   <span>₦{product.priceNgn.toLocaleString()}</span>
-                  <span className="text-white/40">&bull;</span>
+                  <span className="text-brand-black/40 dark:text-white/40">&bull;</span>
                   <span>${product.priceUsd} USD</span>
                 </div>
               </div>
             </div>
 
-            {/* Step 2: Choose Size */}
+            {/* Choose Size */}
             <div className="space-y-2">
               <div className="flex justify-between items-center text-xs">
                 <label className="uppercase tracking-widest font-medium opacity-80 text-[11px]">
-                  Click 2: Choose Tailoring Size
+                  Choose Tailoring Size
                 </label>
                 <span className="text-[10px] text-brand-gold font-mono">British &bull; Nigerian Standard</span>
               </div>
@@ -186,7 +186,7 @@ export function QuickBuyModal() {
                     className={`py-2 px-3 text-xs rounded border transition-colors ${
                       selectedSize === size
                         ? "border-brand-gold bg-brand-gold/20 text-brand-gold font-medium"
-                        : "border-white/10 bg-white/5 hover:border-white/25 text-white/80"
+                        : "border-brand-black/10 dark:border-white/10 bg-brand-black/5 dark:bg-white/5 hover:border-brand-gold/40 text-brand-black/80 dark:text-white/80"
                     }`}
                   >
                     {size}
@@ -204,7 +204,7 @@ export function QuickBuyModal() {
                   value={clientName}
                   onChange={(e) => setClientName(e.target.value)}
                   placeholder="e.g. Adebayo Adeleke"
-                  className="w-full bg-white/5 border border-white/15 rounded p-2.5 outline-none focus:border-brand-gold text-white text-xs"
+                  className="w-full bg-brand-black/5 dark:bg-white/5 border border-brand-black/15 dark:border-white/15 rounded p-2.5 outline-none focus:border-brand-gold text-brand-black dark:text-white text-xs"
                 />
               </div>
               <div>
@@ -214,7 +214,7 @@ export function QuickBuyModal() {
                   value={clientEmail}
                   onChange={(e) => setClientEmail(e.target.value)}
                   placeholder="name@domain.com"
-                  className="w-full bg-white/5 border border-white/15 rounded p-2.5 outline-none focus:border-brand-gold text-white text-xs"
+                  className="w-full bg-brand-black/5 dark:bg-white/5 border border-brand-black/15 dark:border-white/15 rounded p-2.5 outline-none focus:border-brand-gold text-brand-black dark:text-white text-xs"
                 />
               </div>
               <div>
@@ -224,7 +224,7 @@ export function QuickBuyModal() {
                   value={clientPhone}
                   onChange={(e) => setClientPhone(e.target.value)}
                   placeholder="e.g. 0812 264 0820"
-                  className="w-full bg-white/5 border border-white/15 rounded p-2.5 outline-none focus:border-brand-gold text-white text-xs"
+                  className="w-full bg-brand-black/5 dark:bg-white/5 border border-brand-black/15 dark:border-white/15 rounded p-2.5 outline-none focus:border-brand-gold text-brand-black dark:text-white text-xs"
                 />
               </div>
               <div>
@@ -234,15 +234,15 @@ export function QuickBuyModal() {
                   value={deliveryCity}
                   onChange={(e) => setDeliveryCity(e.target.value)}
                   placeholder="Lagos, London, Atlanta..."
-                  className="w-full bg-white/5 border border-white/15 rounded p-2.5 outline-none focus:border-brand-gold text-white text-xs"
+                  className="w-full bg-brand-black/5 dark:bg-white/5 border border-brand-black/15 dark:border-white/15 rounded p-2.5 outline-none focus:border-brand-gold text-brand-black dark:text-white text-xs"
                 />
               </div>
             </div>
 
-            {/* Step 3: Gateway Selection */}
+            {/* Gateway Selection */}
             <div className="space-y-3 pt-2 border-t border-white/10">
               <label className="block text-xs uppercase tracking-widest font-medium opacity-80">
-                Click 3: Select Payment Channel (Protected by Tenacity Protocol)
+                Select Payment Channel (Tenacity Protocol Protected)
               </label>
 
               <div className="grid grid-cols-2 gap-2 text-xs">
@@ -251,8 +251,8 @@ export function QuickBuyModal() {
                   onClick={() => setSelectedGateway("paystack")}
                   className={`p-3 rounded-lg border text-left flex flex-col justify-between transition-colors ${
                     selectedGateway === "paystack"
-                      ? "border-brand-gold bg-brand-gold/15 text-white"
-                      : "border-white/10 bg-white/5 text-white/70 hover:border-white/20"
+                      ? "border-brand-gold bg-brand-gold/15 text-brand-black dark:text-white"
+                      : "border-brand-black/10 dark:border-white/10 bg-brand-black/5 dark:bg-white/5 text-brand-black/70 dark:text-white/70 hover:border-brand-gold/40"
                   }`}
                 >
                   <div className="font-semibold text-xs flex items-center justify-between">
@@ -267,8 +267,8 @@ export function QuickBuyModal() {
                   onClick={() => setSelectedGateway("flutterwave")}
                   className={`p-3 rounded-lg border text-left flex flex-col justify-between transition-colors ${
                     selectedGateway === "flutterwave"
-                      ? "border-brand-gold bg-brand-gold/15 text-white"
-                      : "border-white/10 bg-white/5 text-white/70 hover:border-white/20"
+                      ? "border-brand-gold bg-brand-gold/15 text-brand-black dark:text-white"
+                      : "border-brand-black/10 dark:border-white/10 bg-brand-black/5 dark:bg-white/5 text-brand-black/70 dark:text-white/70 hover:border-brand-gold/40"
                   }`}
                 >
                   <div className="font-semibold text-xs flex items-center justify-between">
@@ -283,8 +283,8 @@ export function QuickBuyModal() {
                   onClick={() => setSelectedGateway("kora")}
                   className={`p-3 rounded-lg border text-left flex flex-col justify-between transition-colors ${
                     selectedGateway === "kora"
-                      ? "border-brand-gold bg-brand-gold/15 text-white"
-                      : "border-white/10 bg-white/5 text-white/70 hover:border-white/20"
+                      ? "border-brand-gold bg-brand-gold/15 text-brand-black dark:text-white"
+                      : "border-brand-black/10 dark:border-white/10 bg-brand-black/5 dark:bg-white/5 text-brand-black/70 dark:text-white/70 hover:border-brand-gold/40"
                   }`}
                 >
                   <div className="font-semibold text-xs flex items-center justify-between">
@@ -299,8 +299,8 @@ export function QuickBuyModal() {
                   onClick={() => setSelectedGateway("whatsapp")}
                   className={`p-3 rounded-lg border text-left flex flex-col justify-between transition-colors ${
                     selectedGateway === "whatsapp"
-                      ? "border-[#25D366] bg-[#25D366]/15 text-white"
-                      : "border-white/10 bg-white/5 text-white/70 hover:border-white/20"
+                      ? "border-[#25D366] bg-[#25D366]/15 text-brand-black dark:text-white"
+                      : "border-brand-black/10 dark:border-white/10 bg-brand-black/5 dark:bg-white/5 text-brand-black/70 dark:text-white/70 hover:border-[#25D366]/40"
                   }`}
                 >
                   <div className="font-semibold text-xs flex items-center justify-between">
@@ -321,9 +321,9 @@ export function QuickBuyModal() {
                 <span>Complete Purchase with {selectedGateway.toUpperCase()}</span>
               </button>
 
-              <div className="flex items-center justify-between text-[10px] text-white/50 pt-2 border-t border-white/5">
+              <div className="flex items-center justify-between text-[10px] text-brand-black/50 dark:text-white/50 pt-2 border-t border-brand-black/10 dark:border-white/5">
                 <span className="font-mono">Merchant: {MERCHANT_CONFIG.companyEmail}</span>
-                <span className="flex items-center gap-1 text-emerald-400">
+                <span className="flex items-center gap-1 text-emerald-600 dark:text-emerald-400">
                   <ShieldCheck size={13} />
                   <span>Outage &amp; Disconnection Resilient</span>
                 </span>

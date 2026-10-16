@@ -91,34 +91,38 @@
     background: linear-gradient(90deg, transparent, rgba(179, 143, 77, 0.35) 20%, rgba(91, 20, 36, 0.45) 50%, rgba(179, 143, 77, 0.35) 80%, transparent);
   }
 
-  /* Siri-like multi-color luxury glow animation */
-  @keyframes siriGlow {
-    0% {
-      background-position: 0% 50%;
-      box-shadow: 0 0 15px rgba(200, 168, 88, 0.4), 0 0 30px rgba(91, 20, 36, 0.3);
+  /* Deep Warm African Luxury Glow Animation (Single deep warm accent conforming to brand) */
+  @keyframes warmLuxuryGlow {
+    0%, 100% {
+      box-shadow: 0 0 20px rgba(200, 168, 88, 0.25), 0 0 50px rgba(91, 20, 36, 0.35);
+      border-color: rgba(200, 168, 88, 0.35);
     }
     50% {
-      background-position: 100% 50%;
-      box-shadow: 0 0 25px rgba(229, 195, 104, 0.6), 0 0 45px rgba(16, 185, 129, 0.35);
-    }
-    100% {
-      background-position: 0% 50%;
-      box-shadow: 0 0 15px rgba(200, 168, 88, 0.4), 0 0 30px rgba(91, 20, 36, 0.3);
+      box-shadow: 0 0 35px rgba(212, 175, 55, 0.45), 0 0 75px rgba(91, 20, 36, 0.55);
+      border-color: rgba(200, 168, 88, 0.65);
     }
   }
 
-  .siri-glow-ring {
-    background: linear-gradient(135deg, #C8A858, #5B1424, #10B981, #E5C368, #B38F4D);
-    background-size: 300% 300%;
-    animation: siriGlow 4s ease infinite;
+  .warm-glow-ring {
+    animation: warmLuxuryGlow 4s ease-in-out infinite;
   }
 
   .glass-dock {
-    background: rgba(13, 11, 10, 0.78);
     backdrop-filter: blur(24px) saturate(180%);
     -webkit-backdrop-filter: blur(24px) saturate(180%);
+    box-shadow: 0 16px 40px -10px rgba(0, 0, 0, 0.35), 0 0 25px rgba(200, 168, 88, 0.15);
+  }
+
+  :root .glass-dock {
+    background: rgba(252, 250, 247, 0.88);
+    border: 1px solid rgba(179, 143, 77, 0.35);
+    color: #111111;
+  }
+
+  .dark .glass-dock {
+    background: rgba(13, 11, 10, 0.88);
     border: 1px solid rgba(200, 168, 88, 0.25);
-    box-shadow: 0 16px 40px -10px rgba(0, 0, 0, 0.5), 0 0 20px rgba(200, 168, 88, 0.1);
+    color: #FCFAF7;
   }
 }
 

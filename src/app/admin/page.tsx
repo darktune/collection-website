@@ -332,205 +332,227 @@ export default function AdminDashboard() {
       </header>
 
       {/* Main Studio Body */}
-      <div className="flex flex-1 px-6 md:px-10 py-8">
+      <div className="flex flex-1 px-4 sm:px-6 md:px-10 py-6 sm:py-8">
         {/* Sidebar Navigation */}
-        <aside className="w-64 flex-shrink-0 pr-8 border-r border-brand-black/10 dark:border-white/10 hidden lg:flex flex-col justify-between">
+        <aside className="w-56 flex-shrink-0 pr-6 border-r border-brand-black/10 dark:border-white/10 hidden lg:flex flex-col justify-between">
           <div>
-            <nav className="flex flex-col gap-2 text-xs uppercase tracking-luxury font-medium">
+            <nav className="flex flex-col gap-1.5 text-[10px] uppercase tracking-[0.18em] font-medium">
               <button
                 onClick={() => setActiveTab("dashboard")}
-                className={`flex items-center gap-3 p-3 text-left transition-colors ${
+                className={`flex items-center gap-2.5 px-3 py-2 text-left transition-colors ${
                   activeTab === "dashboard"
                     ? "bg-brand-onyx text-brand-silk dark:bg-brand-silk dark:text-brand-onyx shadow-sm"
-                    : "hover:bg-black/5 dark:hover:bg-white/5"
+                    : "hover:bg-black/5 dark:hover:bg-white/5 opacity-70 hover:opacity-100"
                 }`}
               >
-                <Package size={15} /> Dashboard Overview
+                <Package size={14} /> <span>Dashboard</span>
               </button>
               <button
                 onClick={() => setActiveTab("bespoke")}
-                className={`flex items-center gap-3 p-3 text-left transition-colors ${
+                className={`flex items-center gap-2.5 px-3 py-2 text-left transition-colors ${
                   activeTab === "bespoke"
                     ? "bg-brand-onyx text-brand-silk dark:bg-brand-silk dark:text-brand-onyx shadow-sm"
-                    : "hover:bg-black/5 dark:hover:bg-white/5"
+                    : "hover:bg-black/5 dark:hover:bg-white/5 opacity-70 hover:opacity-100"
                 }`}
               >
-                <PempamsieIcon size={15} /> Bespoke Inscriptions
+                <PempamsieIcon size={14} /> <span>Bespoke Registry</span>
               </button>
               <button
                 onClick={() => setActiveTab("clients")}
-                className={`flex items-center gap-3 p-3 text-left transition-colors ${
+                className={`flex items-center gap-2.5 px-3 py-2 text-left transition-colors ${
                   activeTab === "clients"
                     ? "bg-brand-onyx text-brand-silk dark:bg-brand-silk dark:text-brand-onyx shadow-sm"
-                    : "hover:bg-black/5 dark:hover:bg-white/5"
+                    : "hover:bg-black/5 dark:hover:bg-white/5 opacity-70 hover:opacity-100"
                 }`}
               >
-                <OjuOyaIcon size={15} /> Anatomical Vault
+                <OjuOyaIcon size={14} /> <span>Anatomical Vault</span>
               </button>
               <button
                 onClick={() => setActiveTab("heritage")}
-                className={`flex items-center gap-3 p-3 text-left transition-colors ${
+                className={`flex items-center gap-2.5 px-3 py-2 text-left transition-colors ${
                   activeTab === "heritage"
                     ? "bg-brand-onyx text-brand-silk dark:bg-brand-silk dark:text-brand-onyx shadow-sm"
-                    : "hover:bg-black/5 dark:hover:bg-white/5"
+                    : "hover:bg-black/5 dark:hover:bg-white/5 opacity-70 hover:opacity-100"
                 }`}
               >
-                <AdeAreIcon size={15} /> Heritage Archives
+                <AdeAreIcon size={14} /> <span>Heritage Archive</span>
               </button>
               <button
                 onClick={() => setActiveTab("corporate")}
-                className={`flex items-center gap-3 p-3 text-left transition-colors ${
+                className={`flex items-center gap-2.5 px-3 py-2 text-left transition-colors ${
                   activeTab === "corporate"
                     ? "bg-brand-onyx text-brand-silk dark:bg-brand-silk dark:text-brand-onyx shadow-sm"
-                    : "hover:bg-black/5 dark:hover:bg-white/5"
+                    : "hover:bg-black/5 dark:hover:bg-white/5 opacity-70 hover:opacity-100"
                 }`}
               >
-                <Briefcase size={15} /> Corporate B2B
+                <Briefcase size={14} /> <span>Corporate B2B</span>
               </button>
 
               {/* Sidebar Copilot Action */}
               <button
                 onClick={() => setIsCopilotOpen(true)}
-                className="flex items-center gap-3 p-3 text-left transition-colors border border-brand-gold/30 bg-brand-gold/10 text-brand-gold hover:bg-brand-gold/20 mt-2"
+                className="flex items-center gap-2.5 px-3 py-2 text-left transition-colors border border-brand-gold/30 bg-brand-gold/10 text-brand-gold hover:bg-brand-gold/20 mt-2 font-medium"
               >
-                <Bot size={15} /> Atelier AI Copilot
+                <Bot size={14} /> <span>Atelier Copilot</span>
               </button>
             </nav>
           </div>
 
-          <div className="pt-8 border-t border-brand-black/10 dark:border-white/10 space-y-2">
+          <div className="pt-6 border-t border-brand-black/10 dark:border-white/10 space-y-1.5">
             <button
               onClick={handleAdminLogout}
-              className="flex items-center gap-2 p-2.5 w-full text-left text-xs tracking-luxury uppercase text-brand-crimson hover:opacity-80 transition-opacity"
+              className="flex items-center gap-2 p-2 w-full text-left text-[9.5px] tracking-luxury uppercase text-brand-crimson hover:opacity-80 transition-opacity"
             >
-              <LogOut size={14} /> Lock Vault
+              <LogOut size={13} /> <span>Lock Vault</span>
             </button>
           </div>
         </aside>
 
         {/* Main Section */}
-        <section className="flex-1 pl-0 lg:pl-10">
+        <section className="flex-1 pl-0 lg:pl-8">
         {/* Mobile Navigation Tabs */}
-        <div className="lg:hidden flex overflow-x-auto gap-2 pb-4 mb-6 border-b border-brand-black/10 dark:border-white/10 text-xs uppercase tracking-luxury font-medium whitespace-nowrap">
+        <div className="lg:hidden flex overflow-x-auto gap-1.5 pb-3 mb-5 border-b border-brand-black/10 dark:border-white/10 text-[10px] uppercase tracking-luxury font-medium whitespace-nowrap">
           <button
             onClick={() => setActiveTab("dashboard")}
-            className={`px-3 py-2 ${activeTab === "dashboard" ? "bg-brand-onyx text-white dark:bg-white dark:text-black" : "bg-black/5 dark:bg-white/5"}`}
+            className={`px-2.5 py-1.5 ${activeTab === "dashboard" ? "bg-brand-onyx text-white dark:bg-white dark:text-black" : "bg-black/5 dark:bg-white/5"}`}
           >
             Dashboard
           </button>
           <button
             onClick={() => setActiveTab("bespoke")}
-            className={`px-3 py-2 ${activeTab === "bespoke" ? "bg-brand-onyx text-white dark:bg-white dark:text-black" : "bg-black/5 dark:bg-white/5"}`}
+            className={`px-2.5 py-1.5 ${activeTab === "bespoke" ? "bg-brand-onyx text-white dark:bg-white dark:text-black" : "bg-black/5 dark:bg-white/5"}`}
           >
-            Bespoke Orders
+            Bespoke
           </button>
           <button
             onClick={() => setActiveTab("clients")}
-            className={`px-3 py-2 ${activeTab === "clients" ? "bg-brand-onyx text-white dark:bg-white dark:text-black" : "bg-black/5 dark:bg-white/5"}`}
+            className={`px-2.5 py-1.5 ${activeTab === "clients" ? "bg-brand-onyx text-white dark:bg-white dark:text-black" : "bg-black/5 dark:bg-white/5"}`}
           >
-            Client Vault
+            Vault
+          </button>
+          <button
+            onClick={() => setActiveTab("heritage")}
+            className={`px-2.5 py-1.5 ${activeTab === "heritage" ? "bg-brand-onyx text-white dark:bg-white dark:text-black" : "bg-black/5 dark:bg-white/5"}`}
+          >
+            Heritage
           </button>
         </div>
 
         {/* 1. DASHBOARD OVERVIEW TAB */}
         {activeTab === "dashboard" && (
-          <div className="space-y-10 animate-in fade-in duration-300">
-            <header className="flex flex-col md:flex-row md:items-end justify-between gap-4">
-              <div>
-                <p className="text-xs uppercase tracking-ultra-wide text-brand-crimson dark:text-brand-gold font-medium mb-1">
-                  Atelier Status &bull; Lagos Studio
-                </p>
-                <h2 className="font-display text-4xl md:text-5xl">Executive Overview</h2>
+          <div className="space-y-6 animate-in fade-in duration-300">
+            <header className="flex items-center justify-between pb-3 border-b border-brand-black/10 dark:border-white/10">
+              <div className="flex items-center gap-2.5">
+                <h2 className="font-display text-lg uppercase tracking-[0.2em] font-medium">Studio Overview</h2>
+                <span className="w-1 h-1 bg-brand-gold rotate-45" />
+                <span className="text-[9px] font-mono opacity-50 uppercase tracking-widest hidden sm:inline">25-Yr Lineage OS</span>
               </div>
-              <p className="text-xs font-mono opacity-60">SYSTEM STATUS: ALL REPOSITORIES ONLINE</p>
+              <p className="text-[9px] font-mono text-brand-gold uppercase tracking-[0.2em]">0ms Latency &bull; Lagos Studio</p>
             </header>
 
-            {/* Metric KPI Cards */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              <div className="p-6 border border-brand-black/10 dark:border-white/10 bg-brand-cream/30 dark:bg-white/[0.02]">
-                <div className="flex justify-between items-start mb-4">
-                  <span className="text-[10px] tracking-ultra-wide uppercase opacity-70">Active Commissions</span>
-                  <PempamsieIcon size={18} className="text-brand-crimson dark:text-brand-gold" />
+            {/* Metric KPI Cards (Refined Proportions) */}
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+              <div className="p-3.5 border border-brand-black/10 dark:border-white/10 bg-brand-cream/20 dark:bg-white/[0.02]">
+                <div className="flex justify-between items-center text-[9px] font-mono uppercase tracking-[0.22em] opacity-60">
+                  <span>Commissions</span>
+                  <PempamsieIcon size={13} className="text-brand-crimson dark:text-brand-gold" />
                 </div>
-                <div className="font-display text-4xl mb-1">18</div>
-                <span className="text-[11px] text-brand-gold font-medium">+4 this fortnight</span>
+                <div className="font-display text-2xl font-light mt-1 mb-0.5 text-brand-black dark:text-brand-white">18</div>
+                <span className="text-[9.5px] font-mono text-brand-gold">+4 this fortnight</span>
               </div>
 
-              <div className="p-6 border border-brand-black/10 dark:border-white/10 bg-brand-cream/30 dark:bg-white/[0.02]">
-                <div className="flex justify-between items-start mb-4">
-                  <span className="text-[10px] tracking-ultra-wide uppercase opacity-70">Diaspora Entourages</span>
-                  <SankofaDiasporaIcon size={18} className="text-brand-crimson dark:text-brand-gold" />
+              <div className="p-3.5 border border-brand-black/10 dark:border-white/10 bg-brand-cream/20 dark:bg-white/[0.02]">
+                <div className="flex justify-between items-center text-[9px] font-mono uppercase tracking-[0.22em] opacity-60">
+                  <span>Diaspora</span>
+                  <SankofaDiasporaIcon size={13} className="text-brand-crimson dark:text-brand-gold" />
                 </div>
-                <div className="font-display text-4xl mb-1">7</div>
-                <span className="text-[11px] opacity-70">London &bull; Atlanta &bull; Toronto</span>
+                <div className="font-display text-2xl font-light mt-1 mb-0.5 text-brand-black dark:text-brand-white">7</div>
+                <span className="text-[9.5px] font-mono opacity-60">UK &bull; US &bull; Canada</span>
               </div>
 
-              <div className="p-6 border border-brand-black/10 dark:border-white/10 bg-brand-cream/30 dark:bg-white/[0.02]">
-                <div className="flex justify-between items-start mb-4">
-                  <span className="text-[10px] tracking-ultra-wide uppercase opacity-70">In-Studio Fittings</span>
-                  <IrukereIcon size={18} className="text-brand-crimson dark:text-brand-gold" />
+              <div className="p-3.5 border border-brand-black/10 dark:border-white/10 bg-brand-cream/20 dark:bg-white/[0.02]">
+                <div className="flex justify-between items-center text-[9px] font-mono uppercase tracking-[0.22em] opacity-60">
+                  <span>Fittings</span>
+                  <IrukereIcon size={13} className="text-brand-crimson dark:text-brand-gold" />
                 </div>
-                <div className="font-display text-4xl mb-1">12</div>
-                <span className="text-[11px] opacity-70">Scheduled for October</span>
+                <div className="font-display text-2xl font-light mt-1 mb-0.5 text-brand-black dark:text-brand-white">12</div>
+                <span className="text-[9.5px] font-mono opacity-60">Scheduled Oct</span>
               </div>
 
-              <div className="p-6 border border-brand-black/10 dark:border-white/10 bg-brand-cream/30 dark:bg-white/[0.02]">
-                <div className="flex justify-between items-start mb-4">
-                  <span className="text-[10px] tracking-ultra-wide uppercase opacity-70">Vault Profiles</span>
-                  <OjuOyaIcon size={18} className="text-brand-crimson dark:text-brand-gold" />
+              <div className="p-3.5 border border-brand-black/10 dark:border-white/10 bg-brand-cream/20 dark:bg-white/[0.02]">
+                <div className="flex justify-between items-center text-[9px] font-mono uppercase tracking-[0.22em] opacity-60">
+                  <span>Vault Profiles</span>
+                  <OjuOyaIcon size={13} className="text-brand-crimson dark:text-brand-gold" />
                 </div>
-                <div className="font-display text-4xl mb-1">142</div>
-                <span className="text-[11px] opacity-70">Verified 28-point profiles</span>
+                <div className="font-display text-2xl font-light mt-1 mb-0.5 text-brand-black dark:text-brand-white">142</div>
+                <span className="text-[9.5px] font-mono opacity-60">28-pt Anatomical</span>
               </div>
             </div>
 
-            {/* Recent Inscription Pipeline */}
-            <div className="space-y-4">
-              <div className="flex justify-between items-center">
-                <h3 className="font-display text-2xl">Recent Bespoke Inscriptions</h3>
-                <button onClick={() => setActiveTab("bespoke")} className="text-xs uppercase tracking-luxury text-brand-crimson dark:text-brand-gold hover:underline">
-                  View Full Registry &rarr;
+            {/* Recent Registry (Clean Editorial Proportions) */}
+            <div className="space-y-3 pt-2">
+              <div className="flex justify-between items-center pb-2 border-b border-brand-black/5 dark:border-white/5">
+                <h3 className="text-xs uppercase tracking-[0.2em] font-medium text-brand-black dark:text-brand-white">
+                  Bespoke Registry
+                </h3>
+                <button
+                  onClick={() => setActiveTab("bespoke")}
+                  className="text-[9px] font-mono uppercase tracking-[0.2em] text-brand-crimson dark:text-brand-gold hover:underline"
+                >
+                  Full Registry &rarr;
                 </button>
               </div>
 
               <div className="border border-brand-black/10 dark:border-white/10 overflow-x-auto">
-                <table className="w-full text-left text-xs">
-                  <thead className="bg-brand-black/5 dark:bg-white/5 border-b border-brand-black/10 dark:border-white/10 uppercase tracking-wider text-[10px] opacity-75">
+                <table className="w-full text-left">
+                  <thead className="bg-brand-black/5 dark:bg-white/5 border-b border-brand-black/10 dark:border-white/10 uppercase tracking-[0.22em] text-[8.5px] font-mono opacity-60">
                     <tr>
-                      <th className="p-4">Reference</th>
-                      <th className="p-4">Client</th>
-                      <th className="p-4">Occasion & Silhouette</th>
-                      <th className="p-4">Location</th>
-                      <th className="p-4">Status</th>
-                      <th className="p-4">Due Date</th>
+                      <th className="py-2 px-3 font-medium">Ref</th>
+                      <th className="py-2 px-3 font-medium">Client</th>
+                      <th className="py-2 px-3 font-medium">Silhouette</th>
+                      <th className="py-2 px-3 font-medium">Destination</th>
+                      <th className="py-2 px-3 font-medium">Stage</th>
+                      <th className="py-2 px-3 font-medium text-right">Target Due</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-brand-black/10 dark:divide-white/10">
+                  <tbody className="divide-y divide-brand-black/5 dark:divide-white/5 text-[11px]">
                     {mockCommissions.map((comm) => (
                       <tr key={comm.id} className="hover:bg-black/5 dark:hover:bg-white/5 transition-colors">
-                        <td className="p-4 font-mono font-medium text-brand-crimson dark:text-brand-gold">{comm.id}</td>
-                        <td className="p-4 font-medium">{comm.client}</td>
-                        <td className="p-4 font-light opacity-80">{comm.silhouette}</td>
-                        <td className="p-4 font-light flex items-center gap-1.5">
-                          {comm.isDiaspora ? <SankofaDiasporaIcon size={14} className="text-brand-gold flex-shrink-0" /> : <MapPin size={12} className="opacity-60 flex-shrink-0" />}
+                        <td className="py-2 px-3 font-mono text-[9.5px] font-semibold text-brand-crimson dark:text-brand-gold whitespace-nowrap">
+                          {comm.id.replace("AB-2026-", "AB-")}
+                        </td>
+                        <td className="py-2 px-3 font-patron italic text-[14px] text-brand-black dark:text-brand-white whitespace-nowrap">
+                          {comm.client}
+                        </td>
+                        <td className="py-2 px-3 font-light opacity-80 whitespace-nowrap text-[10.5px]">
+                          {comm.silhouette}
+                        </td>
+                        <td className="py-2 px-3 font-light opacity-75 whitespace-nowrap text-[10.5px] flex items-center gap-1.5">
+                          {comm.isDiaspora ? (
+                            <SankofaDiasporaIcon size={11} className="text-brand-gold flex-shrink-0" />
+                          ) : (
+                            <MapPin size={10} className="opacity-50 flex-shrink-0" />
+                          )}
                           <span>{comm.location}</span>
                         </td>
-                        <td className="p-4">
+                        <td className="py-2 px-3 whitespace-nowrap">
                           <span
-                            className={`px-2.5 py-1 uppercase tracking-wider text-[9px] font-semibold ${
+                            className={`px-2 py-0.5 uppercase tracking-wider text-[8px] font-mono font-medium border ${
                               comm.status === "Basting"
-                                ? "bg-amber-100 text-amber-900 dark:bg-amber-950/50 dark:text-amber-300"
+                                ? "border-amber-500/40 bg-amber-500/10 text-amber-800 dark:text-amber-300"
                                 : comm.status === "Production"
-                                ? "bg-blue-100 text-blue-900 dark:bg-blue-950/50 dark:text-blue-300"
+                                ? "border-blue-500/40 bg-blue-500/10 text-blue-800 dark:text-blue-300"
                                 : comm.status === "Consultation"
-                                ? "bg-purple-100 text-purple-900 dark:bg-purple-950/50 dark:text-purple-300"
-                                : "bg-neutral-200 text-neutral-800 dark:bg-neutral-800 dark:text-neutral-200"
+                                ? "border-purple-500/40 bg-purple-500/10 text-purple-800 dark:text-purple-300"
+                                : "border-neutral-500/40 bg-neutral-500/10 text-neutral-800 dark:text-neutral-200"
                             }`}
                           >
                             {comm.status}
                           </span>
                         </td>
-                        <td className="p-4 font-light opacity-70">{comm.dateNeeded}</td>
+                        <td className="py-2 px-3 font-mono text-[9.5px] opacity-60 text-right whitespace-nowrap">
+                          {comm.dateNeeded}
+                        </td>
                       </tr>
                     ))}
                   </tbody>
@@ -542,55 +564,67 @@ export default function AdminDashboard() {
 
         {/* 2. BESPOKE ORDERS TAB */}
         {activeTab === "bespoke" && (
-          <div className="space-y-8 animate-in fade-in duration-300">
-            <header className="flex flex-col md:flex-row md:items-end justify-between gap-4">
-              <div>
-                <p className="text-xs uppercase tracking-ultra-wide text-brand-crimson dark:text-brand-gold font-medium mb-1">
-                  Master Cutting Pipeline
-                </p>
-                <h2 className="font-display text-4xl">Bespoke Inscriptions</h2>
+          <div className="space-y-6 animate-in fade-in duration-300">
+            <header className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-brand-black/10 dark:border-white/10">
+              <div className="flex items-center gap-2.5">
+                <h2 className="font-display text-lg uppercase tracking-[0.2em] font-medium">Bespoke Registry</h2>
+                <span className="w-1 h-1 bg-brand-gold rotate-45" />
+                <span className="text-[9px] font-mono opacity-50 uppercase tracking-widest hidden sm:inline">Cutting Pipeline</span>
               </div>
-              <div className="flex items-center gap-3">
-                <div className="relative">
-                  <Search size={14} className="absolute left-3 top-3 text-brand-muted" />
-                  <input
-                    type="text"
-                    placeholder="Search client, ID, city..."
-                    value={filterQuery}
-                    onChange={(e) => setFilterQuery(e.target.value)}
-                    className="pl-9 pr-4 py-2 border border-brand-black/20 dark:border-white/20 bg-transparent text-xs outline-none focus:border-brand-crimson"
-                  />
-                </div>
+              <div className="relative w-full sm:w-64">
+                <Search size={13} className="absolute left-2.5 top-2.5 text-brand-muted" />
+                <input
+                  type="text"
+                  placeholder="Filter by ref, patron, city..."
+                  value={filterQuery}
+                  onChange={(e) => setFilterQuery(e.target.value)}
+                  className="w-full pl-8 pr-3 py-1.5 border border-brand-black/15 dark:border-white/15 bg-transparent text-[11px] outline-none focus:border-brand-gold"
+                />
               </div>
             </header>
 
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
               {/* Order List */}
-              <div className="lg:col-span-2 space-y-4">
+              <div className="lg:col-span-2 space-y-2.5">
                 {filteredCommissions.map((item) => (
                   <div
                     key={item.id}
                     onClick={() => setSelectedCommission(item)}
-                    className={`p-6 border transition-all cursor-pointer ${
+                    className={`p-3.5 border transition-all cursor-pointer ${
                       selectedCommission?.id === item.id
                         ? "border-brand-crimson bg-brand-crimson/5 dark:border-brand-gold dark:bg-brand-gold/5 shadow-sm"
-                        : "border-brand-black/10 dark:border-white/10 hover:border-brand-black/30 dark:hover:border-white/30"
+                        : "border-brand-black/10 dark:border-white/10 hover:border-brand-black/30 dark:hover:border-white/30 bg-brand-cream/10 dark:bg-white/[0.01]"
                     }`}
                   >
-                    <div className="flex justify-between items-start mb-2">
-                      <span className="font-mono text-xs text-brand-crimson dark:text-brand-gold font-semibold">{item.id}</span>
-                      <span className="text-[10px] uppercase tracking-wider font-semibold px-2 py-0.5 bg-black/5 dark:bg-white/5">
+                    <div className="flex justify-between items-center mb-1">
+                      <span className="font-mono text-[9.5px] text-brand-crimson dark:text-brand-gold font-semibold">
+                        {item.id.replace("AB-2026-", "AB-")}
+                      </span>
+                      <span
+                        className={`px-1.5 py-0.5 uppercase tracking-wider text-[8px] font-mono font-medium border ${
+                          item.status === "Basting"
+                            ? "border-amber-500/40 bg-amber-500/10 text-amber-800 dark:text-amber-300"
+                            : item.status === "Production"
+                            ? "border-blue-500/40 bg-blue-500/10 text-blue-800 dark:text-blue-300"
+                            : item.status === "Consultation"
+                            ? "border-purple-500/40 bg-purple-500/10 text-purple-800 dark:text-purple-300"
+                            : "border-neutral-500/40 bg-neutral-500/10 text-neutral-800 dark:text-neutral-200"
+                        }`}
+                      >
                         {item.status}
                       </span>
                     </div>
-                    <h4 className="font-patron italic text-2xl mb-1 text-brand-black dark:text-brand-white">{item.client}</h4>
-                    <p className="text-xs font-light opacity-75 mb-3">{item.silhouette}</p>
-                    <div className="flex flex-wrap items-center gap-4 text-[11px] opacity-60">
+                    <h4 className="font-patron italic text-[15px] sm:text-base text-brand-black dark:text-brand-white">
+                      {item.client}
+                    </h4>
+                    <p className="text-[11px] font-light opacity-80 mb-2 truncate">{item.silhouette}</p>
+                    <div className="flex flex-wrap items-center gap-3 text-[9.5px] font-mono opacity-65">
                       <span className="flex items-center gap-1">
-                        <Calendar size={12} /> {item.dateNeeded}
+                        <Calendar size={11} /> {item.dateNeeded}
                       </span>
                       <span className="flex items-center gap-1">
-                        <MapPin size={12} /> {item.location}
+                        {item.isDiaspora ? <SankofaDiasporaIcon size={11} className="text-brand-gold" /> : <MapPin size={11} />}
+                        {item.location}
                       </span>
                       <span>Pieces: {item.garmentCount}</span>
                     </div>
@@ -600,44 +634,51 @@ export default function AdminDashboard() {
 
               {/* Detail Inspection Card */}
               {selectedCommission && (
-                <div className="p-6 border-basting bg-brand-cream/40 dark:bg-brand-charcoal space-y-6">
+                <div className="p-4 border border-brand-gold/40 bg-brand-cream/30 dark:bg-white/[0.02] space-y-4 h-fit">
                   <div>
-                    <span className="text-[10px] tracking-ultra-wide uppercase text-brand-crimson dark:text-brand-gold font-medium">
+                    <span className="text-[9px] font-mono tracking-[0.2em] uppercase text-brand-crimson dark:text-brand-gold font-medium">
                       Atelier Dossier
                     </span>
-                    <h3 className="font-display text-2xl mt-1">{selectedCommission.client}</h3>
-                    <p className="font-mono text-xs opacity-60">{selectedCommission.id}</p>
+                    <h3 className="font-patron italic text-lg text-brand-black dark:text-brand-white mt-0.5">
+                      {selectedCommission.client}
+                    </h3>
+                    <p className="font-mono text-[9.5px] opacity-60">{selectedCommission.id}</p>
                   </div>
 
-                  <div className="space-y-3 text-xs">
+                  <div className="space-y-2.5 text-[11px]">
                     <div>
-                      <span className="text-brand-muted block uppercase text-[10px] tracking-wider">Garment Silhouette</span>
+                      <span className="opacity-50 block uppercase text-[9px] font-mono tracking-wider">Garment Silhouette</span>
                       <p className="font-medium mt-0.5">{selectedCommission.silhouette}</p>
                     </div>
                     <div>
-                      <span className="text-brand-muted block uppercase text-[10px] tracking-wider">Occasion</span>
+                      <span className="opacity-50 block uppercase text-[9px] font-mono tracking-wider">Occasion</span>
                       <p className="font-medium mt-0.5">{selectedCommission.occasion}</p>
                     </div>
                     <div>
-                      <span className="text-brand-muted block uppercase text-[10px] tracking-wider">Client Contact</span>
-                      <p className="font-light mt-0.5">{selectedCommission.email}</p>
-                      <p className="font-light">{selectedCommission.phone}</p>
+                      <span className="opacity-50 block uppercase text-[9px] font-mono tracking-wider">Client Contact</span>
+                      <p className="font-light mt-0.5 font-mono text-[10.5px]">{selectedCommission.email}</p>
+                      <p className="font-light font-mono text-[10.5px]">{selectedCommission.phone}</p>
                     </div>
                     <div>
-                      <span className="text-brand-muted block uppercase text-[10px] tracking-wider">Consultation Type</span>
+                      <span className="opacity-50 block uppercase text-[9px] font-mono tracking-wider">Consultation Type</span>
                       <p className="font-medium mt-0.5">{selectedCommission.isDiaspora ? "Sankofa Diaspora Remote Video" : "Lagos Atelier In-Studio"}</p>
                     </div>
                   </div>
 
-                  <div className="pt-4 border-t border-brand-black/10 dark:border-white/10 space-y-2">
-                    <span className="text-[10px] uppercase tracking-wider text-brand-muted block">Advance Fitting Status</span>
+                  <div className="pt-3 border-t border-brand-black/10 dark:border-white/10 space-y-2">
+                    <span className="text-[9px] uppercase tracking-wider opacity-50 font-mono block">Advance Fitting Status</span>
                     <div className="flex gap-2">
-                      <button className="flex-1 py-2 bg-brand-crimson text-white text-[10px] uppercase tracking-luxury font-medium hover:bg-brand-burgundy-light transition-colors">
+                      <button className="flex-1 py-2 bg-brand-crimson hover:bg-brand-burgundy-light text-white text-[9px] uppercase tracking-[0.16em] font-medium transition-colors">
                         Advance Stage
                       </button>
-                      <button className="px-4 py-2 border border-brand-black/20 dark:border-white/20 text-[10px] uppercase tracking-luxury font-medium hover:bg-black/5">
-                        WhatsApp Lead
-                      </button>
+                      <a
+                        href={`https://wa.me/${selectedCommission.phone.replace(/[^0-9]/g, "")}`}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="px-3 py-2 border border-brand-black/20 dark:border-white/20 text-[9px] uppercase tracking-[0.16em] font-medium hover:bg-black/5 dark:hover:bg-white/5 flex items-center justify-center gap-1"
+                      >
+                        WhatsApp
+                      </a>
                     </div>
                   </div>
                 </div>
@@ -648,15 +689,17 @@ export default function AdminDashboard() {
 
         {/* 3. CLIENT ANATOMICAL VAULT TAB */}
         {activeTab === "clients" && (
-          <div className="space-y-8 animate-in fade-in duration-300">
-            <header>
-              <p className="text-xs uppercase tracking-ultra-wide text-brand-crimson dark:text-brand-gold font-medium mb-1">
-                Oju Oya Proportional Archive
-              </p>
-              <h2 className="font-display text-4xl">Client Measurement Vault</h2>
+          <div className="space-y-6 animate-in fade-in duration-300">
+            <header className="flex items-center justify-between pb-3 border-b border-brand-black/10 dark:border-white/10">
+              <div className="flex items-center gap-2.5">
+                <h2 className="font-display text-lg uppercase tracking-[0.2em] font-medium">Client Measurement Vault</h2>
+                <span className="w-1 h-1 bg-brand-gold rotate-45" />
+                <span className="text-[9px] font-mono opacity-50 uppercase tracking-widest hidden sm:inline">Oju Oya Archive</span>
+              </div>
+              <span className="text-[9px] font-mono text-brand-gold uppercase tracking-[0.2em]">28-Point Anatomical</span>
             </header>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {[
                 {
                   name: "Chief Adeleke Coker",
@@ -669,36 +712,36 @@ export default function AdminDashboard() {
                   measures: { chest: "41.0 in", waist: "34 in", shoulder: "18.0 in", agbada_span: "60 in", posture: "Square Shoulders" },
                 },
               ].map((c, i) => (
-                <div key={i} className="p-6 border border-brand-black/10 dark:border-white/10 bg-brand-cream/30 dark:bg-white/[0.02] space-y-4">
+                <div key={i} className="p-4 border border-brand-black/10 dark:border-white/10 bg-brand-cream/20 dark:bg-white/[0.02] space-y-3">
                   <div className="flex justify-between items-start">
                     <div>
-                      <h4 className="font-patron italic text-2xl text-brand-black dark:text-brand-white">{c.name}</h4>
-                      <p className="text-xs opacity-60 flex items-center gap-1 mt-0.5">
-                        <MapPin size={12} /> {c.city}
+                      <h4 className="font-patron italic text-[16px] text-brand-black dark:text-brand-white">{c.name}</h4>
+                      <p className="text-[10px] font-mono opacity-60 flex items-center gap-1 mt-0.5">
+                        <MapPin size={10} /> {c.city}
                       </p>
                     </div>
-                    <OjuOyaIcon size={20} className="text-brand-crimson dark:text-brand-gold" />
+                    <OjuOyaIcon size={16} className="text-brand-crimson dark:text-brand-gold" />
                   </div>
-                  <div className="grid grid-cols-2 gap-3 text-xs border-t border-brand-black/10 dark:border-white/10 pt-3">
-                    <div>
-                      <span className="opacity-60 text-[10px] uppercase">Chest</span>
-                      <p className="font-mono font-medium">{c.measures.chest}</p>
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs border-t border-brand-black/10 dark:border-white/10 pt-2.5">
+                    <div className="p-1.5 bg-black/[0.02] dark:bg-white/[0.02] border border-brand-black/5 dark:border-white/5">
+                      <span className="opacity-50 text-[8.5px] uppercase font-mono block">Chest</span>
+                      <p className="font-mono text-xs font-medium text-brand-black dark:text-brand-white mt-0.5">{c.measures.chest}</p>
                     </div>
-                    <div>
-                      <span className="opacity-60 text-[10px] uppercase">Waist</span>
-                      <p className="font-mono font-medium">{c.measures.waist}</p>
+                    <div className="p-1.5 bg-black/[0.02] dark:bg-white/[0.02] border border-brand-black/5 dark:border-white/5">
+                      <span className="opacity-50 text-[8.5px] uppercase font-mono block">Waist</span>
+                      <p className="font-mono text-xs font-medium text-brand-black dark:text-brand-white mt-0.5">{c.measures.waist}</p>
                     </div>
-                    <div>
-                      <span className="opacity-60 text-[10px] uppercase">Shoulder Breadth</span>
-                      <p className="font-mono font-medium">{c.measures.shoulder}</p>
+                    <div className="p-1.5 bg-black/[0.02] dark:bg-white/[0.02] border border-brand-black/5 dark:border-white/5">
+                      <span className="opacity-50 text-[8.5px] uppercase font-mono block">Shoulder</span>
+                      <p className="font-mono text-xs font-medium text-brand-black dark:text-brand-white mt-0.5">{c.measures.shoulder}</p>
                     </div>
-                    <div>
-                      <span className="opacity-60 text-[10px] uppercase">Agbada Wing Span</span>
-                      <p className="font-mono font-medium">{c.measures.agbada_span}</p>
+                    <div className="p-1.5 bg-black/[0.02] dark:bg-white/[0.02] border border-brand-black/5 dark:border-white/5">
+                      <span className="opacity-50 text-[8.5px] uppercase font-mono block">Agbada Span</span>
+                      <p className="font-mono text-xs font-medium text-brand-black dark:text-brand-white mt-0.5">{c.measures.agbada_span}</p>
                     </div>
                   </div>
-                  <p className="text-[11px] text-brand-muted font-light border-t border-dashed border-brand-black/10 dark:border-white/10 pt-2">
-                    Stance Profile: {c.measures.posture}
+                  <p className="text-[10px] font-mono opacity-65 border-t border-dashed border-brand-black/10 dark:border-white/10 pt-2">
+                    Stance Profile: <span className="text-brand-gold">{c.measures.posture}</span>
                   </p>
                 </div>
               ))}
@@ -708,15 +751,19 @@ export default function AdminDashboard() {
 
         {/* 4. HERITAGE ARCHIVES & CORPORATE */}
         {(activeTab === "heritage" || activeTab === "corporate") && (
-          <div className="space-y-8 animate-in fade-in duration-300">
-            <header>
-              <h2 className="font-display text-4xl capitalize">{activeTab} Management</h2>
-              <p className="text-xs font-light opacity-70 mt-1">Manage institutional contracts and heritage textile records.</p>
+          <div className="space-y-6 animate-in fade-in duration-300">
+            <header className="flex items-center justify-between pb-3 border-b border-brand-black/10 dark:border-white/10">
+              <div className="flex items-center gap-2.5">
+                <h2 className="font-display text-lg uppercase tracking-[0.2em] font-medium capitalize">{activeTab} Archive</h2>
+                <span className="w-1 h-1 bg-brand-gold rotate-45" />
+                <span className="text-[9px] font-mono opacity-50 uppercase tracking-widest hidden sm:inline">Institutional Registry</span>
+              </div>
+              <span className="text-[9px] font-mono text-brand-gold uppercase tracking-[0.2em]">Synchronized</span>
             </header>
-            <div className="p-8 border border-brand-black/10 dark:border-white/10 text-center max-w-xl mx-auto space-y-4">
-              <AdinkraheneIcon size={32} className="text-brand-gold mx-auto" />
-              <h3 className="font-display text-2xl">Archival Access Verified</h3>
-              <p className="text-xs font-light opacity-80 leading-relaxed">
+            <div className="p-6 border border-brand-black/10 dark:border-white/10 text-center max-w-lg mx-auto space-y-3 bg-brand-cream/20 dark:bg-white/[0.02]">
+              <AdinkraheneIcon size={24} className="text-brand-gold mx-auto" />
+              <h3 className="font-patron italic text-lg text-brand-black dark:text-brand-white">Archival Access Verified</h3>
+              <p className="text-[11px] font-light opacity-75 leading-relaxed">
                 Records are synchronized with the 25-Year Lagos master archive. Institutional leads and Aso Oke loom registries are active.
               </p>
             </div>

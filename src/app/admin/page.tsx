@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import {
   PempamsieIcon,
@@ -26,6 +26,8 @@ import {
   Calendar,
   ExternalLink,
   ShieldAlert,
+  User,
+  Lock,
 } from "lucide-react";
 
 interface BespokeCommission {
@@ -98,9 +100,51 @@ const mockCommissions: BespokeCommission[] = [
 ];
 
 export default function AdminDashboard() {
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  const [authChecked, setAuthChecked] = useState(false);
+  const [adminUser, setAdminUser] = useState("");
+  const [adminPass, setAdminPass] = useState("");
+  const [authError, setAuthError] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const [activeTab, setActiveTab] = useState<"dashboard" | "bespoke" | "clients" | "corporate" | "heritage">("dashboard");
   const [selectedCommission, setSelectedCommission] = useState<BespokeCommission | null>(mockCommissions[0]);
   const [filterQuery, setFilterQuery] = useState("");
+
+  useEffect(() => {
+    // Check if user is already authenticated in this session
+    const token = typeof window !== "undefined" ? localStorage.getItem("atelier_admin_token") : null;
+    if (token === "authenticated_bolaji_2026") {
+      setIsAuthenticated(true);
+    }
+    setAuthChecked(true);
+  }, []);
+
+  const handleAdminLogin = (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setAuthError("");
+
+    const validUsers = ["abraham", "infoac0001@gmail.com", "bolaji", "admin"];
+    const validPass = "Vault2026!";
+
+    if (validUsers.includes(adminUser.trim().toLowerCase()) && adminPass === validPass) {
+      if (typeof window !== "undefined") {
+        localStorage.setItem("atelier_admin_token", "authenticated_bolaji_2026");
+      }
+      setIsAuthenticated(true);
+    } else {
+      setAuthError("Invalid credentials. Please verify your Master Tailor passkey.");
+    }
+    setIsSubmitting(false);
+  };
+
+  const handleAdminLogout = () => {
+    if (typeof window !== "undefined") {
+      localStorage.removeItem("atelier_admin_token");
+    }
+    setIsAuthenticated(false);
+  };
 
   const filteredCommissions = mockCommissions.filter(
     (c) =>
@@ -108,6 +152,112 @@ export default function AdminDashboard() {
       c.id.toLowerCase().includes(filterQuery.toLowerCase()) ||
       c.location.toLowerCase().includes(filterQuery.toLowerCase())
   );
+
+  // If initial auth check not yet performed, render dark loading state
+  if (!authChecked) {
+    return (
+      <main className="min-h-screen flex items-center justify-center bg-brand-silk dark:bg-brand-onyx">
+        <div className="w-8 h-8 rounded-full border-2 border-brand-gold border-t-transparent animate-spin" />
+      </main>
+    );
+  }
+
+  // If not authenticated, render the Custom Luxury Atelier Authentication Form (No raw browser popups)
+  if (!isAuthenticated) {
+    return (
+      <main className="min-h-screen flex items-center justify-center bg-brand-silk dark:bg-brand-onyx text-brand-onyx dark:text-brand-silk p-6 font-sans">
+        <div className="w-full max-w-md p-[1.5px] rounded-2xl warm-glow-ring shadow-2xl overflow-hidden border border-brand-gold/40">
+          <div className="bg-[#FCFAF7] dark:bg-[#0D0B0A] text-brand-black dark:text-brand-white p-8 sm:p-10 rounded-2xl relative">
+            
+            {/* Watermark */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none opacity-5 text-brand-gold">
+              <AdinkraheneIcon size={240} />
+            </div>
+
+            <div className="relative z-10 space-y-6">
+              {/* Ancestral Header */}
+              <div className="flex items-center gap-3">
+                <span className="h-[1px] w-8 bg-brand-gold" />
+                <div className="flex items-center gap-2 text-brand-gold text-[10px] tracking-ultra-wide uppercase font-mono font-medium">
+                  <AdinkraheneIcon size={12} className="text-brand-gold" />
+                  <span>Atelier Studio OS &bull; Lagos</span>
+                </div>
+                <span className="h-[1px] flex-1 bg-brand-gold/25" />
+              </div>
+
+              <div>
+                <h2 className="font-display text-2xl sm:text-3xl font-medium tracking-wide">
+                  Master Tailor Vault
+                </h2>
+                <p className="text-xs text-brand-black/70 dark:text-brand-silk/70 font-light mt-1.5 leading-relaxed">
+                  Administrative authentication required to access bespoke commissions, diaspora dossiers, and client measurements.
+                </p>
+              </div>
+
+              {authError && (
+                <div className="p-3 rounded-lg bg-brand-crimson/15 border border-brand-crimson/30 text-brand-crimson dark:text-red-300 text-xs flex items-center gap-2">
+                  <ShieldAlert size={14} className="flex-shrink-0" />
+                  <span>{authError}</span>
+                </div>
+              )}
+
+              <form onSubmit={handleAdminLogin} className="space-y-4">
+                <div>
+                  <label className="block uppercase tracking-wider text-[10px] opacity-70 mb-1 font-mono">
+                    Admin Identifier
+                  </label>
+                  <div className="flex items-center gap-2 bg-brand-black/5 dark:bg-white/5 border border-brand-black/15 dark:border-white/15 rounded-lg px-3.5 py-2.5 focus-within:border-brand-gold transition-colors">
+                    <User size={15} className="text-brand-gold flex-shrink-0" />
+                    <input
+                      type="text"
+                      required
+                      value={adminUser}
+                      onChange={(e) => setAdminUser(e.target.value)}
+                      placeholder="e.g. abraham or infoac0001@gmail.com"
+                      className="w-full bg-transparent outline-none text-brand-black dark:text-white text-xs placeholder:text-brand-black/40 dark:placeholder:text-white/30"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block uppercase tracking-wider text-[10px] opacity-70 mb-1 font-mono">
+                    Master Passkey
+                  </label>
+                  <div className="flex items-center gap-2 bg-brand-black/5 dark:bg-white/5 border border-brand-black/15 dark:border-white/15 rounded-lg px-3.5 py-2.5 focus-within:border-brand-gold transition-colors">
+                    <Lock size={15} className="text-brand-gold flex-shrink-0" />
+                    <input
+                      type="password"
+                      required
+                      value={adminPass}
+                      onChange={(e) => setAdminPass(e.target.value)}
+                      placeholder="Enter passkey"
+                      className="w-full bg-transparent outline-none text-brand-black dark:text-white text-xs placeholder:text-brand-black/40 dark:placeholder:text-white/30"
+                    />
+                  </div>
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="w-full py-3.5 bg-brand-crimson hover:bg-brand-burgundy-light text-white text-xs uppercase tracking-luxury font-semibold rounded-lg transition-colors flex items-center justify-center gap-2 shadow-lg mt-2"
+                >
+                  <PempamsieIcon size={14} className="text-brand-gold" />
+                  <span>{isSubmitting ? "Verifying Credentials..." : "Authenticate & Enter Vault"}</span>
+                </button>
+              </form>
+
+              <div className="pt-4 border-t border-brand-black/10 dark:border-white/10 flex items-center justify-between text-[11px] text-brand-black/50 dark:text-white/50">
+                <Link href="/" className="hover:text-brand-crimson dark:hover:text-brand-gold transition-colors">
+                  &larr; Return to Flagship Store
+                </Link>
+                <span className="font-mono text-[10px] text-brand-gold/70">Vault Protocol 2026</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    );
+  }
 
   return (
     <main className="flex min-h-screen bg-brand-silk dark:bg-brand-onyx text-brand-onyx dark:text-brand-silk pt-24 pb-16 px-6 md:px-12 font-sans transition-colors duration-500">
@@ -183,7 +333,10 @@ export default function AdminDashboard() {
           >
             <ExternalLink size={14} /> View Flagship Store
           </Link>
-          <button className="flex items-center gap-2 p-2.5 w-full text-left text-xs tracking-luxury uppercase text-brand-crimson hover:opacity-80 transition-opacity">
+          <button
+            onClick={handleAdminLogout}
+            className="flex items-center gap-2 p-2.5 w-full text-left text-xs tracking-luxury uppercase text-brand-crimson hover:opacity-80 transition-opacity"
+          >
             <LogOut size={14} /> Exit Vault
           </button>
         </div>

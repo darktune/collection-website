@@ -9,7 +9,7 @@ export default function ContactPage() {
     <main className="min-h-screen bg-brand-white dark:bg-brand-black text-brand-black dark:text-brand-white pt-32 pb-24 px-6 md:px-16 lg:px-24 transition-colors duration-500">
       {/* Header */}
       <section className="max-w-4xl mx-auto text-center mb-20">
-        <div className="inline-flex items-center gap-2 px-3 py-1 bg-brand-gold/10 text-brand-gold text-[10px] tracking-ultra-wide uppercase rounded-full mb-6">
+        <div className="inline-flex items-center gap-2 px-3 py-1 border-l-2 border-brand-gold bg-brand-gold/10 text-brand-gold text-[10px] tracking-ultra-wide uppercase font-medium mb-6">
           <AdinkraheneIcon size={12} />
           <span>Atelier Direct &bull; Lagos Flagship</span>
         </div>

@@ -1,26 +1,24 @@
 import type { Metadata } from "next";
-import { Jost, Inter } from "next/font/google";
+import { Jost, Inter, Cormorant_Garamond } from "next/font/google";
 import "./globals.css";
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { SplashScreen } from "@/components/SplashScreen";
 import { AtelierProvider } from "@/context/AtelierContext";
-import { FloatingDock } from "@/components/dock/FloatingDock";
-import { AtelierAssistantModal } from "@/components/dock/AtelierAssistantModal";
-import { UserProfileModal } from "@/components/dock/UserProfileModal";
-import { WishlistModal } from "@/components/dock/WishlistModal";
-import { CartDrawerModal } from "@/components/dock/CartDrawerModal";
-import { QuickBuyModal } from "@/components/dock/QuickBuyModal";
-import { VisualSearchModal } from "@/components/dock/VisualSearchModal";
-import { AuthModal } from "@/components/auth/AuthModal";
-import { StorytellingAuthPopup } from "@/components/auth/StorytellingAuthPopup";
-import { PwaManager } from "@/components/pwa/PwaManager";
+import { StorefrontShell } from "@/components/layout/StorefrontShell";
 
 const displayFont = Jost({
   weight: ["300", "400", "500", "600"],
   subsets: ["latin"],
   variable: "--font-display",
+});
+
+const patronFont = Cormorant_Garamond({
+  weight: ["400", "600"],
+  style: ["normal", "italic"],
+  subsets: ["latin"],
+  variable: "--font-patron",
 });
 
 const inter = Inter({
@@ -67,27 +65,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${inter.variable} ${displayFont.variable} font-sans`}>
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+      <body className={`${inter.variable} ${displayFont.variable} ${patronFont.variable} font-sans`}>
+        <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
           <AtelierProvider>
             <SplashScreen />
-            <Navigation />
-            <div className="pt-20">
+            <StorefrontShell>
               {children}
-            </div>
-            <Footer />
-
-            {/* Global All-in-One Floating Dock & Modals (REAVO Architecture) */}
-            <FloatingDock />
-            <AtelierAssistantModal />
-            <UserProfileModal />
-            <WishlistModal />
-            <CartDrawerModal />
-            <QuickBuyModal />
-            <VisualSearchModal />
-            <AuthModal />
-            <StorytellingAuthPopup />
-            <PwaManager />
+            </StorefrontShell>
           </AtelierProvider>
         </ThemeProvider>
       </body>

@@ -125,75 +125,85 @@ export function Navigation() {
           </Link>
         </div>
 
-        {/* Right Links & CTA (Tongoro Proportion: Delicate, Extra-Small, Elegant) */}
-        <div
-          className={`hidden lg:flex items-center gap-3.5 xl:gap-6 flex-1 justify-end transition-all duration-500 ${
-            showFullNav
-              ? "opacity-100 translate-x-0 pointer-events-auto"
-              : "opacity-0 translate-x-6 pointer-events-none"
-          }`}
-        >
-          <Link
-            href="/about"
-            className="whitespace-nowrap text-[9px] md:text-[9.5px] xl:text-[10px] tracking-[0.25em] xl:tracking-[0.3em] uppercase font-light text-brand-black/80 dark:text-brand-silk/80 hover:text-brand-crimson dark:hover:text-brand-gold transition-colors relative group py-1"
+        {/* Right Links & Permanent Theme Switcher */}
+        <div className="flex items-center gap-3.5 xl:gap-5 flex-1 justify-end">
+          {/* Scroll/Hover Links */}
+          <div
+            className={`hidden lg:flex items-center gap-3.5 xl:gap-5 transition-all duration-500 ${
+              showFullNav
+                ? "opacity-100 translate-x-0 pointer-events-auto"
+                : "opacity-0 translate-x-4 pointer-events-none"
+            }`}
           >
-            Atelier Story
-            <span className="absolute bottom-0 left-0 w-0 h-[1px] bg-brand-crimson dark:bg-brand-gold transition-all duration-300 group-hover:w-full" />
-          </Link>
-
-          {/* User Profile / Sign In */}
-          {user.isAuthenticated ? (
-            <button
-              onClick={() => setActiveModal("profile")}
-              className="whitespace-nowrap flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-brand-gold/15 hover:bg-brand-gold/25 text-brand-gold text-[9px] md:text-[9.5px] uppercase tracking-[0.22em] font-medium transition-colors"
+            <Link
+              href="/about"
+              className="whitespace-nowrap text-[9px] md:text-[9.5px] xl:text-[10px] tracking-[0.25em] xl:tracking-[0.3em] uppercase font-light text-brand-black/80 dark:text-brand-silk/80 hover:text-brand-crimson dark:hover:text-brand-gold transition-colors relative group py-1"
             >
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-              <span>{user.name.split(" ")[0]}</span>
-            </button>
-          ) : (
-            <button
-              onClick={() => setActiveModal("auth")}
-              className="whitespace-nowrap text-[9px] md:text-[9.5px] xl:text-[10px] tracking-[0.25em] uppercase text-brand-gold hover:underline font-medium py-1 px-1"
+              Atelier Story
+              <span className="absolute bottom-0 left-0 w-0 h-[1px] bg-brand-crimson dark:bg-brand-gold transition-all duration-300 group-hover:w-full" />
+            </Link>
+
+            {/* User Profile / Sign In (No pill capsule, no green dot, bespoke patron font) */}
+            {user.isAuthenticated ? (
+              <button
+                onClick={() => setActiveModal("profile")}
+                className="whitespace-nowrap flex items-center gap-1.5 py-1 px-1.5 hover:text-brand-crimson dark:hover:text-brand-gold transition-colors group"
+                title="Client Dossier"
+              >
+                <span className="w-1 h-1 bg-brand-gold rotate-45 group-hover:scale-125 transition-transform" />
+                <span className="font-patron italic text-[14px] md:text-[15px] text-brand-gold font-normal tracking-wide">
+                  {user.name.split(" ")[0]}
+                </span>
+              </button>
+            ) : (
+              <button
+                onClick={() => setActiveModal("auth")}
+                className="whitespace-nowrap text-[9px] md:text-[9.5px] xl:text-[10px] tracking-[0.25em] uppercase text-brand-gold hover:underline font-medium py-1 px-1"
+              >
+                Sign In
+              </button>
+            )}
+
+            {/* Book Bespoke Primary CTA (Crisp Micro-Button) */}
+            <Link
+              href="/bespoke/commission"
+              className="whitespace-nowrap inline-flex items-center gap-1.5 px-3.5 py-1.5 md:px-4 md:py-2 bg-brand-crimson text-brand-white dark:bg-brand-silk dark:text-brand-onyx text-[8.5px] md:text-[9px] xl:text-[9.5px] tracking-[0.25em] uppercase font-medium hover:bg-brand-burgundy-light dark:hover:bg-brand-cream transition-colors duration-300 shadow-sm"
             >
-              Sign In
-            </button>
-          )}
+              <PempamsieIcon size={11} className="text-brand-gold dark:text-brand-crimson" />
+              <span>Book Bespoke</span>
+            </Link>
+          </div>
 
-          {/* Book Bespoke Primary CTA (Crisp Micro-Button) */}
-          <Link
-            href="/bespoke/commission"
-            className="whitespace-nowrap inline-flex items-center gap-1.5 px-3.5 py-1.5 md:px-4 md:py-2 bg-brand-crimson text-brand-white dark:bg-brand-silk dark:text-brand-onyx text-[8.5px] md:text-[9px] xl:text-[9.5px] tracking-[0.25em] uppercase font-medium hover:bg-brand-burgundy-light dark:hover:bg-brand-cream transition-colors duration-300 shadow-sm"
-          >
-            <PempamsieIcon size={11} className="text-brand-gold dark:text-brand-crimson" />
-            <span>Book Bespoke</span>
-          </Link>
-
-          {/* Theme Toggle */}
+          {/* Permanent Theme Toggle (Always visible on desktop and mobile in all scroll states) */}
           {mounted && (
             <button
               onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-              className="p-1 hover:text-brand-crimson dark:hover:text-brand-gold transition-colors duration-300 opacity-70 hover:opacity-100"
-              aria-label="Toggle Dark Mode"
+              className={`flex items-center gap-1.5 px-2.5 py-1.5 text-[8.5px] md:text-[9px] tracking-[0.22em] uppercase font-light transition-all duration-300 ${
+                showFullNav
+                  ? "text-brand-black/80 dark:text-brand-silk/80 border border-brand-black/15 dark:border-white/15 hover:border-brand-crimson dark:hover:border-brand-gold hover:text-brand-crimson dark:hover:text-brand-gold bg-transparent"
+                  : "text-white/95 bg-black/40 border border-white/20 backdrop-blur-md hover:border-brand-gold hover:text-brand-gold shadow-sm"
+              }`}
+              aria-label="Toggle Theme"
+              title={theme === "dark" ? "Switch to Light Theme" : "Switch to Dark Theme"}
             >
-              {theme === "dark" ? <Sun size={14} strokeWidth={1.5} /> : <Moon size={14} strokeWidth={1.5} />}
+              {theme === "dark" ? (
+                <>
+                  <Sun size={12} strokeWidth={1.5} className="text-brand-gold" />
+                  <span className="hidden sm:inline">Light</span>
+                </>
+              ) : (
+                <>
+                  <Moon size={12} strokeWidth={1.5} className="text-brand-crimson dark:text-brand-gold" />
+                  <span className="hidden sm:inline">Dark</span>
+                </>
+              )}
             </button>
           )}
-        </div>
 
-        {/* Mobile Actions: Discreet Theme + Menu Button */}
-        <div className="flex lg:hidden items-center gap-2">
-          {mounted && (
-            <button
-              onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-              className="p-1.5 hover:text-brand-crimson dark:hover:text-brand-gold transition-colors opacity-70"
-              aria-label="Toggle Dark Mode"
-            >
-              {theme === "dark" ? <Sun size={16} strokeWidth={1.5} /> : <Moon size={16} strokeWidth={1.5} />}
-            </button>
-          )}
+          {/* Mobile Menu Button */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="p-1.5 hover:text-brand-crimson dark:hover:text-brand-gold transition-colors flex items-center gap-1.5"
+            className="lg:hidden p-1.5 hover:text-brand-crimson dark:hover:text-brand-gold transition-colors flex items-center gap-1.5"
             aria-label="Toggle Menu"
           >
             <span className="text-[9px] tracking-[0.25em] uppercase font-medium hidden sm:inline opacity-70">

@@ -42,7 +42,6 @@ export function Footer() {
           <Link href="/about" className="hover:text-brand-burgundy dark:hover:text-white hover:translate-x-1 transition-all duration-300">Our Story</Link>
           <Link href="/stories" className="hover:text-brand-burgundy dark:hover:text-white hover:translate-x-1 transition-all duration-300">The Style Anthology</Link>
           <Link href="/contact" className="hover:text-brand-burgundy dark:hover:text-white hover:translate-x-1 transition-all duration-300">Contact Studio</Link>
-          <Link href="/admin" className="hover:text-brand-burgundy dark:hover:text-white hover:translate-x-1 transition-all duration-300 text-xs opacity-60">Admin Vault</Link>
         </div>
 
         {/* Socials under META & TikTok */}
@@ -130,7 +129,7 @@ export function Footer() {
       </div>
 
       <div className="flex flex-col md:flex-row items-center justify-between pt-8 border-t border-brand-black/10 dark:border-[#FCFAF7]/10 text-center md:text-left gap-6 relative z-10 text-brand-black/50 dark:text-[#FCFAF7]/50 text-xs tracking-widest uppercase transition-colors duration-500">
-        <div>© 2026 Abraham Collection. All rights reserved. &bull; Bolaji Abayomi Abraham</div>
+        <div>© 2026 Abraham Collection. All rights reserved. &bull; <span className="font-patron italic text-sm tracking-normal font-normal text-brand-gold">Bolaji Abayomi Abraham</span></div>
         <div className="flex gap-6">
           <Link href="/privacy" className="hover:text-brand-burgundy dark:hover:text-white transition-colors">Privacy</Link>
           <Link href="/terms" className="hover:text-brand-burgundy dark:hover:text-white transition-colors">Terms</Link>

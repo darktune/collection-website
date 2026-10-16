@@ -82,7 +82,7 @@ export function ProductCommerceCard({ product, priority = false }: ProductCommer
 
       {/* Garment Details & Dual Price */}
       <div className="flex flex-col text-left">
-        <h3 className="font-display text-base md:text-lg mb-1 leading-snug group-hover:text-brand-crimson dark:group-hover:text-brand-gold transition-colors">
+        <h3 className="font-patron text-lg md:text-xl mb-1 leading-snug text-brand-black dark:text-brand-white group-hover:text-brand-crimson dark:group-hover:text-brand-gold transition-colors">
           {product.name}
         </h3>
         

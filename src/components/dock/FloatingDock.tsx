@@ -155,7 +155,7 @@ export function FloatingDock() {
 
           <span
             className={`absolute bottom-1 right-1 w-1.5 h-1.5 rounded-full ${
-              user.isAuthenticated ? "bg-emerald-500" : "bg-brand-gold/60"
+              user.isAuthenticated ? "bg-brand-gold" : "bg-brand-gold/50"
             }`}
           />
         </button>

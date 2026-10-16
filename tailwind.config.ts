@@ -11,17 +11,17 @@ const config: Config = {
     extend: {
       colors: {
         brand: {
-          onyx: "#0D0D0D",
-          charcoal: "#171717",
-          black: "#111111",
+          onyx: "#131110",
+          charcoal: "#1C1816",
+          black: "#100E0D",
           white: "#FCFAF7",
           silk: "#F9F6F0",
           cream: "#F1E8DA",
-          crimson: "#5B1424",
+          crimson: "#78172F",
           burgundy: "#641C2F",
-          "burgundy-light": "#7C1E34",
-          bronze: "#B38F4D",
-          gold: "#C8A858",
+          "burgundy-light": "#8E203B",
+          bronze: "#C49B55",
+          gold: "#DFB758",
           grey: "#8C8C8C",
           stone: "#E5E0D8",
           muted: "#8C857B",
@@ -34,6 +34,7 @@ const config: Config = {
       fontFamily: {
         sans: ["var(--font-inter)", "sans-serif"],
         display: ["var(--font-display)", "serif"],
+        patron: ["var(--font-patron)", "Cormorant Garamond", "serif"],
         mono: ["var(--font-mono)", "monospace"],
       },
       transitionTimingFunction: {

@@ -99,10 +99,10 @@ export function VisualSearchModal() {
             <button
               key={cat}
               onClick={() => setSelectedCategory(cat)}
-              className={`px-3 py-1 rounded-full uppercase tracking-wider text-[10px] transition-colors ${
+              className={`px-3 py-1 border text-[10px] uppercase tracking-[0.22em] transition-colors ${
                 selectedCategory === cat
-                  ? "bg-brand-gold text-brand-onyx font-bold"
-                  : "bg-brand-black/5 dark:bg-white/5 text-brand-black/70 dark:text-white/70 hover:opacity-100"
+                  ? "border-brand-gold bg-brand-gold text-brand-onyx font-semibold shadow-sm"
+                  : "border-brand-black/10 dark:border-white/10 bg-transparent text-brand-black/70 dark:text-white/70 hover:border-brand-gold/40"
               }`}
             >
               {cat}

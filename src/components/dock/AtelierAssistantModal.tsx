@@ -278,7 +278,7 @@ export function AtelierAssistantModal() {
                         <button
                           key={idx}
                           onClick={() => handleSend(sug)}
-                          className="text-[10px] px-2.5 py-1 rounded-full bg-brand-black/5 dark:bg-white/5 hover:bg-brand-gold/20 text-brand-black/80 dark:text-white/80 border border-brand-black/10 dark:border-white/10 transition-colors text-left"
+                          className="text-[10px] px-2.5 py-1 border border-brand-black/15 dark:border-white/15 hover:border-brand-gold hover:text-brand-gold bg-brand-black/[0.02] dark:bg-white/[0.03] text-brand-black/80 dark:text-white/80 transition-colors text-left"
                         >
                           {sug}
                         </button>

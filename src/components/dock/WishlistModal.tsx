@@ -20,7 +20,7 @@ export function WishlistModal() {
           <div className="flex items-center gap-2">
             <Heart size={17} className="text-brand-crimson fill-brand-crimson" />
             <h3 className="font-display text-base tracking-wide">Saved Silhouettes</h3>
-            <span className="text-[10px] bg-brand-gold/20 text-brand-gold px-2 py-0.5 rounded-full font-mono">
+            <span className="text-[10px] bg-brand-gold/15 text-brand-gold px-2 py-0.5 border-l border-brand-gold font-mono font-medium">
               {wishlist.length}
             </span>
           </div>

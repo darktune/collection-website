@@ -12,6 +12,8 @@ import {
   AbereIcon,
   AsoOkeWeaveIcon,
 } from "@/components/icons/BespokeIcons";
+import { useTheme } from "next-themes";
+import { AdminCopilotModal } from "@/components/admin/AdminCopilotModal";
 import {
   Users,
   Briefcase,
@@ -28,6 +30,10 @@ import {
   ShieldAlert,
   User,
   Lock,
+  Sun,
+  Moon,
+  Bot,
+  Sparkles,
 } from "lucide-react";
 
 interface BespokeCommission {
@@ -110,6 +116,8 @@ export default function AdminDashboard() {
   const [activeTab, setActiveTab] = useState<"dashboard" | "bespoke" | "clients" | "corporate" | "heritage">("dashboard");
   const [selectedCommission, setSelectedCommission] = useState<BespokeCommission | null>(mockCommissions[0]);
   const [filterQuery, setFilterQuery] = useState("");
+  const [isCopilotOpen, setIsCopilotOpen] = useState(false);
+  const { theme, setTheme } = useTheme();
 
   useEffect(() => {
     // Check if user is already authenticated in this session
@@ -260,90 +268,148 @@ export default function AdminDashboard() {
   }
 
   return (
-    <main className="flex min-h-screen bg-brand-silk dark:bg-brand-onyx text-brand-onyx dark:text-brand-silk pt-24 pb-16 px-6 md:px-12 font-sans transition-colors duration-500">
-      {/* Sidebar Navigation */}
-      <aside className="w-64 flex-shrink-0 pr-8 border-r border-brand-black/10 dark:border-white/10 hidden lg:flex flex-col justify-between">
-        <div>
-          <div className="flex items-center gap-3 mb-10">
-            <AdinkraheneIcon size={22} className="text-brand-crimson dark:text-brand-gold" />
-            <div>
-              <h1 className="font-display text-xl leading-none">Atelier Studio</h1>
-              <p className="text-[10px] tracking-ultra-wide uppercase opacity-60 mt-1">Abraham Admin</p>
+    <div className="min-h-screen bg-brand-silk dark:bg-brand-onyx text-brand-onyx dark:text-brand-silk flex flex-col font-sans transition-colors duration-500">
+      {/* Dedicated Atelier Studio OS Topbar */}
+      <header className="h-16 px-6 md:px-10 border-b border-brand-black/10 dark:border-white/10 bg-white/70 dark:bg-[#151210]/90 backdrop-blur-md flex items-center justify-between flex-shrink-0 z-30">
+        <div className="flex items-center gap-3">
+          <AdinkraheneIcon size={22} className="text-brand-crimson dark:text-brand-gold" />
+          <div>
+            <div className="flex items-center gap-2">
+              <span className="font-display font-semibold text-base tracking-wide">Abraham Collection</span>
+              <span className="text-[9px] uppercase tracking-wider px-2 py-0.5 bg-brand-crimson/10 dark:bg-brand-gold/15 text-brand-crimson dark:text-brand-gold font-mono font-medium border border-brand-crimson/20 dark:border-brand-gold/30">
+                Studio OS
+              </span>
             </div>
+            <p className="text-[9px] font-mono opacity-50 hidden sm:block">Lagos Cutting Rooms &bull; Bolaji Abayomi Abraham</p>
           </div>
-
-          <nav className="flex flex-col gap-2 text-xs uppercase tracking-luxury font-medium">
-            <button
-              onClick={() => setActiveTab("dashboard")}
-              className={`flex items-center gap-3 p-3 text-left transition-colors ${
-                activeTab === "dashboard"
-                  ? "bg-brand-onyx text-brand-silk dark:bg-brand-silk dark:text-brand-onyx shadow-sm"
-                  : "hover:bg-black/5 dark:hover:bg-white/5"
-              }`}
-            >
-              <Package size={15} /> Dashboard Overview
-            </button>
-            <button
-              onClick={() => setActiveTab("bespoke")}
-              className={`flex items-center gap-3 p-3 text-left transition-colors ${
-                activeTab === "bespoke"
-                  ? "bg-brand-onyx text-brand-silk dark:bg-brand-silk dark:text-brand-onyx shadow-sm"
-                  : "hover:bg-black/5 dark:hover:bg-white/5"
-              }`}
-            >
-              <PempamsieIcon size={15} /> Bespoke Inscriptions
-            </button>
-            <button
-              onClick={() => setActiveTab("clients")}
-              className={`flex items-center gap-3 p-3 text-left transition-colors ${
-                activeTab === "clients"
-                  ? "bg-brand-onyx text-brand-silk dark:bg-brand-silk dark:text-brand-onyx shadow-sm"
-                  : "hover:bg-black/5 dark:hover:bg-white/5"
-              }`}
-            >
-              <OjuOyaIcon size={15} /> Anatomical Vault
-            </button>
-            <button
-              onClick={() => setActiveTab("heritage")}
-              className={`flex items-center gap-3 p-3 text-left transition-colors ${
-                activeTab === "heritage"
-                  ? "bg-brand-onyx text-brand-silk dark:bg-brand-silk dark:text-brand-onyx shadow-sm"
-                  : "hover:bg-black/5 dark:hover:bg-white/5"
-              }`}
-            >
-              <AdeAreIcon size={15} /> Heritage Archives
-            </button>
-            <button
-              onClick={() => setActiveTab("corporate")}
-              className={`flex items-center gap-3 p-3 text-left transition-colors ${
-                activeTab === "corporate"
-                  ? "bg-brand-onyx text-brand-silk dark:bg-brand-silk dark:text-brand-onyx shadow-sm"
-                  : "hover:bg-black/5 dark:hover:bg-white/5"
-              }`}
-            >
-              <Briefcase size={15} /> Corporate B2B
-            </button>
-          </nav>
         </div>
 
-        <div className="pt-8 border-t border-brand-black/10 dark:border-white/10">
-          <Link
-            href="/"
-            className="flex items-center gap-2 p-2.5 text-xs tracking-luxury uppercase text-brand-muted hover:text-brand-crimson dark:hover:text-brand-gold transition-colors"
+        {/* Administrative Utility Controls */}
+        <div className="flex items-center gap-2.5 sm:gap-3">
+          {/* Atelier AI Copilot Trigger */}
+          <button
+            onClick={() => setIsCopilotOpen(true)}
+            className="flex items-center gap-2 px-3 py-1.5 bg-brand-gold/15 hover:bg-brand-gold/25 border border-brand-gold/40 text-brand-onyx dark:text-brand-gold text-[10px] uppercase tracking-[0.2em] font-medium transition-all duration-300 shadow-sm group"
+            title="Open Atelier Studio AI Copilot"
           >
-            <ExternalLink size={14} /> View Flagship Store
-          </Link>
+            <Bot size={14} className="text-brand-gold group-hover:scale-110 transition-transform" />
+            <span className="font-semibold">Atelier Copilot</span>
+            <span className="w-1.5 h-1.5 bg-brand-gold" />
+          </button>
+
+          {/* Admin Theme Switcher */}
+          <button
+            onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+            className="flex items-center gap-1.5 px-2.5 py-1.5 border border-brand-black/15 dark:border-white/15 text-[9px] uppercase tracking-wider hover:border-brand-gold transition-colors text-brand-black/70 dark:text-white/70"
+            title={theme === "dark" ? "Switch to Light Mode" : "Switch to Dark Mode"}
+          >
+            {theme === "dark" ? <Sun size={12} className="text-brand-gold" /> : <Moon size={12} className="text-brand-onyx" />}
+            <span className="hidden md:inline">{theme === "dark" ? "Light" : "Dark"}</span>
+          </button>
+
+          {/* View Public Storefront */}
+          <a
+            href="/"
+            target="_blank"
+            rel="noreferrer"
+            className="hidden sm:flex items-center gap-1.5 px-2.5 py-1.5 border border-brand-black/10 dark:border-white/10 text-[9px] uppercase tracking-wider opacity-60 hover:opacity-100 hover:text-brand-crimson dark:hover:text-brand-gold transition-all"
+            title="Preview Public Storefront in new tab"
+          >
+            <ExternalLink size={12} />
+            <span>Storefront</span>
+          </a>
+
+          {/* Exit / Lock Vault */}
           <button
             onClick={handleAdminLogout}
-            className="flex items-center gap-2 p-2.5 w-full text-left text-xs tracking-luxury uppercase text-brand-crimson hover:opacity-80 transition-opacity"
+            className="flex items-center gap-1.5 px-2.5 py-1.5 bg-brand-crimson/10 hover:bg-brand-crimson text-brand-crimson hover:text-white text-[9px] uppercase tracking-wider font-medium transition-colors"
+            title="Lock Vault & Sign Out"
           >
-            <LogOut size={14} /> Exit Vault
+            <LogOut size={12} />
+            <span className="hidden sm:inline">Lock Vault</span>
           </button>
         </div>
-      </aside>
+      </header>
 
-      {/* Main Section */}
-      <section className="flex-1 pl-0 lg:pl-10">
+      {/* Main Studio Body */}
+      <div className="flex flex-1 px-6 md:px-10 py-8">
+        {/* Sidebar Navigation */}
+        <aside className="w-64 flex-shrink-0 pr-8 border-r border-brand-black/10 dark:border-white/10 hidden lg:flex flex-col justify-between">
+          <div>
+            <nav className="flex flex-col gap-2 text-xs uppercase tracking-luxury font-medium">
+              <button
+                onClick={() => setActiveTab("dashboard")}
+                className={`flex items-center gap-3 p-3 text-left transition-colors ${
+                  activeTab === "dashboard"
+                    ? "bg-brand-onyx text-brand-silk dark:bg-brand-silk dark:text-brand-onyx shadow-sm"
+                    : "hover:bg-black/5 dark:hover:bg-white/5"
+                }`}
+              >
+                <Package size={15} /> Dashboard Overview
+              </button>
+              <button
+                onClick={() => setActiveTab("bespoke")}
+                className={`flex items-center gap-3 p-3 text-left transition-colors ${
+                  activeTab === "bespoke"
+                    ? "bg-brand-onyx text-brand-silk dark:bg-brand-silk dark:text-brand-onyx shadow-sm"
+                    : "hover:bg-black/5 dark:hover:bg-white/5"
+                }`}
+              >
+                <PempamsieIcon size={15} /> Bespoke Inscriptions
+              </button>
+              <button
+                onClick={() => setActiveTab("clients")}
+                className={`flex items-center gap-3 p-3 text-left transition-colors ${
+                  activeTab === "clients"
+                    ? "bg-brand-onyx text-brand-silk dark:bg-brand-silk dark:text-brand-onyx shadow-sm"
+                    : "hover:bg-black/5 dark:hover:bg-white/5"
+                }`}
+              >
+                <OjuOyaIcon size={15} /> Anatomical Vault
+              </button>
+              <button
+                onClick={() => setActiveTab("heritage")}
+                className={`flex items-center gap-3 p-3 text-left transition-colors ${
+                  activeTab === "heritage"
+                    ? "bg-brand-onyx text-brand-silk dark:bg-brand-silk dark:text-brand-onyx shadow-sm"
+                    : "hover:bg-black/5 dark:hover:bg-white/5"
+                }`}
+              >
+                <AdeAreIcon size={15} /> Heritage Archives
+              </button>
+              <button
+                onClick={() => setActiveTab("corporate")}
+                className={`flex items-center gap-3 p-3 text-left transition-colors ${
+                  activeTab === "corporate"
+                    ? "bg-brand-onyx text-brand-silk dark:bg-brand-silk dark:text-brand-onyx shadow-sm"
+                    : "hover:bg-black/5 dark:hover:bg-white/5"
+                }`}
+              >
+                <Briefcase size={15} /> Corporate B2B
+              </button>
+
+              {/* Sidebar Copilot Action */}
+              <button
+                onClick={() => setIsCopilotOpen(true)}
+                className="flex items-center gap-3 p-3 text-left transition-colors border border-brand-gold/30 bg-brand-gold/10 text-brand-gold hover:bg-brand-gold/20 mt-2"
+              >
+                <Bot size={15} /> Atelier AI Copilot
+              </button>
+            </nav>
+          </div>
+
+          <div className="pt-8 border-t border-brand-black/10 dark:border-white/10 space-y-2">
+            <button
+              onClick={handleAdminLogout}
+              className="flex items-center gap-2 p-2.5 w-full text-left text-xs tracking-luxury uppercase text-brand-crimson hover:opacity-80 transition-opacity"
+            >
+              <LogOut size={14} /> Lock Vault
+            </button>
+          </div>
+        </aside>
+
+        {/* Main Section */}
+        <section className="flex-1 pl-0 lg:pl-10">
         {/* Mobile Navigation Tabs */}
         <div className="lg:hidden flex overflow-x-auto gap-2 pb-4 mb-6 border-b border-brand-black/10 dark:border-white/10 text-xs uppercase tracking-luxury font-medium whitespace-nowrap">
           <button
@@ -387,7 +453,7 @@ export default function AdminDashboard() {
                   <PempamsieIcon size={18} className="text-brand-crimson dark:text-brand-gold" />
                 </div>
                 <div className="font-display text-4xl mb-1">18</div>
-                <span className="text-[11px] text-green-700 dark:text-green-400 font-medium">+4 this fortnight</span>
+                <span className="text-[11px] text-brand-gold font-medium">+4 this fortnight</span>
               </div>
 
               <div className="p-6 border border-brand-black/10 dark:border-white/10 bg-brand-cream/30 dark:bg-white/[0.02]">
@@ -517,7 +583,7 @@ export default function AdminDashboard() {
                         {item.status}
                       </span>
                     </div>
-                    <h4 className="font-display text-xl mb-1">{item.client}</h4>
+                    <h4 className="font-patron italic text-2xl mb-1 text-brand-black dark:text-brand-white">{item.client}</h4>
                     <p className="text-xs font-light opacity-75 mb-3">{item.silhouette}</p>
                     <div className="flex flex-wrap items-center gap-4 text-[11px] opacity-60">
                       <span className="flex items-center gap-1">
@@ -606,7 +672,7 @@ export default function AdminDashboard() {
                 <div key={i} className="p-6 border border-brand-black/10 dark:border-white/10 bg-brand-cream/30 dark:bg-white/[0.02] space-y-4">
                   <div className="flex justify-between items-start">
                     <div>
-                      <h4 className="font-display text-2xl">{c.name}</h4>
+                      <h4 className="font-patron italic text-2xl text-brand-black dark:text-brand-white">{c.name}</h4>
                       <p className="text-xs opacity-60 flex items-center gap-1 mt-0.5">
                         <MapPin size={12} /> {c.city}
                       </p>
@@ -657,6 +723,10 @@ export default function AdminDashboard() {
           </div>
         )}
       </section>
-    </main>
+    </div>
+
+    {/* Dedicated Atelier Management Copilot */}
+    <AdminCopilotModal isOpen={isCopilotOpen} onClose={() => setIsCopilotOpen(false)} />
+  </div>
   );
 }

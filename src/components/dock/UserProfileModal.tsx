@@ -41,20 +41,20 @@ export function UserProfileModal() {
             </div>
 
             <div className="flex flex-col">
-              <span className="font-display text-base font-medium tracking-wide">
+              <span className="font-patron italic text-lg font-normal tracking-wide text-brand-black dark:text-brand-white">
                 {user.isAuthenticated ? user.name : "Welcome, Esteemed Patron"}
               </span>
               <span className="text-xs opacity-60 font-mono mt-0.5">
                 {user.isAuthenticated ? user.email : "Sign in for private measurement vault"}
               </span>
-              <div className="flex items-center gap-1.5 mt-2">
-                <span className="text-[9px] uppercase tracking-widest px-2 py-0.5 rounded-full bg-brand-gold/20 text-brand-gold border border-brand-gold/30 font-medium">
+              <div className="flex items-center gap-2 mt-2">
+                <span className="text-[9px] uppercase tracking-[0.25em] px-2 py-0.5 border-l-2 border-brand-gold bg-brand-gold/10 text-brand-gold font-medium">
                   {user.memberTier}
                 </span>
                 {user.isAuthenticated && (
-                  <span className="text-[9px] text-emerald-500 flex items-center gap-1 font-mono">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                    Verified
+                  <span className="text-[9px] text-brand-gold flex items-center gap-1 font-mono uppercase tracking-wider">
+                    <AdinkraheneIcon size={11} className="text-brand-gold" />
+                    Verified Patron
                   </span>
                 )}
               </div>
@@ -80,7 +80,7 @@ export function UserProfileModal() {
 
           {/* My Orders & Commissions */}
           <Link
-            href="/admin"
+            href="/bespoke/commission"
             onClick={() => setActiveModal("none")}
             className="flex items-center justify-between p-3 rounded-lg hover:bg-brand-black/5 dark:hover:bg-white/5 transition-colors group"
           >
@@ -122,7 +122,7 @@ export function UserProfileModal() {
               <Ruler size={16} className="text-brand-gold" />
               <span>Anatomical Measurement Vault</span>
             </div>
-            <span className="text-[9px] uppercase tracking-widest text-emerald-600 dark:text-emerald-400 font-mono">Secured</span>
+            <span className="text-[9px] uppercase tracking-widest text-brand-gold font-mono">Secured</span>
           </div>
 
           {/* Address Book */}

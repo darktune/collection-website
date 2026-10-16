@@ -58,7 +58,7 @@ export default function StoriesPage() {
       
       {/* Editorial Header */}
       <section className="max-w-4xl mx-auto text-center mb-24">
-        <div className="inline-flex items-center gap-2 px-3 py-1 bg-brand-gold/10 text-brand-gold text-[10px] tracking-ultra-wide uppercase rounded-full mb-6">
+        <div className="inline-flex items-center gap-2 px-3 py-1 border-l-2 border-brand-gold bg-brand-gold/10 text-brand-gold text-[10px] tracking-ultra-wide uppercase font-medium mb-6">
           <AdinkraheneIcon size={12} />
           <span>The Living Visual Archive</span>
         </div>
@@ -81,8 +81,8 @@ export default function StoriesPage() {
               className="object-cover"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex flex-col justify-end p-6 text-white">
-              <span className="text-[10px] tracking-widest uppercase text-brand-gold font-medium">Head Designer & Founder</span>
-              <span className="font-display text-2xl font-light">Bolaji Abayomi Abraham</span>
+              <span className="text-[10px] tracking-widest uppercase text-brand-gold font-medium">Head Designer &amp; Founder</span>
+              <span className="font-patron italic text-3xl font-normal text-brand-white">Bolaji Abayomi Abraham</span>
               <span className="text-xs opacity-75 mt-0.5">25 Years of Architectural Tailoring in Lagos</span>
             </div>
           </div>
@@ -134,7 +134,7 @@ export default function StoriesPage() {
       {/* The Curated Customer Lookbook Chapter */}
       <section className="max-w-6xl mx-auto mb-32">
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <div className="inline-flex items-center gap-2 px-3 py-1 bg-brand-crimson/10 text-brand-crimson dark:text-brand-gold text-[10px] tracking-ultra-wide uppercase rounded-full mb-4">
+          <div className="inline-flex items-center gap-2 px-3 py-1 border-l-2 border-brand-crimson dark:border-brand-gold bg-brand-crimson/10 dark:bg-brand-gold/10 text-brand-crimson dark:text-brand-gold text-[10px] tracking-ultra-wide uppercase font-medium mb-4">
             <Heart size={12} className="fill-current" />
             <span>Chapter VII &bull; Dedicated Patron Exhibition</span>
           </div>
@@ -174,7 +174,7 @@ export default function StoriesPage() {
                 </div>
 
                 <div className="pt-4 border-t border-brand-black/10 dark:border-white/10">
-                  <h4 className="font-display text-lg font-medium">{story.name}</h4>
+                  <h4 className="font-patron italic text-2xl font-normal text-brand-black dark:text-brand-white">{story.name}</h4>
                   <p className="text-xs opacity-60 mt-0.5">{story.title} &bull; {story.city}</p>
                   <p className="text-[11px] font-mono text-brand-crimson dark:text-brand-gold mt-2 uppercase tracking-wider">
                     {story.garment}

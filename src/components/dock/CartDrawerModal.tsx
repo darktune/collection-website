@@ -31,7 +31,7 @@ export function CartDrawerModal() {
           <div className="flex items-center gap-2">
             <ShoppingBag size={17} className="text-brand-gold" />
             <h3 className="font-display text-base tracking-wide">Sartorial Bag</h3>
-            <span className="text-[10px] bg-brand-gold/20 text-brand-gold px-2 py-0.5 rounded-full font-mono">
+            <span className="text-[10px] bg-brand-gold/15 text-brand-gold px-2 py-0.5 border-l border-brand-gold font-mono font-medium">
               {cart.length}
             </span>
           </div>

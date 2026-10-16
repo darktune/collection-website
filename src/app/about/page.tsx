@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { AdinkraheneIcon } from "@/components/icons/BespokeIcons";
 
 export default function AboutPage() {
   return (
@@ -123,16 +124,17 @@ export default function AboutPage() {
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex flex-col justify-end p-6 text-white">
                 <span className="text-[10px] tracking-widest uppercase text-brand-gold font-medium">Head Designer &amp; Founder</span>
-                <span className="font-display text-2xl font-light">Bolaji Abayomi Abraham</span>
+                <span className="font-patron italic text-3xl font-normal text-brand-black dark:text-brand-white">Bolaji Abayomi Abraham</span>
                 <span className="text-xs opacity-75 mt-0.5">25 Years of Architectural Master Tailoring</span>
               </div>
             </div>
 
             <div className="md:col-span-7 space-y-6">
-              <div className="inline-flex items-center gap-2 px-3 py-1 bg-brand-gold/10 text-brand-gold text-[10px] tracking-ultra-wide uppercase rounded-full">
+              <div className="inline-flex items-center gap-2 px-3 py-1 border-l-2 border-brand-gold bg-brand-gold/10 text-brand-gold text-[10px] tracking-ultra-wide uppercase font-medium">
+                <AdinkraheneIcon size={12} />
                 <span>The Master Cutter</span>
               </div>
-              <h3 className="font-display text-3xl md:text-4xl">
+              <h3 className="font-patron italic text-4xl md:text-5xl font-normal text-brand-black dark:text-brand-white">
                 Bolaji Abayomi Abraham
               </h3>
               <div className="space-y-4 font-light text-base opacity-80 leading-relaxed">

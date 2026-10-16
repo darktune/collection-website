@@ -14,7 +14,7 @@ export default function PrivacyPage() {
         
         {/* Header */}
         <div className="mb-16 pb-8 border-b border-brand-black/10 dark:border-white/10">
-          <div className="inline-flex items-center gap-2 px-3 py-1 bg-brand-gold/10 text-brand-gold text-[10px] tracking-ultra-wide uppercase rounded-full mb-6">
+          <div className="inline-flex items-center gap-2 px-3 py-1 border-l-2 border-brand-gold bg-brand-gold/10 text-brand-gold text-[10px] tracking-ultra-wide uppercase font-medium mb-6">
             <AdinkraheneIcon size={12} />
             <span>Client Confidentiality Protocol</span>
           </div>

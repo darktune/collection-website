@@ -49,7 +49,7 @@ export default function WomenPage() {
           />
         </div>
         <div className="relative z-10 text-brand-black dark:text-brand-white">
-          <div className="inline-flex items-center gap-2 px-3 py-1 bg-brand-black/10 dark:bg-brand-gold/20 text-brand-black dark:text-brand-gold text-[10px] tracking-ultra-wide uppercase rounded-full mb-4 backdrop-blur-md">
+          <div className="inline-flex items-center gap-2 px-3 py-1 border-l-2 border-brand-black dark:border-brand-gold bg-brand-white/80 dark:bg-black/60 text-brand-black dark:text-brand-gold text-[10px] tracking-ultra-wide uppercase font-medium mb-4 backdrop-blur-md">
             <AdinkraheneIcon size={12} />
             <span>Sculptural Couture &bull; Lagos</span>
           </div>

@@ -16,15 +16,15 @@
   }
 
   .dark {
-    --background: #0D0D0D; /* Deep Onyx */
-    --foreground: #FCFAF7; /* Warm White text */
-    --card: #171717; /* Charcoal Wool */
+    --background: #131110; /* Warm Midnight Obsidian */
+    --foreground: #FCFAF7; /* Warm Silk White */
+    --card: #1C1816; /* Warm Mahogany Charcoal */
     --card-foreground: #FCFAF7;
-    --accent: #5B1424; /* Oyo Imperial Crimson */
+    --accent: #78172F; /* Radiant Imperial Oyo Crimson */
     --accent-foreground: #FCFAF7;
-    --border: rgba(252, 250, 247, 0.1);
-    --bronze: #C8A858;
-    --gold: #E5C368;
+    --border: rgba(223, 183, 88, 0.14); /* Subtle warm gold hairline */
+    --bronze: #C49B55;
+    --gold: #DFB758;
   }
 
   html {
@@ -120,9 +120,35 @@
   }
 
   .dark .glass-dock {
-    background: rgba(13, 11, 10, 0.88);
-    border: 1px solid rgba(200, 168, 88, 0.25);
+    background: rgba(19, 17, 16, 0.92);
+    border: 1px solid rgba(223, 183, 88, 0.25);
     color: #FCFAF7;
+  }
+
+  /* Unique Editorial Font Style for Names Globally */
+  .font-patron {
+    font-family: var(--font-patron), "Cormorant Garamond", "Playfair Display", Georgia, serif;
+    letter-spacing: 0.02em;
+  }
+
+  .patron-name {
+    font-family: var(--font-patron), "Cormorant Garamond", "Playfair Display", Georgia, serif;
+    font-style: italic;
+    letter-spacing: 0.035em;
+  }
+
+  /* Architectural Heading Highlight (Replaces rounded pill capsules globally) */
+  .heading-accent {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.2rem 0.55rem;
+    border-left: 2px solid var(--gold);
+    background: rgba(223, 183, 88, 0.08);
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    font-size: 0.625rem;
+    font-weight: 500;
   }
 }
 

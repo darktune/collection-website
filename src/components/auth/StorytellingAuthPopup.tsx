@@ -42,7 +42,7 @@ export function StorytellingAuthPopup() {
           </h3>
 
           <p className="font-light text-xs sm:text-sm text-brand-black/80 dark:text-brand-silk/80 leading-relaxed mb-6">
-            Welcome to the cutting rooms of Bolaji Abayomi Abraham. For a quarter of a century in Lagos, every stitch has been drawn with singular reverence for your proportions. Enter the private circle to record your anatomical measurements, commission timeless silhouettes, and receive bespoke counsel.
+            Welcome to the cutting rooms of <span className="font-patron italic text-base sm:text-lg font-normal text-brand-gold">Bolaji Abayomi Abraham</span>. For a quarter of a century in Lagos, every stitch has been drawn with singular reverence for your proportions. Enter the private circle to record your anatomical measurements, commission timeless silhouettes, and receive bespoke counsel.
           </p>
 
           {/* Interactive Actions */}

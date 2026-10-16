@@ -128,7 +128,7 @@ export function QuickBuyModal() {
         {orderComplete ? (
           /* Order Confirmed Screen */
           <div className="p-8 text-center space-y-6">
-            <div className="w-16 h-16 rounded-full bg-emerald-500/20 border-2 border-emerald-500 text-emerald-400 flex items-center justify-center mx-auto">
+            <div className="w-16 h-16 bg-brand-gold/15 border-2 border-brand-gold text-brand-gold flex items-center justify-center mx-auto">
               <Check size={32} />
             </div>
             <div>
@@ -323,7 +323,7 @@ export function QuickBuyModal() {
 
               <div className="flex items-center justify-between text-[10px] text-brand-black/50 dark:text-white/50 pt-2 border-t border-brand-black/10 dark:border-white/5">
                 <span className="font-mono">Merchant: {MERCHANT_CONFIG.companyEmail}</span>
-                <span className="flex items-center gap-1 text-emerald-600 dark:text-emerald-400">
+                <span className="flex items-center gap-1 text-brand-gold font-medium">
                   <ShieldCheck size={13} />
                   <span>Outage &amp; Disconnection Resilient</span>
                 </span>

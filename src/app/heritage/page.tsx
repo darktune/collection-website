@@ -58,7 +58,7 @@ export default function HeritagePage() {
           />
         </div>
         <div className="relative z-10 text-brand-white">
-          <div className="inline-flex items-center gap-2 px-3 py-1 bg-brand-gold/20 text-brand-gold text-[10px] tracking-ultra-wide uppercase rounded-full mb-4 backdrop-blur-md">
+          <div className="inline-flex items-center gap-2 px-3 py-1 border-l-2 border-brand-gold bg-black/60 text-brand-gold text-[10px] tracking-ultra-wide uppercase font-medium mb-4 backdrop-blur-md">
             <AdinkraheneIcon size={12} />
             <span>Ceremonial Royalty &bull; Est. 1999</span>
           </div>

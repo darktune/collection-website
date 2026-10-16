@@ -28,7 +28,7 @@ export default function OfflinePage() {
           <WifiOff size={28} />
         </div>
 
-        <div className="inline-flex items-center gap-2 px-3 py-1 bg-brand-gold/15 text-brand-gold text-[10px] tracking-ultra-wide uppercase rounded-full">
+        <div className="inline-flex items-center gap-2 px-3 py-1 border-l-2 border-brand-gold bg-brand-gold/10 text-brand-gold text-[10px] tracking-ultra-wide uppercase font-medium">
           <AdinkraheneIcon size={12} />
           <span>Offline Continuity Protocol</span>
         </div>
@@ -72,7 +72,7 @@ export default function OfflinePage() {
         </div>
 
         <div className="flex items-center justify-center gap-1.5 text-[10px] text-white/50 pt-2">
-          <ShieldCheck size={13} className="text-emerald-400" />
+          <ShieldCheck size={13} className="text-brand-gold" />
           <span>Zero Data Loss Guaranteed</span>
         </div>
 

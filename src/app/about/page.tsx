@@ -111,10 +111,66 @@ export default function AboutPage() {
           </div>
         </div>
 
+        {/* Founder Spotlight: Bolaji Abayomi Abraham */}
+        <div className="pt-24 pb-16 border-y border-brand-black/10 dark:border-white/10 text-left">
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-10 items-center">
+            <div className="md:col-span-5 relative aspect-[4/5] rounded overflow-hidden shadow-xl bg-brand-onyx">
+              <Image
+                src="/media/hero_1.jpg"
+                alt="Bolaji Abayomi Abraham - Founder and Creative Director"
+                fill
+                className="object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex flex-col justify-end p-6 text-white">
+                <span className="text-[10px] tracking-widest uppercase text-brand-gold font-medium">Head Designer &amp; Founder</span>
+                <span className="font-display text-2xl font-light">Bolaji Abayomi Abraham</span>
+                <span className="text-xs opacity-75 mt-0.5">25 Years of Architectural Master Tailoring</span>
+              </div>
+            </div>
+
+            <div className="md:col-span-7 space-y-6">
+              <div className="inline-flex items-center gap-2 px-3 py-1 bg-brand-gold/10 text-brand-gold text-[10px] tracking-ultra-wide uppercase rounded-full">
+                <span>The Master Cutter</span>
+              </div>
+              <h3 className="font-display text-3xl md:text-4xl">
+                Bolaji Abayomi Abraham
+              </h3>
+              <div className="space-y-4 font-light text-base opacity-80 leading-relaxed">
+                <p>
+                  For over two and a half decades, Bolaji Abayomi Abraham has anchored the cutting rooms of Lagos with an unyielding ethos: dignity is engineered through the needle.
+                </p>
+                <p>
+                  Blending traditional Yoruba regal silhouettes—Dandogo, Agbada, and Senator—with the anatomical precision of British-Italian suiting, Bolaji has dressed national leaders, corporate chieftains, and diaspora grooms across the globe.
+                </p>
+              </div>
+
+              {/* Verified Direct Channels */}
+              <div className="pt-4 space-y-3">
+                <div className="text-xs uppercase tracking-widest font-semibold opacity-70">
+                  Direct Line to Bolaji (Eranibaniso):
+                </div>
+                <div className="flex flex-wrap gap-4 text-xs font-mono">
+                  <a href="tel:08122640820" className="hover:text-brand-crimson dark:hover:text-brand-gold underline">
+                    0812 264 0820 (Phone)
+                  </a>
+                  <span className="opacity-40">&bull;</span>
+                  <a href="https://wa.me/2348034432759" target="_blank" rel="noreferrer" className="text-[#25D366] hover:underline">
+                    0803 443 2759 (WhatsApp)
+                  </a>
+                  <span className="opacity-40">&bull;</span>
+                  <a href="https://www.facebook.com/bolaji.abraham.10" target="_blank" rel="noreferrer" className="hover:text-brand-gold underline">
+                    Facebook
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
         {/* Conclusion */}
-        <div className="pt-32 space-y-8 border-t border-brand-black/10 dark:border-white/10">
+        <div className="pt-20 space-y-8">
            <h2 className="font-display text-3xl md:text-5xl">ABRAHAM COLLECTION</h2>
-           <p className="text-xs uppercase tracking-[0.3em] font-medium text-brand-burgundy">Clothing That Suits.</p>
+           <p className="text-xs uppercase tracking-[0.3em] font-medium text-brand-burgundy dark:text-brand-gold">Clothing That Suits.</p>
            
            <div className="pt-8 space-y-2 font-light opacity-60 text-sm">
              <p>25 years of craft.</p>

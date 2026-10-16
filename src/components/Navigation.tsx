@@ -5,9 +5,11 @@ import { useTheme } from "next-themes";
 import { Moon, Sun, Menu, X, ArrowUpRight } from "lucide-react";
 import { useEffect, useState } from "react";
 import { PempamsieIcon, AdinkraheneIcon } from "@/components/icons/BespokeIcons";
+import { useAtelier } from "@/context/AtelierContext";
 
 export function Navigation() {
   const { theme, setTheme } = useTheme();
+  const { user, setActiveModal } = useAtelier();
   const [mounted, setMounted] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -84,6 +86,24 @@ export function Navigation() {
             Atelier Story
             <span className="absolute bottom-0 left-0 w-0 h-[1.5px] bg-brand-crimson dark:bg-brand-gold transition-all duration-300 group-hover:w-full" />
           </Link>
+
+          {/* Atelier User Greeting or Sign In Trigger */}
+          {user.isAuthenticated ? (
+            <button
+              onClick={() => setActiveModal("profile")}
+              className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-brand-gold/10 hover:bg-brand-gold/20 text-brand-gold text-[10px] uppercase tracking-luxury font-medium transition-colors"
+            >
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+              <span>Welcome, {user.name.split(" ")[0]}</span>
+            </button>
+          ) : (
+            <button
+              onClick={() => setActiveModal("auth")}
+              className="text-[10px] tracking-luxury uppercase text-brand-gold hover:underline font-medium"
+            >
+              Sign In
+            </button>
+          )}
 
           {/* Book Bespoke Primary CTA using Pempamsie (Symbol of Stitching & Tailoring Readiness) */}
           <Link

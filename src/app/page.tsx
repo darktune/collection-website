@@ -45,19 +45,19 @@ export default function Home() {
             It is not made to measure. It is made to dominate. A second skin that does not give you power, but reveals the power you already possess.
           </p>
 
-          <div className="flex flex-col sm:flex-row gap-5">
+          <div className="flex flex-col sm:flex-row gap-4">
             <Link
               href="/bespoke/commission"
-              className="inline-flex items-center justify-center gap-3 px-9 py-4 bg-brand-crimson text-brand-white hover:bg-brand-burgundy-light transition-colors duration-300 text-xs tracking-luxury uppercase font-medium shadow-md"
+              className="inline-flex items-center justify-center gap-2.5 px-8 py-3.5 bg-brand-crimson text-brand-white hover:bg-brand-burgundy-light transition-colors duration-300 text-[10px] md:text-[10.5px] tracking-[0.25em] uppercase font-medium shadow-md"
             >
-              <PempamsieIcon size={16} className="text-brand-gold" />
+              <PempamsieIcon size={14} className="text-brand-gold" />
               <span>Book Bespoke</span>
             </Link>
             <Link
               href="/heritage"
-              className="inline-flex items-center justify-center gap-2 px-9 py-4 border border-brand-silk/40 text-brand-silk hover:bg-brand-silk hover:text-brand-onyx transition-colors duration-300 text-xs tracking-luxury uppercase font-medium"
+              className="inline-flex items-center justify-center gap-2 px-8 py-3.5 border border-brand-silk/40 text-brand-silk hover:bg-brand-silk hover:text-brand-onyx transition-colors duration-300 text-[10px] md:text-[10.5px] tracking-[0.25em] uppercase font-medium"
             >
-              <AdeAreIcon size={16} />
+              <AdeAreIcon size={14} />
               <span>Discover Heritage</span>
             </Link>
           </div>
@@ -120,7 +120,7 @@ export default function Home() {
           </p>
           <Link
             href="/heritage"
-            className="inline-flex items-center justify-center px-8 py-4 bg-brand-onyx text-brand-silk dark:bg-brand-silk dark:text-brand-onyx hover:bg-brand-crimson dark:hover:bg-brand-crimson dark:hover:text-white transition-colors duration-300 text-xs tracking-luxury uppercase font-medium"
+            className="inline-flex items-center justify-center px-7 py-3.5 bg-brand-onyx text-brand-silk dark:bg-brand-silk dark:text-brand-onyx hover:bg-brand-crimson dark:hover:bg-brand-crimson dark:hover:text-white transition-colors duration-300 text-[10px] md:text-[10.5px] tracking-[0.25em] uppercase font-medium"
           >
             Explore Heritage Archives
           </Link>
@@ -142,7 +142,7 @@ export default function Home() {
           </p>
           <Link
             href="/men"
-            className="inline-flex items-center justify-center px-8 py-4 border border-brand-black dark:border-white text-brand-black dark:text-white hover:bg-brand-black dark:hover:bg-white hover:text-white dark:hover:text-black transition-colors duration-300 text-xs tracking-luxury uppercase font-medium"
+            className="inline-flex items-center justify-center px-7 py-3.5 border border-brand-black dark:border-white text-brand-black dark:text-white hover:bg-brand-black dark:hover:bg-white hover:text-white dark:hover:text-black transition-colors duration-300 text-[10px] md:text-[10.5px] tracking-[0.25em] uppercase font-medium"
           >
             View Tailored Suiting
           </Link>

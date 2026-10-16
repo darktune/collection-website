@@ -58,9 +58,9 @@ export function ProductCommerceCard({ product, priority = false }: ProductCommer
           {/* Primary Action: Book Bespoke */}
           <Link
             href={`/bespoke/commission?garment=${encodeURIComponent(product.name)}`}
-            className="w-full py-2.5 px-3 bg-brand-crimson text-white hover:bg-brand-burgundy-light uppercase tracking-luxury text-[10px] font-semibold flex items-center justify-center gap-1.5 transition-colors shadow-md text-center rounded-sm"
+            className="w-full py-2 px-3 bg-brand-crimson text-white hover:bg-brand-burgundy-light uppercase tracking-[0.22em] text-[9px] font-medium flex items-center justify-center gap-1.5 transition-colors shadow-md text-center rounded-sm"
           >
-            <PempamsieIcon size={13} className="text-brand-gold" />
+            <PempamsieIcon size={12} className="text-brand-gold" />
             <span>Book Bespoke</span>
           </Link>
 
@@ -72,9 +72,9 @@ export function ProductCommerceCard({ product, priority = false }: ProductCommer
               e.stopPropagation();
               openQuickBuy(product);
             }}
-            className="w-full py-2 px-3 bg-brand-gold text-brand-onyx hover:bg-brand-cream uppercase tracking-luxury text-[10px] font-bold flex items-center justify-center gap-1.5 transition-colors text-center rounded-sm"
+            className="w-full py-1.5 px-3 bg-brand-gold text-brand-onyx hover:bg-brand-cream uppercase tracking-[0.22em] text-[9px] font-semibold flex items-center justify-center gap-1.5 transition-colors text-center rounded-sm"
           >
-            <ShoppingBag size={12} />
+            <ShoppingBag size={11} />
             <span>Buy</span>
           </button>
         </div>

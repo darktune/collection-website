@@ -13,23 +13,36 @@ export function Navigation() {
   const [mounted, setMounted] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
 
   useEffect(() => {
     setMounted(true);
     const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
+      setScrolled(window.scrollY > 30);
     };
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  const showFullNav = scrolled || isHovered;
+
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 transition-all duration-500 font-sans">
-      {/* Top Heritage Bar */}
-      <div className="bg-brand-onyx text-brand-silk/80 text-[10px] tracking-ultra-wide uppercase py-1.5 px-6 hidden md:flex justify-between items-center border-b border-white/5">
+    <header
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      className="fixed top-0 left-0 right-0 z-50 transition-all duration-500 font-sans"
+    >
+      {/* Top Heritage Bar: Only reveals when scrolling into full navigation view */}
+      <div
+        className={`bg-brand-onyx text-brand-silk/80 text-[10px] tracking-ultra-wide uppercase px-6 hidden md:flex justify-between items-center transition-all duration-500 overflow-hidden ${
+          showFullNav
+            ? "max-h-8 py-1.5 opacity-100 border-b border-white/5"
+            : "max-h-0 py-0 opacity-0 border-none"
+        }`}
+      >
         <div className="flex items-center gap-2">
-          <AdinkraheneIcon size={13} className="text-brand-gold" />
-          <span>EST. 1999 &bull; 25 YEARS OF INTENTIONAL CRAFT &bull; LAGOS, NIGERIA</span>
+          <AdinkraheneIcon size={12} className="text-brand-gold" />
+          <span>EST. 1999 &bull; 25 YEARS OF INTENTIONAL CRAFT &bull; LAGOS</span>
         </div>
         <div className="flex items-center gap-6 text-[10px]">
           <Link href="/bespoke/commission?type=diaspora" className="hover:text-brand-gold transition-colors">
@@ -44,73 +57,114 @@ export function Navigation() {
 
       {/* Main Navigation Bar */}
       <nav
-        className={`flex items-center justify-between px-6 md:px-12 lg:px-20 transition-all duration-500 ${
-          scrolled ? "h-16 glass shadow-sm" : "h-20 bg-transparent"
-        } text-xs uppercase tracking-luxury font-medium w-full`}
+        className={`flex items-center justify-between px-6 md:px-10 lg:px-14 xl:px-20 transition-all duration-500 ease-out w-full ${
+          showFullNav
+            ? "h-16 md:h-18 glass shadow-md border-b border-brand-black/10 dark:border-white/10"
+            : "h-24 md:h-28 bg-gradient-to-b from-black/40 via-black/15 to-transparent backdrop-blur-[2px]"
+        }`}
       >
-        {/* Left Links */}
-        <div className="hidden lg:flex items-center gap-8 flex-1">
-          <Link href="/heritage" className="relative group py-2 hover:text-brand-crimson dark:hover:text-brand-gold transition-colors">
+        {/* Left Links - Hidden at first, smoothly glides in when scrolled/hovered */}
+        <div
+          className={`hidden lg:flex items-center gap-4 xl:gap-7 flex-1 justify-start transition-all duration-500 ${
+            showFullNav
+              ? "opacity-100 translate-x-0 pointer-events-auto"
+              : "opacity-0 -translate-x-6 pointer-events-none"
+          }`}
+        >
+          <Link
+            href="/heritage"
+            className="whitespace-nowrap text-[11px] xl:text-xs tracking-luxury uppercase font-medium relative group py-1.5 hover:text-brand-crimson dark:hover:text-brand-gold transition-colors"
+          >
             Heritage
             <span className="absolute bottom-0 left-0 w-0 h-[1.5px] bg-brand-crimson dark:bg-brand-gold transition-all duration-300 group-hover:w-full" />
           </Link>
-          <Link href="/bespoke" className="relative group py-2 hover:text-brand-crimson dark:hover:text-brand-gold transition-colors">
+          <Link
+            href="/bespoke"
+            className="whitespace-nowrap text-[11px] xl:text-xs tracking-luxury uppercase font-medium relative group py-1.5 hover:text-brand-crimson dark:hover:text-brand-gold transition-colors"
+          >
             Bespoke Atelier
             <span className="absolute bottom-0 left-0 w-0 h-[1.5px] bg-brand-crimson dark:bg-brand-gold transition-all duration-300 group-hover:w-full" />
           </Link>
-          <Link href="/men" className="relative group py-2 hover:text-brand-crimson dark:hover:text-brand-gold transition-colors">
+          <Link
+            href="/men"
+            className="whitespace-nowrap text-[11px] xl:text-xs tracking-luxury uppercase font-medium relative group py-1.5 hover:text-brand-crimson dark:hover:text-brand-gold transition-colors"
+          >
             Tailoring
             <span className="absolute bottom-0 left-0 w-0 h-[1.5px] bg-brand-crimson dark:bg-brand-gold transition-all duration-300 group-hover:w-full" />
           </Link>
-          <Link href="/corporate" className="relative group py-2 hover:text-brand-crimson dark:hover:text-brand-gold transition-colors">
+          <Link
+            href="/corporate"
+            className="whitespace-nowrap text-[11px] xl:text-xs tracking-luxury uppercase font-medium relative group py-1.5 hover:text-brand-crimson dark:hover:text-brand-gold transition-colors"
+          >
             Corporate
             <span className="absolute bottom-0 left-0 w-0 h-[1.5px] bg-brand-crimson dark:bg-brand-gold transition-all duration-300 group-hover:w-full" />
           </Link>
         </div>
 
-        {/* Center Brand Identity */}
-        <div className="flex-shrink-0 flex justify-center mx-6">
+        {/* Center Brand Identity & Motto - Always Mathematically Centered, Majestic at First */}
+        <div className="flex-shrink-0 flex flex-col items-center justify-center text-center px-4 transition-all duration-500 z-10">
           <Link href="/" className="group flex flex-col items-center text-center">
-            <span className="font-display tracking-[0.2em] text-xl md:text-2xl font-medium uppercase group-hover:opacity-85 transition-opacity">
+            <span
+              className={`font-display uppercase font-medium tracking-[0.22em] text-brand-black dark:text-brand-white transition-all duration-500 whitespace-nowrap leading-tight ${
+                showFullNav
+                  ? "text-base md:text-lg xl:text-xl"
+                  : "text-2xl sm:text-3xl md:text-4xl tracking-[0.28em] md:tracking-[0.35em]"
+              }`}
+            >
               Abraham Collection
             </span>
-            <span className="text-[9px] tracking-ultra-wide opacity-60 font-sans uppercase -mt-0.5">
+            <span
+              className={`font-sans uppercase font-light text-brand-black/75 dark:text-brand-silk/80 transition-all duration-500 whitespace-nowrap leading-none ${
+                showFullNav
+                  ? "text-[8px] md:text-[9px] tracking-[0.24em] opacity-70 mt-1"
+                  : "text-[10px] md:text-[12px] tracking-[0.32em] md:tracking-[0.4em] opacity-85 mt-2"
+              }`}
+            >
               Clothing That Suits
             </span>
           </Link>
         </div>
 
-        {/* Right Links & Bespoke CTA */}
-        <div className="hidden lg:flex items-center gap-6 flex-1 justify-end">
-          <Link href="/about" className="relative group py-2 hover:text-brand-crimson dark:hover:text-brand-gold transition-colors">
+        {/* Right Links & Bespoke CTA - Hidden at first, smoothly glides in when scrolled/hovered */}
+        <div
+          className={`hidden lg:flex items-center gap-3.5 xl:gap-5 flex-1 justify-end transition-all duration-500 ${
+            showFullNav
+              ? "opacity-100 translate-x-0 pointer-events-auto"
+              : "opacity-0 translate-x-6 pointer-events-none"
+          }`}
+        >
+          <Link
+            href="/about"
+            className="whitespace-nowrap text-[11px] xl:text-xs tracking-luxury uppercase font-medium relative group py-1.5 hover:text-brand-crimson dark:hover:text-brand-gold transition-colors"
+          >
             Atelier Story
             <span className="absolute bottom-0 left-0 w-0 h-[1.5px] bg-brand-crimson dark:bg-brand-gold transition-all duration-300 group-hover:w-full" />
           </Link>
 
-          {/* Atelier User Greeting or Sign In Trigger */}
+          {/* User Profile / Sign In */}
           {user.isAuthenticated ? (
             <button
               onClick={() => setActiveModal("profile")}
-              className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-brand-gold/10 hover:bg-brand-gold/20 text-brand-gold text-[10px] uppercase tracking-luxury font-medium transition-colors"
+              className="whitespace-nowrap flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-brand-gold/15 hover:bg-brand-gold/25 text-brand-gold text-[10px] uppercase tracking-luxury font-medium transition-colors"
             >
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-              <span>Welcome, {user.name.split(" ")[0]}</span>
+              <span>{user.name.split(" ")[0]}</span>
             </button>
           ) : (
             <button
               onClick={() => setActiveModal("auth")}
-              className="text-[10px] tracking-luxury uppercase text-brand-gold hover:underline font-medium"
+              className="whitespace-nowrap text-[10px] xl:text-[11px] tracking-luxury uppercase text-brand-gold hover:underline font-medium py-1 px-1"
             >
               Sign In
             </button>
           )}
 
-          {/* Book Bespoke Primary CTA using Pempamsie (Symbol of Stitching & Tailoring Readiness) */}
+          {/* Book Bespoke Primary CTA */}
           <Link
             href="/bespoke/commission"
-            className="inline-flex items-center gap-2 px-5 py-2.5 bg-brand-crimson text-brand-white dark:bg-brand-silk dark:text-brand-onyx text-[11px] tracking-luxury uppercase font-medium hover:bg-brand-burgundy-light dark:hover:bg-brand-cream transition-colors duration-300 shadow-sm"
+            className="whitespace-nowrap inline-flex items-center gap-2 px-4 xl:px-5 py-2 xl:py-2.5 bg-brand-crimson text-brand-white dark:bg-brand-silk dark:text-brand-onyx text-[10px] xl:text-[11px] tracking-luxury uppercase font-semibold hover:bg-brand-burgundy-light dark:hover:bg-brand-cream transition-colors duration-300 shadow-sm"
           >
-            <PempamsieIcon size={14} className="text-brand-gold dark:text-brand-crimson" />
+            <PempamsieIcon size={13} className="text-brand-gold dark:text-brand-crimson" />
             <span>Book Bespoke</span>
           </Link>
 
@@ -118,31 +172,34 @@ export function Navigation() {
           {mounted && (
             <button
               onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-              className="p-2 hover:text-brand-crimson dark:hover:text-brand-gold transition-colors duration-300"
+              className="p-1.5 hover:text-brand-crimson dark:hover:text-brand-gold transition-colors duration-300"
               aria-label="Toggle Dark Mode"
             >
-              {theme === "dark" ? <Sun size={17} strokeWidth={1.5} /> : <Moon size={17} strokeWidth={1.5} />}
+              {theme === "dark" ? <Sun size={16} strokeWidth={1.5} /> : <Moon size={16} strokeWidth={1.5} />}
             </button>
           )}
         </div>
 
-        {/* Mobile Actions */}
-        <div className="flex lg:hidden items-center gap-4">
+        {/* Mobile Actions: Discreet Theme + Menu Button */}
+        <div className="flex lg:hidden items-center gap-2">
           {mounted && (
             <button
               onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
               className="p-2 hover:text-brand-crimson dark:hover:text-brand-gold transition-colors"
               aria-label="Toggle Dark Mode"
             >
-              {theme === "dark" ? <Sun size={18} strokeWidth={1.5} /> : <Moon size={18} strokeWidth={1.5} />}
+              {theme === "dark" ? <Sun size={17} strokeWidth={1.5} /> : <Moon size={17} strokeWidth={1.5} />}
             </button>
           )}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="p-2 hover:text-brand-crimson dark:hover:text-brand-gold transition-colors"
+            className="p-2 hover:text-brand-crimson dark:hover:text-brand-gold transition-colors flex items-center gap-1.5"
             aria-label="Toggle Menu"
           >
-            {mobileMenuOpen ? <X size={22} strokeWidth={1.5} /> : <Menu size={22} strokeWidth={1.5} />}
+            <span className="text-[10px] tracking-widest uppercase font-medium hidden sm:inline opacity-70">
+              {mobileMenuOpen ? "Close" : "Menu"}
+            </span>
+            {mobileMenuOpen ? <X size={20} strokeWidth={1.5} /> : <Menu size={20} strokeWidth={1.5} />}
           </button>
         </div>
       </nav>

@@ -160,7 +160,7 @@ export function QuickBuyModal() {
               </div>
               <div className="flex-1">
                 <span className="text-[10px] text-brand-gold uppercase tracking-widest">{product.category}</span>
-                <h4 className="font-display text-base leading-tight mt-0.5">{product.name}</h4>
+                <h4 className="font-name text-lg leading-tight mt-0.5">{product.name}</h4>
                 <div className="flex items-center gap-3 mt-1.5 font-mono text-sm text-brand-gold font-medium">
                   <span>₦{product.priceNgn.toLocaleString()}</span>
                   <span className="text-brand-black/40 dark:text-white/40">&bull;</span>
@@ -299,13 +299,13 @@ export function QuickBuyModal() {
                   onClick={() => setSelectedGateway("whatsapp")}
                   className={`p-3 rounded-lg border text-left flex flex-col justify-between transition-colors ${
                     selectedGateway === "whatsapp"
-                      ? "border-[#25D366] bg-[#25D366]/15 text-brand-black dark:text-white"
-                      : "border-brand-black/10 dark:border-white/10 bg-brand-black/5 dark:bg-white/5 text-brand-black/70 dark:text-white/70 hover:border-[#25D366]/40"
+                      ? "border-brand-gold bg-brand-gold/15 text-brand-black dark:text-white"
+                      : "border-brand-black/10 dark:border-white/10 bg-brand-black/5 dark:bg-white/5 text-brand-black/70 dark:text-white/70 hover:border-brand-gold/40"
                   }`}
                 >
                   <div className="font-semibold text-xs flex items-center justify-between">
                     <span>WhatsApp Concierge</span>
-                    <MessageSquare size={14} className="text-[#25D366]" />
+                    <MessageSquare size={14} className="text-brand-gold" />
                   </div>
                   <span className="text-[10px] opacity-60 mt-1">Eranibaniso Direct (0ms Latency)</span>
                 </button>

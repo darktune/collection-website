@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Jost, Inter, Cormorant_Garamond } from "next/font/google";
+import { Jost, Inter, Cormorant_Garamond, Italiana } from "next/font/google";
 import "./globals.css";
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
@@ -19,6 +19,12 @@ const patronFont = Cormorant_Garamond({
   style: ["normal", "italic"],
   subsets: ["latin"],
   variable: "--font-patron",
+});
+
+const nameFont = Italiana({
+  weight: ["400"],
+  subsets: ["latin"],
+  variable: "--font-name",
 });
 
 const inter = Inter({
@@ -65,8 +71,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${inter.variable} ${displayFont.variable} ${patronFont.variable} font-sans`}>
-        <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
+      <body className={`${inter.variable} ${displayFont.variable} ${patronFont.variable} ${nameFont.variable} font-sans`}>
+        <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false} storageKey="abraham_theme_preference">
           <AtelierProvider>
             <SplashScreen />
             <StorefrontShell>

@@ -135,7 +135,7 @@ export function VisualSearchModal() {
                         ₦{item.priceNgn.toLocaleString()} &bull; ${item.priceUsd} USD
                       </span>
                     </div>
-                    <h4 className="font-display text-sm font-medium mt-0.5">{item.name}</h4>
+                    <h4 className="font-name text-base font-normal mt-0.5">{item.name}</h4>
                     <p className="text-xs opacity-70 line-clamp-2 mt-1">{item.description}</p>
                   </div>
 

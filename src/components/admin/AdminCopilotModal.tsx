@@ -212,7 +212,7 @@ export function AdminCopilotModal({ isOpen, onClose }: AdminCopilotModalProps) {
                   <div className="mt-2 p-2.5 bg-brand-black/5 dark:bg-black/40 border border-brand-gold/30 rounded text-left space-y-1.5">
                     <div className="flex items-center justify-between text-[9.5px] font-mono font-medium text-brand-gold">
                       <span className="flex items-center gap-1.5 uppercase">
-                        {msg.actionSnippet.type === "whatsapp" && <MessageSquare size={11} className="text-[#25D366]" />}
+                        {msg.actionSnippet.type === "whatsapp" && <MessageSquare size={11} className="text-brand-gold" />}
                         {msg.actionSnippet.type === "inventory" && <Scissors size={11} />}
                         {msg.actionSnippet.type === "commission" && <Truck size={11} />}
                         {msg.actionSnippet.title}

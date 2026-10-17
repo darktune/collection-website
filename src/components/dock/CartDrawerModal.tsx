@@ -74,7 +74,7 @@ export function CartDrawerModal() {
                 <div className="flex flex-col justify-between flex-1">
                   <div>
                     <div className="flex items-start justify-between gap-1">
-                      <h4 className="font-display text-xs font-medium leading-tight">{item.name}</h4>
+                      <h4 className="font-name text-sm font-medium leading-tight">{item.name}</h4>
                       <button
                         onClick={() => removeFromCart(item.id)}
                         className="text-brand-black/40 dark:text-white/40 hover:text-brand-crimson transition-colors"
@@ -106,9 +106,9 @@ export function CartDrawerModal() {
             <div className="grid grid-cols-2 gap-2 pt-1">
               <button
                 onClick={handleCheckoutWhatsApp}
-                className="flex items-center justify-center gap-1.5 py-2.5 px-3 bg-[#25D366] text-black font-semibold rounded text-[11px] uppercase tracking-wider hover:bg-[#1EBE5D] transition-colors"
+                className="flex items-center justify-center gap-1.5 py-2.5 px-3 bg-brand-crimson text-white font-medium rounded-sm text-[11px] uppercase tracking-wider hover:bg-brand-burgundy-light transition-colors"
               >
-                <MessageSquare size={14} />
+                <MessageSquare size={14} className="text-brand-gold" />
                 <span>WhatsApp</span>
               </button>
               <button

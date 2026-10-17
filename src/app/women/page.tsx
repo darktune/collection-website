@@ -73,7 +73,7 @@ export default function WomenPage() {
       <section className="py-24 px-8 md:px-16 lg:px-24 bg-brand-black text-brand-white text-center">
         <h2 className="font-display text-4xl mb-6">Womenswear Bespoke</h2>
         <p className="font-light text-brand-white/70 max-w-2xl mx-auto mb-10 leading-relaxed">
-          From red-carpet galas to royal weddings, our head designer Bolaji Abayomi Abraham personally drapes, drafts, and contours womenswear to celebrate proportion and feminine power.
+          From red-carpet galas to royal weddings, our head designer <span className="font-name italic text-brand-gold font-normal">Bolaji Abayomi Abraham</span> personally drapes, drafts, and contours womenswear to celebrate proportion and feminine power.
         </p>
         <Link
           href="/bespoke/commission"

@@ -124,7 +124,7 @@ export default function AboutPage() {
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex flex-col justify-end p-6 text-white">
                 <span className="text-[10px] tracking-widest uppercase text-brand-gold font-medium">Head Designer &amp; Founder</span>
-                <span className="font-patron italic text-3xl font-normal text-brand-black dark:text-brand-white">Bolaji Abayomi Abraham</span>
+                <span className="font-name italic text-3xl font-normal text-white">Bolaji Abayomi Abraham</span>
                 <span className="text-xs opacity-75 mt-0.5">25 Years of Architectural Master Tailoring</span>
               </div>
             </div>
@@ -134,7 +134,7 @@ export default function AboutPage() {
                 <AdinkraheneIcon size={12} />
                 <span>The Master Cutter</span>
               </div>
-              <h3 className="font-patron italic text-4xl md:text-5xl font-normal text-brand-black dark:text-brand-white">
+              <h3 className="font-name italic text-4xl md:text-5xl font-normal text-brand-black dark:text-brand-white">
                 Bolaji Abayomi Abraham
               </h3>
               <div className="space-y-4 font-light text-base opacity-80 leading-relaxed">
@@ -156,7 +156,7 @@ export default function AboutPage() {
                     0812 264 0820 (Phone)
                   </a>
                   <span className="opacity-40">&bull;</span>
-                  <a href="https://wa.me/2348034432759" target="_blank" rel="noreferrer" className="text-[#25D366] hover:underline">
+                  <a href="https://wa.me/2348034432759" target="_blank" rel="noreferrer" className="text-brand-gold hover:underline">
                     0803 443 2759 (WhatsApp)
                   </a>
                   <span className="opacity-40">&bull;</span>

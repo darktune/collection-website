@@ -82,7 +82,7 @@ export default function StoriesPage() {
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex flex-col justify-end p-6 text-white">
               <span className="text-[10px] tracking-widest uppercase text-brand-gold font-medium">Head Designer &amp; Founder</span>
-              <span className="font-patron italic text-3xl font-normal text-brand-white">Bolaji Abayomi Abraham</span>
+              <span className="font-name italic text-3xl font-normal text-brand-white">Bolaji Abayomi Abraham</span>
               <span className="text-xs opacity-75 mt-0.5">25 Years of Architectural Tailoring in Lagos</span>
             </div>
           </div>
@@ -174,7 +174,7 @@ export default function StoriesPage() {
                 </div>
 
                 <div className="pt-4 border-t border-brand-black/10 dark:border-white/10">
-                  <h4 className="font-patron italic text-2xl font-normal text-brand-black dark:text-brand-white">{story.name}</h4>
+                  <h4 className="font-name italic text-2xl font-normal text-brand-black dark:text-brand-white">{story.name}</h4>
                   <p className="text-xs opacity-60 mt-0.5">{story.title} &bull; {story.city}</p>
                   <p className="text-[11px] font-mono text-brand-crimson dark:text-brand-gold mt-2 uppercase tracking-wider">
                     {story.garment}

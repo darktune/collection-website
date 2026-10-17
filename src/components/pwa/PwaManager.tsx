@@ -73,7 +73,7 @@ export function PwaManager() {
                   href={generateOutageRecoveryLink(interruptedOrder)}
                   target="_blank"
                   rel="noreferrer"
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#25D366] text-black font-semibold rounded text-[10px] uppercase tracking-wider hover:bg-[#1EBE5D] transition-colors"
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-brand-gold text-brand-onyx font-medium rounded-sm text-[10px] uppercase tracking-wider hover:bg-brand-cream transition-colors"
                 >
                   <MessageSquare size={13} />
                   <span>Verify with Bolaji Abraham</span>
@@ -96,26 +96,21 @@ export function PwaManager() {
         </div>
       )}
 
-      {/* Online / Offline Connectivity Status Pill */}
+      {/* Online / Offline Connectivity Status - Architectural Luxury Accent (No green, no pill) */}
       {showStatusToast && (
         <aside
           aria-label="Network Status Indicator"
-          className="fixed bottom-20 left-4 md:left-8 z-50 flex items-center gap-2 px-3.5 py-2 rounded-full text-xs font-mono shadow-2xl backdrop-blur-xl border transition-all duration-300 animate-in fade-in"
-          style={{
-            backgroundColor: isOnline ? "rgba(16, 185, 129, 0.15)" : "rgba(220, 38, 38, 0.2)",
-            borderColor: isOnline ? "rgba(16, 185, 129, 0.4)" : "rgba(220, 38, 38, 0.4)",
-            color: isOnline ? "#34D399" : "#F87171",
-          }}
+          className="fixed bottom-20 left-4 md:left-8 z-50 flex items-center gap-2 px-3.5 py-2 text-xs font-mono shadow-2xl backdrop-blur-xl border border-brand-gold/40 border-l-2 border-l-brand-gold bg-[#151210]/95 text-brand-gold transition-all duration-300 animate-in fade-in"
         >
           {isOnline ? (
             <>
-              <Wifi size={14} className="animate-pulse" />
-              <span className="text-[11px]">Connected &bull; 0ms Atelier Cache</span>
+              <Wifi size={14} className="text-brand-gold" />
+              <span className="text-[10.5px] uppercase tracking-wider text-brand-silk">Connected &bull; 0ms Atelier Cache</span>
             </>
           ) : (
             <>
-              <WifiOff size={14} className="animate-pulse" />
-              <span className="text-[11px]">Offline Mode &bull; Images Cached Locally</span>
+              <WifiOff size={14} className="text-brand-crimson" />
+              <span className="text-[10.5px] uppercase tracking-wider text-brand-crimson">Offline Mode &bull; Cached Locally</span>
             </>
           )}
         </aside>

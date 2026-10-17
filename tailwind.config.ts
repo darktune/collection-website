@@ -11,20 +11,20 @@ const config: Config = {
     extend: {
       colors: {
         brand: {
-          onyx: "#131110",
-          charcoal: "#1C1816",
-          black: "#100E0D",
+          onyx: "#0B0908", // Deep Warm Velvet Obsidian - allows bright colors to pop
+          charcoal: "#151210", // Warm Dark Mahogany Surface
+          black: "#080706",
           white: "#FCFAF7",
-          silk: "#F9F6F0",
-          cream: "#F1E8DA",
-          crimson: "#78172F",
-          burgundy: "#641C2F",
-          "burgundy-light": "#8E203B",
-          bronze: "#C49B55",
-          gold: "#DFB758",
+          silk: "#FDFBFA",
+          cream: "#F4EFE6",
+          crimson: "#A61C32", // Radiant Imperial Oyo Crimson
+          burgundy: "#7A1426",
+          "burgundy-light": "#B8243E",
+          bronze: "#CFA459",
+          gold: "#F2C14E", // Luminous Sovereign African Gold
           grey: "#8C8C8C",
           stone: "#E5E0D8",
-          muted: "#8C857B",
+          muted: "#968F84",
         },
       },
       letterSpacing: {
@@ -35,6 +35,7 @@ const config: Config = {
         sans: ["var(--font-inter)", "sans-serif"],
         display: ["var(--font-display)", "serif"],
         patron: ["var(--font-patron)", "Cormorant Garamond", "serif"],
+        name: ["var(--font-name)", "Italiana", "var(--font-patron)", "Cormorant Garamond", "serif"],
         mono: ["var(--font-mono)", "monospace"],
       },
       transitionTimingFunction: {

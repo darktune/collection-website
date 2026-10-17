@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useTheme } from "next-themes";
 import {
   Search,
   Heart,
@@ -10,11 +11,15 @@ import {
   ChevronRight,
   ChevronLeft,
   SlidersHorizontal,
+  Sun,
+  Moon,
 } from "lucide-react";
 import { IrukereIcon, AbereIcon, AdinkraheneIcon } from "@/components/icons/BespokeIcons";
 import { useAtelier } from "@/context/AtelierContext";
 
 export function FloatingDock() {
+  const { theme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
   const {
     activeModal,
     setActiveModal,
@@ -26,6 +31,10 @@ export function FloatingDock() {
     isDockCollapsed,
     setIsDockCollapsed,
   } = useAtelier();
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const [touchStart, setTouchStart] = useState<number | null>(null);
 
@@ -103,11 +112,7 @@ export function FloatingDock() {
         >
           {/* Deep Warm Brand Glow Ring */}
           <span className="absolute inset-0 rounded-full warm-glow-ring opacity-75 group-hover:opacity-100 -z-10 blur-[2px]" />
-          
           <IrukereIcon size={19} className="group-hover:rotate-6 transition-transform duration-300" />
-          
-          {/* Discreet status aura */}
-          <span className="absolute top-1 right-1 w-2 h-2 rounded-full bg-brand-gold ring-1 ring-brand-onyx" />
         </button>
 
         {/* Node 2: Visual Search / Garment Finder */}
@@ -152,12 +157,6 @@ export function FloatingDock() {
           ) : (
             <User size={17} />
           )}
-
-          <span
-            className={`absolute bottom-1 right-1 w-1.5 h-1.5 rounded-full ${
-              user.isAuthenticated ? "bg-brand-gold" : "bg-brand-gold/50"
-            }`}
-          />
         </button>
 
         {/* Node 5: Shopping Bag */}
@@ -175,6 +174,22 @@ export function FloatingDock() {
             </span>
           )}
         </button>
+
+        {/* Node 6: Dedicated Theme Switcher (Always accessible on every page) */}
+        {mounted && (
+          <button
+            onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+            className="p-2.5 rounded-full transition-all duration-300 text-brand-black/70 dark:text-brand-silk/80 hover:text-brand-gold hover:bg-brand-black/5 dark:hover:bg-white/10"
+            title={theme === "dark" ? "Switch to Light Theme" : "Switch to Dark Theme"}
+            aria-label="Toggle Theme"
+          >
+            {theme === "dark" ? (
+              <Sun size={17} className="text-brand-gold animate-in spin-in-180 duration-500" />
+            ) : (
+              <Moon size={17} className="text-brand-crimson dark:text-brand-gold animate-in spin-in-180 duration-500" />
+            )}
+          </button>
+        )}
 
         <div className={`bg-brand-black/10 dark:bg-white/10 ${isHorizontal ? "w-px h-5" : "h-px w-5"}`} />
 

@@ -54,7 +54,7 @@ export default function ContactPage() {
                 rel="noreferrer"
                 className="flex items-start gap-4 p-4 border border-brand-black/5 dark:border-white/5 hover:border-brand-gold transition-colors group"
               >
-                <MessageSquare size={18} className="text-[#25D366] mt-0.5 group-hover:scale-110 transition-transform" />
+                <MessageSquare size={18} className="text-brand-gold mt-0.5 group-hover:scale-110 transition-transform" />
                 <div>
                   <div className="font-medium">WhatsApp Concierge</div>
                   <div className="text-base font-mono opacity-80 mt-0.5">0803 443 2759</div>

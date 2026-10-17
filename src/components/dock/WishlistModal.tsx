@@ -63,7 +63,7 @@ export function WishlistModal() {
                 <div className="flex flex-col justify-between flex-1">
                   <div>
                     <div className="flex items-start justify-between gap-1">
-                      <h4 className="font-display text-xs font-medium leading-tight">{item.name}</h4>
+                      <h4 className="font-name text-sm font-normal leading-tight">{item.name}</h4>
                       <button
                         onClick={() => toggleWishlist(item)}
                         className="text-brand-black/40 dark:text-white/40 hover:text-brand-crimson transition-colors"

@@ -55,7 +55,9 @@ export default function CorporatePage() {
       {/* Hero Section */}
       <section className="py-24 px-8 md:px-16 lg:px-24 bg-brand-black text-brand-white flex flex-col md:flex-row gap-16 items-center">
         <div className="w-full md:w-1/2 max-w-xl">
-          <p className="text-xs tracking-widest uppercase mb-6 font-medium text-brand-white/70">Abraham Collection For Business</p>
+          <div className="inline-flex items-center gap-2 px-3 py-1 border-l-2 border-brand-gold bg-black/60 text-brand-gold text-[10px] tracking-ultra-wide uppercase font-medium mb-6 backdrop-blur-md">
+            <span>Abraham Collection For Business</span>
+          </div>
           <h1 className="font-display text-5xl md:text-7xl mb-8 leading-[1.1]">
             When your people wear your brand.
           </h1>

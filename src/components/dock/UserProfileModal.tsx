@@ -41,7 +41,7 @@ export function UserProfileModal() {
             </div>
 
             <div className="flex flex-col">
-              <span className="font-patron italic text-lg font-normal tracking-wide text-brand-black dark:text-brand-white">
+              <span className="font-name italic text-xl font-normal tracking-wide text-brand-black dark:text-brand-white">
                 {user.isAuthenticated ? user.name : "Welcome, Esteemed Patron"}
               </span>
               <span className="text-xs opacity-60 font-mono mt-0.5">
@@ -146,7 +146,7 @@ export function UserProfileModal() {
               rel="noreferrer"
               className="flex items-center justify-between p-3 rounded-lg bg-brand-black/5 dark:bg-white/5 hover:bg-brand-gold/10 transition-colors group"
             >
-              <div className="flex items-center gap-2.5 text-[#25D366]">
+              <div className="flex items-center gap-2.5 text-brand-gold">
                 <MessageSquare size={16} />
                 <span className="font-medium text-brand-black dark:text-white">Direct Tailor Line</span>
               </div>

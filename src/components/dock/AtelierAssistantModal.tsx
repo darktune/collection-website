@@ -229,7 +229,7 @@ export function AtelierAssistantModal() {
               href="https://wa.me/2348034432759"
               target="_blank"
               rel="noreferrer"
-              className="flex items-center gap-1 text-[#25D366] font-medium hover:underline"
+              className="flex items-center gap-1 text-brand-gold font-medium hover:underline"
             >
               <MessageSquare size={12} />
               <span>WhatsApp</span>
@@ -301,8 +301,8 @@ export function AtelierAssistantModal() {
                 <div className="w-6 h-6 rounded-full bg-brand-gold/15 border border-brand-gold/30 flex items-center justify-center text-brand-gold">
                   <Sparkles size={12} className="animate-spin text-brand-gold" />
                 </div>
-                <div className="p-2.5 bg-brand-gold/10 border border-brand-gold/25 rounded-xl rounded-bl-none text-[11px] text-brand-gold font-mono flex items-center gap-2">
-                  <span className="w-1.5 h-1.5 rounded-full bg-brand-gold animate-ping" />
+                <div className="p-2.5 bg-brand-gold/10 border border-brand-gold/25 rounded-md text-[11px] text-brand-gold font-mono flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 bg-brand-gold rotate-45" />
                   {aiState === "thinking" && "Reflecting on your identity..."}
                   {aiState === "gathering" && "Reviewing textile drape & weaves..."}
                   {aiState === "analyzing" && "Balancing silhouette proportions..."}
@@ -314,14 +314,14 @@ export function AtelierAssistantModal() {
             <div ref={messagesEndRef} />
           </div>
 
-          {/* Input Pill Bar - Theme Adaptive */}
+          {/* Input Bar - Architectural Luxury Form */}
           <div className="p-3 bg-[#F5EFE6] dark:bg-[#151210] border-t border-brand-black/10 dark:border-white/10">
             <form
               onSubmit={(e) => {
                 e.preventDefault();
                 handleSend();
               }}
-              className="flex items-center gap-2 bg-white dark:bg-white/5 border border-brand-black/15 dark:border-white/15 rounded-full px-4 py-1.5 focus-within:border-brand-gold transition-colors"
+              className="flex items-center gap-2 bg-white dark:bg-white/5 border border-brand-black/15 dark:border-white/15 rounded-md px-3 py-2 focus-within:border-brand-gold transition-colors"
             >
               <input
                 type="text"
@@ -333,7 +333,7 @@ export function AtelierAssistantModal() {
               <button
                 type="submit"
                 disabled={!inputQuery.trim()}
-                className="p-1.5 bg-brand-gold text-brand-onyx rounded-full hover:bg-brand-cream disabled:opacity-30 disabled:hover:bg-brand-gold transition-colors"
+                className="p-1.5 bg-brand-gold text-brand-onyx rounded hover:bg-brand-cream disabled:opacity-30 disabled:hover:bg-brand-gold transition-colors"
                 title="Send inquiry"
               >
                 <Send size={12} />

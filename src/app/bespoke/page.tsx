@@ -176,7 +176,7 @@ export default function BespokeLanding() {
       <section className="py-24 px-8 md:px-16 lg:px-24 bg-brand-charcoal text-brand-white relative overflow-hidden">
         <div className="max-w-5xl mx-auto flex flex-col lg:flex-row gap-16 items-center">
           <div className="w-full lg:w-1/2">
-            <div className="inline-flex items-center gap-2 px-3 py-1 bg-white/10 text-brand-gold text-[10px] tracking-ultra-wide uppercase mb-6">
+            <div className="inline-flex items-center gap-2 px-3 py-1 border-l-2 border-brand-gold bg-white/10 text-brand-gold text-[10px] tracking-ultra-wide uppercase mb-6">
               <SankofaDiasporaIcon size={14} />
               <span>Sankofa Transatlantic Program</span>
             </div>

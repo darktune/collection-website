@@ -151,7 +151,7 @@ export function Navigation() {
                 title="Client Dossier"
               >
                 <span className="w-1 h-1 bg-brand-gold rotate-45 group-hover:scale-125 transition-transform" />
-                <span className="font-patron italic text-[14px] md:text-[15px] text-brand-gold font-normal tracking-wide">
+                <span className="font-name italic text-[14px] md:text-[15px] text-brand-gold font-normal tracking-wide">
                   {user.name.split(" ")[0]}
                 </span>
               </button>
@@ -178,23 +178,23 @@ export function Navigation() {
           {mounted && (
             <button
               onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-              className={`flex items-center gap-1.5 px-2.5 py-1.5 text-[8.5px] md:text-[9px] tracking-[0.22em] uppercase font-light transition-all duration-300 ${
+              className={`flex items-center gap-2 px-3 py-1.5 text-[9px] md:text-[9.5px] tracking-[0.24em] uppercase font-medium transition-all duration-300 shadow-sm ${
                 showFullNav
-                  ? "text-brand-black/80 dark:text-brand-silk/80 border border-brand-black/15 dark:border-white/15 hover:border-brand-crimson dark:hover:border-brand-gold hover:text-brand-crimson dark:hover:text-brand-gold bg-transparent"
-                  : "text-white/95 bg-black/40 border border-white/20 backdrop-blur-md hover:border-brand-gold hover:text-brand-gold shadow-sm"
+                  ? "text-brand-black dark:text-brand-silk border border-brand-gold/40 hover:border-brand-gold bg-brand-gold/10 hover:bg-brand-gold/20"
+                  : "text-white bg-black/60 border border-brand-gold/50 backdrop-blur-md hover:border-brand-gold hover:bg-black/80"
               }`}
               aria-label="Toggle Theme"
               title={theme === "dark" ? "Switch to Light Theme" : "Switch to Dark Theme"}
             >
               {theme === "dark" ? (
                 <>
-                  <Sun size={12} strokeWidth={1.5} className="text-brand-gold" />
-                  <span className="hidden sm:inline">Light</span>
+                  <Sun size={13} strokeWidth={2} className="text-brand-gold animate-in spin-in-180 duration-500" />
+                  <span className="font-semibold text-brand-gold">Light</span>
                 </>
               ) : (
                 <>
-                  <Moon size={12} strokeWidth={1.5} className="text-brand-crimson dark:text-brand-gold" />
-                  <span className="hidden sm:inline">Dark</span>
+                  <Moon size={13} strokeWidth={2} className="text-brand-crimson dark:text-brand-gold animate-in spin-in-180 duration-500" />
+                  <span className="font-semibold">Dark</span>
                 </>
               )}
             </button>
@@ -217,7 +217,19 @@ export function Navigation() {
       {/* Mobile Drawer */}
       {mobileMenuOpen && (
         <div className="lg:hidden glass-dark text-brand-white fixed inset-x-0 top-[calc(4.5rem)] bottom-0 p-8 flex flex-col justify-between overflow-y-auto animate-in fade-in duration-300">
-          <div className="flex flex-col gap-6 text-xs tracking-[0.25em] uppercase font-light">
+          <div className="flex flex-col gap-5 text-xs tracking-[0.25em] uppercase font-light">
+            
+            {/* Mobile Dedicated Theme Switcher Bar */}
+            <div className="flex items-center justify-between pb-4 border-b border-white/10">
+              <span className="text-[10px] uppercase tracking-[0.25em] text-white/70">Atelier Theme</span>
+              <button
+                onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+                className="flex items-center gap-2 px-3 py-1.5 bg-white/10 border border-brand-gold/50 text-brand-gold text-[10px] tracking-[0.2em] uppercase font-mono font-medium"
+              >
+                {theme === "dark" ? <Sun size={13} className="text-brand-gold" /> : <Moon size={13} />}
+                <span>{theme === "dark" ? "Switch to Light" : "Switch to Dark"}</span>
+              </button>
+            </div>
             <Link
               href="/heritage"
               onClick={() => setMobileMenuOpen(false)}

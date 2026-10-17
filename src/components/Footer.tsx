@@ -80,7 +80,7 @@ export function Footer() {
               target="_blank" 
               rel="noreferrer" 
               title="WhatsApp Concierge (Eranibaniso: 08034432759)"
-              className="hover:text-[#25D366] hover:scale-110 transition-all duration-300"
+              className="hover:text-brand-gold hover:scale-110 transition-all duration-300"
             >
               <MessageSquare size={19} strokeWidth={1.5} />
             </a>
@@ -129,7 +129,7 @@ export function Footer() {
       </div>
 
       <div className="flex flex-col md:flex-row items-center justify-between pt-8 border-t border-brand-black/10 dark:border-[#FCFAF7]/10 text-center md:text-left gap-6 relative z-10 text-brand-black/50 dark:text-[#FCFAF7]/50 text-xs tracking-widest uppercase transition-colors duration-500">
-        <div>© 2026 Abraham Collection. All rights reserved. &bull; <span className="font-patron italic text-sm tracking-normal font-normal text-brand-gold">Bolaji Abayomi Abraham</span></div>
+        <div>© 2026 Abraham Collection. All rights reserved. &bull; <span className="font-name italic text-sm tracking-normal font-normal text-brand-gold">Bolaji Abayomi Abraham</span></div>
         <div className="flex gap-6">
           <Link href="/privacy" className="hover:text-brand-burgundy dark:hover:text-white transition-colors">Privacy</Link>
           <Link href="/terms" className="hover:text-brand-burgundy dark:hover:text-white transition-colors">Terms</Link>

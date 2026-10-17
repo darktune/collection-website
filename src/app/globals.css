@@ -4,27 +4,27 @@
 
 @layer base {
   :root {
-    --background: #FCFAF7; /* Warm Raw Silk */
-    --foreground: #111111; /* Formal Obsidian */
-    --card: #F1E8DA; /* Savanna Cream */
-    --card-foreground: #111111;
-    --accent: #5B1424; /* Oyo Imperial Crimson */
+    --background: #FCFAF7; /* Warm Raw Silk (Default Theme) */
+    --foreground: #100E0D; /* Formal Obsidian */
+    --card: #F4EFE6; /* Savanna Silk Cream */
+    --card-foreground: #100E0D;
+    --accent: #A61C32; /* Oyo Imperial Crimson */
     --accent-foreground: #FCFAF7;
-    --border: rgba(17, 17, 17, 0.08);
+    --border: rgba(16, 14, 13, 0.08);
     --bronze: #B38F4D;
-    --gold: #C8A858;
+    --gold: #CFA459;
   }
 
   .dark {
-    --background: #131110; /* Warm Midnight Obsidian */
-    --foreground: #FCFAF7; /* Warm Silk White */
-    --card: #1C1816; /* Warm Mahogany Charcoal */
-    --card-foreground: #FCFAF7;
-    --accent: #78172F; /* Radiant Imperial Oyo Crimson */
-    --accent-foreground: #FCFAF7;
-    --border: rgba(223, 183, 88, 0.14); /* Subtle warm gold hairline */
-    --bronze: #C49B55;
-    --gold: #DFB758;
+    --background: #0B0908; /* Warm Deep Velvet Obsidian (allows bright colors to pop) */
+    --foreground: #FDFBFA; /* Luminous Ivory White */
+    --card: #151210; /* Warm Mahogany Obsidian Surface */
+    --card-foreground: #FDFBFA;
+    --accent: #B8243E; /* Radiant Imperial Oyo Crimson */
+    --accent-foreground: #FDFBFA;
+    --border: rgba(242, 193, 78, 0.22); /* Luminous warm gold hairline */
+    --bronze: #E2B765;
+    --gold: #F2C14E; /* Radiant Sovereign African Gold */
   }
 
   html {
@@ -125,14 +125,16 @@
     color: #FCFAF7;
   }
 
-  /* Unique Editorial Font Style for Names Globally */
+  /* Unique Haute-Couture Font Style for Names Globally */
+  .font-name,
+  .patron-name,
   .font-patron {
-    font-family: var(--font-patron), "Cormorant Garamond", "Playfair Display", Georgia, serif;
-    letter-spacing: 0.02em;
+    font-family: var(--font-name), "Italiana", var(--font-patron), "Cormorant Garamond", "Playfair Display", Georgia, serif;
+    letter-spacing: 0.03em;
   }
 
-  .patron-name {
-    font-family: var(--font-patron), "Cormorant Garamond", "Playfair Display", Georgia, serif;
+  .name-italic {
+    font-family: var(--font-name), "Italiana", var(--font-patron), "Cormorant Garamond", Georgia, serif;
     font-style: italic;
     letter-spacing: 0.035em;
   }
@@ -142,9 +144,9 @@
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    padding: 0.2rem 0.55rem;
+    padding: 0.25rem 0.65rem;
     border-left: 2px solid var(--gold);
-    background: rgba(223, 183, 88, 0.08);
+    background: rgba(242, 193, 78, 0.08);
     letter-spacing: 0.28em;
     text-transform: uppercase;
     font-size: 0.625rem;

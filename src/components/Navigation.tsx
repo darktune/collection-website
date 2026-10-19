@@ -42,8 +42,9 @@ export function Navigation() {
       >
         <div className="flex items-center gap-2">
           <AdinkraheneIcon size={11} className="text-brand-gold" />
-          <span>EST. 1999 &bull; 25 YEARS OF INTENTIONAL CRAFT &bull; LAGOS</span>
+          <span>EST. 2002 &bull; 24 YEARS OF INTENTIONAL CRAFT &bull; LAGOS</span>
         </div>
+
         <div className="flex items-center gap-6 text-[8.5px] md:text-[9px] tracking-[0.25em]">
           <Link href="/bespoke/commission?type=diaspora" className="hover:text-brand-gold transition-colors">
             DIASPORA CONCIERGE (UK &bull; US &bull; CA &bull; EU)
@@ -267,9 +268,10 @@ export function Navigation() {
               onClick={() => setMobileMenuOpen(false)}
               className="flex justify-between items-center py-3 border-b border-white/10 hover:text-brand-gold"
             >
-              <span>25-Year Atelier Story</span>
+              <span>Atelier Heritage &bull; Est. 2002</span>
               <ArrowUpRight size={14} />
             </Link>
+
           </div>
 
           <div className="pt-8 border-t border-white/10 flex flex-col gap-4">

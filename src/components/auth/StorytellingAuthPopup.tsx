@@ -31,7 +31,7 @@ export function StorytellingAuthPopup() {
             <span className="h-[1px] w-8 bg-brand-gold" />
             <div className="flex items-center gap-2 text-brand-gold text-[10px] tracking-ultra-wide uppercase font-mono font-medium">
               <AdinkraheneIcon size={12} className="text-brand-gold" />
-              <span>Atelier Lagos &bull; 25 Years of Lineage</span>
+              <span>Atelier Lagos &bull; Est. 2002 &bull; 24 Years of Lineage</span>
             </div>
             <span className="h-[1px] flex-1 bg-brand-gold/25" />
           </div>
@@ -42,8 +42,9 @@ export function StorytellingAuthPopup() {
           </h3>
 
           <p className="font-light text-xs sm:text-sm text-brand-black/80 dark:text-brand-silk/80 leading-relaxed mb-6">
-            Welcome to the cutting rooms of <span className="font-name italic text-base sm:text-lg font-normal text-brand-gold">Bolaji Abayomi Abraham</span>. For a quarter of a century in Lagos, every stitch has been drawn with singular reverence for your proportions. Enter the private circle to record your anatomical measurements, commission timeless silhouettes, and receive bespoke counsel.
+            Welcome to the cutting rooms of <span className="font-name italic text-base sm:text-lg font-normal text-brand-gold">Bolaji Abayomi Abraham</span>. Established in 2002 in Lagos, every stitch has been drawn with singular reverence for your proportions. Enter the private circle to record your anatomical measurements, commission timeless silhouettes, and receive bespoke counsel.
           </p>
+
 
           {/* Interactive Actions */}
           <div className="flex flex-col sm:flex-row gap-3">

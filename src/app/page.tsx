@@ -33,7 +33,7 @@ export default function Home() {
           <div className="inline-flex items-center gap-2 mb-4 bg-brand-onyx/60 backdrop-blur-md px-3.5 py-1.5 border border-white/10">
             <AdinkraheneIcon size={14} className="text-brand-gold" />
             <p className="text-[11px] tracking-ultra-wide uppercase font-medium text-brand-silk">
-              Abraham Collection &bull; Est. 1999 &bull; Lagos
+              Abraham Collection &bull; Est. 2002 &bull; Lagos
             </p>
           </div>
 
@@ -69,14 +69,15 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 2. THE 25-YEAR MANIFESTO */}
+      {/* 2. THE ATELIER MANIFESTO */}
       <section className="py-32 px-8 md:px-16 lg:px-24 text-center max-w-5xl mx-auto bg-brand-white dark:bg-brand-onyx transition-colors">
         <p className="text-xs uppercase tracking-ultra-wide text-brand-crimson dark:text-brand-gold font-medium mb-4">
-          The 25-Year Chronicle
+          Est. 2002 &bull; The Atelier Chronicle
         </p>
         <h2 className="font-display text-5xl md:text-7xl mb-10 leading-tight text-balance">
-          Quarter of a Century of<br />Intentional Craft.
+          Over Two Decades of<br />Intentional Craft.
         </h2>
+
         <div className="divider-loom w-48 mx-auto mb-10" />
         <div className="text-lg md:text-xl font-light opacity-80 leading-relaxed max-w-3xl mx-auto space-y-6 text-balance">
           <p>

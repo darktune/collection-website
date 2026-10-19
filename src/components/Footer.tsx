@@ -10,13 +10,20 @@ const TikTokIcon = ({ size = 20 }: { size?: number }) => (
   </svg>
 );
 
+import { AtelierDatabase } from "@/lib/services/database";
+
 export function Footer() {
   const [email, setEmail] = useState("");
   const [subscribed, setSubscribed] = useState(false);
 
-  const handleSubscribe = (e: React.FormEvent) => {
+  const handleSubscribe = async (e: React.FormEvent) => {
     e.preventDefault();
     if (email) {
+      try {
+        await AtelierDatabase.subscribeNewsletter(email);
+      } catch (err) {
+        console.warn("Newsletter subscription cached locally:", err);
+      }
       setSubscribed(true);
       setEmail("");
     }

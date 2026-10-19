@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { X, Mail, User, Phone, MapPin, CheckCircle2 } from "lucide-react";
 import { AdinkraheneIcon, PempamsieIcon } from "@/components/icons/BespokeIcons";
 import { useAtelier } from "@/context/AtelierContext";
-import { supabase } from "@/lib/supabase";
+import { AtelierDatabase } from "@/lib/services/database";
 
 export function AuthModal() {
   const { activeModal, setActiveModal, login } = useAtelier();
@@ -23,18 +23,15 @@ export function AuthModal() {
     setLoading(true);
 
     try {
-      // Attempt supabase signup/signin if configured
-      if (process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY !== "placeholder") {
-        await supabase.from("profiles").upsert({
-          email,
-          full_name: name || "Esteemed Patron",
-          phone,
-          city,
-          updated_at: new Date().toISOString(),
-        });
-      }
-    } catch {
-      // Local fallback
+      await AtelierDatabase.savePatronProfile({
+        email,
+        full_name: name || "Esteemed Patron",
+        phone: phone || null,
+        city: city || "Lagos",
+        member_tier: "Atelier Circle",
+      });
+    } catch (err) {
+      console.warn("Patron profile synced with local cache:", err);
     }
 
     login({

@@ -22,6 +22,7 @@ import {
   generateOutageRecoveryLink,
   MERCHANT_CONFIG,
 } from "@/lib/payments";
+import { AtelierDatabase } from "@/lib/services/database";
 
 const SIZES = [
   "38 Regular",
@@ -71,11 +72,37 @@ export function QuickBuyModal() {
     setOrderRef(order.reference);
     addToCart(product, selectedSize);
 
+    // Persist order in Atelier Database
+    AtelierDatabase.createOrder({
+      reference: order.reference,
+      customer_name: clientName || "Esteemed Patron",
+      customer_email: clientEmail || MERCHANT_CONFIG.companyEmail,
+      customer_phone: clientPhone || MERCHANT_CONFIG.directLine,
+      delivery_address: deliveryCity || "Storefront Atelier Delivery",
+      items: [
+        {
+          id: product.id,
+          name: product.name,
+          priceNgn: product.priceNgn,
+          priceUsd: product.priceUsd,
+          size: selectedSize,
+          quantity: 1,
+          image: product.image,
+        },
+      ],
+      amount_ngn: product.priceNgn,
+      amount_usd: product.priceUsd,
+      gateway: selectedGateway,
+      status: "pending",
+      notes: `Quick Buy order staged for ${product.name} (${selectedSize})`,
+    }).catch((err) => console.warn("Order persist error:", err));
+
     // 2. Gateway Dispatch
     if (selectedGateway === "paystack") {
       initiatePaystackPayment(
         order,
-        (ref) => {
+        () => {
+          AtelierDatabase.updateOrderStatus(order.reference, "completed").catch(console.warn);
           setOrderComplete(true);
         },
         () => {
@@ -85,7 +112,8 @@ export function QuickBuyModal() {
     } else if (selectedGateway === "flutterwave") {
       initiateFlutterwavePayment(
         order,
-        (ref) => {
+        () => {
+          AtelierDatabase.updateOrderStatus(order.reference, "completed").catch(console.warn);
           setOrderComplete(true);
         },
         () => {}
@@ -103,6 +131,7 @@ export function QuickBuyModal() {
       setOrderComplete(true);
     }
   };
+
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-in fade-in duration-200">

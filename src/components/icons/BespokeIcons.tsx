@@ -192,12 +192,13 @@ export function AsoOkeWeaveIcon({ size = 24, className = "", strokeWidth = 1.25,
 }
 
 /**
- * 6. ADINKRAHENE (The Great King of Symbols / 25-Year Concentric Seal of Authenticity)
+ * 6. ADINKRAHENE (The Great King of Symbols / Est. 2002 Sovereign Seal of Authenticity)
  * Cultural Meaning: "Chief of the Adinkra Symbols" — Three Concentric Rings.
  * Symbolism: Greatness, charismatic leadership, royal authority, and timelessness.
- * It is the mother of all symbols. For Abraham Collection, it honors a 25-year sovereign
+ * It is the mother of all symbols. For Abraham Collection, it honors the Est. 2002 sovereign
  * lineage of intentional craft in Lagos, Nigeria.
  */
+
 export function AdinkraheneIcon({ size = 24, className = "", strokeWidth = 1.25, ...props }: AfricanIconProps) {
   return (
     <svg
@@ -323,8 +324,9 @@ export const AgbadaSilhouetteIcon = AdeAreIcon;
 /** @deprecated Use AsoOkeWeaveIcon for the African symbol of indigenous loom provenance */
 export const LoomShuttleIcon = AsoOkeWeaveIcon;
 
-/** @deprecated Use AdinkraheneIcon for the African King of Symbols / 25-year seal */
+/** @deprecated Use AdinkraheneIcon for the African King of Symbols / Est. 2002 seal */
 export const HeritageSealIcon = AdinkraheneIcon;
+
 
 /** @deprecated Use IrukereIcon for the African royal scepter of sovereign court sanctuary */
 export const StudioFittingIcon = IrukereIcon;

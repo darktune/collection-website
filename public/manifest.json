@@ -1,8 +1,9 @@
 {
   "name": "Abraham Collection Atelier",
   "short_name": "Abraham",
-  "description": "25 Years of Luxury Nigerian Bespoke Tailoring & Ceremonial Wear by Bolaji Abayomi Abraham",
+  "description": "Est. 2002 • Luxury Nigerian Bespoke Tailoring & Ceremonial Wear by Bolaji Abayomi Abraham",
   "start_url": "/",
+
   "display": "standalone",
   "background_color": "#0D0B0A",
   "theme_color": "#5B1424",

@@ -60,8 +60,9 @@ export default function HeritagePage() {
         <div className="relative z-10 text-brand-white">
           <div className="inline-flex items-center gap-2 px-3 py-1 border-l-2 border-brand-gold bg-black/60 text-brand-gold text-[10px] tracking-ultra-wide uppercase font-medium mb-4 backdrop-blur-md">
             <AdinkraheneIcon size={12} />
-            <span>Ceremonial Royalty &bull; Est. 1999</span>
+            <span>Ceremonial Royalty &bull; Est. 2002</span>
           </div>
+
           <h1 className="font-display text-6xl md:text-8xl lg:text-9xl mb-4 leading-none">Heritage.</h1>
           <p className="text-lg md:text-xl font-light max-w-xl text-brand-white/90">
             Agbada, Dandogo, Senator, kaftans, and traditional wedding clothing crafted with uncompromised cultural authenticity.

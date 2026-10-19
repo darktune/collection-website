@@ -16,8 +16,9 @@ export default function AboutPage() {
          />
          <div className="relative z-10 text-center text-white p-8">
             <h1 className="font-display text-5xl md:text-8xl mb-6">Our Story</h1>
-            <p className="text-xs uppercase tracking-[0.3em] font-medium text-[#FCFAF7]/70">25 Years of Intentional Craft</p>
+            <p className="text-xs uppercase tracking-[0.3em] font-medium text-[#FCFAF7]/70">Est. 2002 &bull; 24 Years of Intentional Craft</p>
          </div>
+
       </section>
 
       {/* Story Content */}
@@ -45,8 +46,9 @@ export default function AboutPage() {
         {/* Chapter 2 */}
         <div className="space-y-12">
           <p className="font-light text-lg md:text-xl opacity-80 leading-relaxed">
-            More than 25 years ago, Abraham Collection began with a simple idea:
+            Founded in 2002, Abraham Collection began with a simple idea:
           </p>
+
           <h2 className="font-display text-4xl md:text-5xl">Make clothing that suits.</h2>
           <div className="space-y-6 font-light text-lg md:text-xl opacity-80 leading-relaxed">
             <p>Not only clothing that fits.</p>
@@ -125,7 +127,7 @@ export default function AboutPage() {
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex flex-col justify-end p-6 text-white">
                 <span className="text-[10px] tracking-widest uppercase text-brand-gold font-medium">Head Designer &amp; Founder</span>
                 <span className="font-name italic text-3xl font-normal text-white">Bolaji Abayomi Abraham</span>
-                <span className="text-xs opacity-75 mt-0.5">25 Years of Architectural Master Tailoring</span>
+                <span className="text-xs opacity-75 mt-0.5">Est. 2002 &bull; 24 Years of Master Tailoring</span>
               </div>
             </div>
 
@@ -139,8 +141,9 @@ export default function AboutPage() {
               </h3>
               <div className="space-y-4 font-light text-base opacity-80 leading-relaxed">
                 <p>
-                  For over two and a half decades, Bolaji Abayomi Abraham has anchored the cutting rooms of Lagos with an unyielding ethos: dignity is engineered through the needle.
+                  For over two decades since 2002, Bolaji Abayomi Abraham has anchored the cutting rooms of Lagos with an unyielding ethos: dignity is engineered through the needle.
                 </p>
+
                 <p>
                   Blending traditional Yoruba regal silhouettes—Dandogo, Agbada, and Senator—with the anatomical precision of British-Italian suiting, Bolaji has dressed national leaders, corporate chieftains, and diaspora grooms across the globe.
                 </p>
@@ -175,11 +178,12 @@ export default function AboutPage() {
            <p className="text-xs uppercase tracking-[0.3em] font-medium text-brand-burgundy dark:text-brand-gold">Clothing That Suits.</p>
            
            <div className="pt-8 space-y-2 font-light opacity-60 text-sm">
-             <p>25 years of craft.</p>
+             <p>24 years of craft (Est. 2002).</p>
              <p>Rooted in Nigerian heritage.</p>
              <p>Designed around people.</p>
              <p>Made with intention.</p>
            </div>
+
            
            <div className="pt-12 space-y-2 text-xs uppercase tracking-widest font-medium">
              <p>This is intentional.</p>

@@ -35,8 +35,9 @@ const inter = Inter({
 export const metadata: Metadata = {
   metadataBase: new URL("https://abrahamcollection.com"),
   title: "Abraham Collection | Clothing That Suits | Bolaji Abayomi Abraham",
-  description: "Traditional heritage. Contemporary tailoring. Corporate excellence. Crafted with intention for over 25 years in Lagos, Nigeria by founder Bolaji Abayomi Abraham.",
+  description: "Traditional heritage. Contemporary tailoring. Corporate excellence. Crafted with intention since 2002 in Lagos, Nigeria by founder Bolaji Abayomi Abraham.",
   keywords: ["Bespoke Tailoring", "Agbada", "Bolaji Abayomi Abraham", "Corporate Uniforms", "Luxury Fashion", "Nigerian Fashion", "Custom Suits"],
+
   openGraph: {
     title: "Abraham Collection | Clothing That Suits",
     description: "Traditional heritage. Contemporary tailoring. Corporate excellence. Lagos & Worldwide Diaspora.",

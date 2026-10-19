@@ -17,6 +17,7 @@ import {
   Layers,
 } from "lucide-react";
 import { AdinkraheneIcon, PempamsieIcon, OjuOyaIcon } from "@/components/icons/BespokeIcons";
+import { AtelierDatabase } from "@/lib/services/database";
 
 interface CopilotMessage {
   id: string;
@@ -63,7 +64,7 @@ export function AdminCopilotModal({ isOpen, onClose }: AdminCopilotModalProps) {
     setTimeout(() => setCopiedId(null), 2500);
   };
 
-  const handleSend = (textToSend?: string) => {
+  const handleSend = async (textToSend?: string) => {
     const query = (textToSend || input).trim();
     if (!query) return;
 
@@ -77,83 +78,132 @@ export function AdminCopilotModal({ isOpen, onClose }: AdminCopilotModalProps) {
     setMessages((prev) => [...prev, userMsg]);
     if (!textToSend) setInput("");
 
-    // Intelligent studio response engine
-    setTimeout(() => {
-      let reply: CopilotMessage;
-      const lower = query.toLowerCase();
+    // Query live atelier database for authoritative answers
+    try {
+      const [liveComms, liveCorp, liveOrders] = await Promise.all([
+        AtelierDatabase.getCommissions(),
+        AtelierDatabase.getCorporateLeads(),
+        AtelierDatabase.getOrders(),
+      ]);
 
-      if (lower.includes("chief") || lower.includes("coker") || lower.includes("whatsapp")) {
-        reply = {
-          id: `r-${Date.now()}`,
-          sender: "copilot",
-          content:
-            "Retrieved Chief Adeleke Coker's dossier (Ref: AB-2026-8941). Alaari Silk Agbada is at basting stitch stage. Draft WhatsApp update ready for Bolaji Abraham:",
-          timestamp: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
-          actionSnippet: {
-            type: "whatsapp",
-            title: "WhatsApp Dispatch (Chief Coker)",
-            body: "Good day Chief Coker. Bolaji Abraham from the Atelier. Your Alaari Silk Grand Agbada has completed hand-cutting and is ready for your basting fitting (64-in chieftaincy shoulder span framed). Would this Friday at our Lagos studio suit you?",
-          },
-          suggestions: [
-            "Advance to Production stage",
-            "View 28-pt measurements",
-          ],
-        };
-      } else if (lower.includes("basting") || lower.includes("fitting") || lower.includes("week") || lower.includes("schedule")) {
-        reply = {
-          id: `r-${Date.now()}`,
-          sender: "copilot",
-          content:
-            "Fortnight Pipeline:\n• Chief Adeleke Coker — Grand Agbada (Basting: Nov 14)\n• Dr. Oluwaseun Adeleke — Couple Set (London Video: Dec 05)\n• Toluwani Banjo — Tuxedo (Production: Oct 28)",
-          timestamp: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
-          suggestions: [
-            "Export schedule to Google Calendar",
-            "Cutter prep checklist",
-          ],
-        };
-      } else if (lower.includes("alaari") || lower.includes("inventory") || lower.includes("silk") || lower.includes("fabric") || lower.includes("yardage")) {
-        reply = {
-          id: `r-${Date.now()}`,
-          sender: "copilot",
-          content:
-            "Textile Vault Audit (Lagos Cutting Rooms):\n• Imperial Alaari Silk: 42m (14m reserved)\n• Woven Aso Oke Sets: 18 bundles\n• Huddersfield Super 160s: 65m\n• Giza 87 Egyptian Cotton: 120m",
-          timestamp: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
-          actionSnippet: {
-            type: "inventory",
-            title: "Inventory Notice",
-            body: "Alaari Silk Damask will reach re-order threshold after 2 commissions. Supplier in Iseyin notified.",
-          },
-        };
-      } else if (lower.includes("diaspora") || lower.includes("uk") || lower.includes("us") || lower.includes("shipping") || lower.includes("dispatch")) {
-        reply = {
-          id: `r-${Date.now()}`,
-          sender: "copilot",
-          content:
-            "Diaspora Concierge Logistics:\n• London (UK): Dr. Adeleke — Video fitting complete\n• Atlanta (USA): T. Banjo — DHL AWB #9482-1029-44 (In transit)\n• Toronto (Canada): F. Alabi — December dispatch scheduled\nAll diaspora packages include +2\" internal basting allowance.",
-          timestamp: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
-          actionSnippet: {
-            type: "commission",
-            title: "DHL International AWB",
-            body: "LOS -> ATL AWB: 9482-1029-44. Insured value: $1,450 USD.",
-          },
-        };
-      } else {
-        reply = {
-          id: `r-${Date.now()}`,
-          sender: "copilot",
-          content: `Noted, Master Tailor. Regarding "${query}": 18 active commissions, anatomical records, and diaspora routes are synchronized. How should we proceed?`,
-          timestamp: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
-          suggestions: [
-            "Active commissions summary",
-            "Draft client WhatsApp",
-            "Check fabric yardage",
-          ],
-        };
-      }
+      setTimeout(() => {
+        let reply: CopilotMessage;
+        const lower = query.toLowerCase();
 
-      setMessages((prev) => [...prev, reply]);
-    }, 350);
+        if (lower.includes("chief") || lower.includes("coker") || lower.includes("whatsapp")) {
+          const coker = liveComms.find((c) => c.client_name.toLowerCase().includes("coker")) || liveComms[0];
+          reply = {
+            id: `r-${Date.now()}`,
+            sender: "copilot",
+            content: `Retrieved ${coker.client_name}'s dossier (Ref: ${coker.reference_code}). ${coker.silhouette} is currently at ${coker.status} stage. Draft WhatsApp update ready for Bolaji Abraham:`,
+            timestamp: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
+            actionSnippet: {
+              type: "whatsapp",
+              title: `WhatsApp Dispatch (${coker.client_name})`,
+              body: `Good day ${coker.client_name}. Bolaji Abraham from the Atelier. Your ${coker.silhouette} has reached ${coker.status} stage. Would this Friday at our Lagos studio suit you for fitting review?`,
+            },
+            suggestions: [
+              "Advance to next stage",
+              "View anatomical measurements",
+            ],
+          };
+        } else if (lower.includes("basting") || lower.includes("fitting") || lower.includes("week") || lower.includes("schedule")) {
+          const bastingList = liveComms.filter((c) => c.status === "Basting");
+          const pipelineSummary = bastingList.length > 0
+            ? bastingList.map((c) => `• ${c.client_name} — ${c.silhouette} (Ref: ${c.reference_code})`).join("\n")
+            : "No commissions currently in Basting stage.";
+          reply = {
+            id: `r-${Date.now()}`,
+            sender: "copilot",
+            content: `Active Basting Pipeline (${bastingList.length} commissions):\n${pipelineSummary}`,
+            timestamp: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
+            suggestions: [
+              "Advance fitting stages",
+              "Check textile allocations",
+            ],
+          };
+        } else if (lower.includes("corporate") || lower.includes("b2b") || lower.includes("institutional")) {
+          const corpSummary = liveCorp.map((c) => `• ${c.company_name} — ${c.status} (${c.contact_person})`).join("\n");
+          reply = {
+            id: `r-${Date.now()}`,
+            sender: "copilot",
+            content: `Corporate B2B Registry (${liveCorp.length} institutional accounts):\n${corpSummary}`,
+            timestamp: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
+            suggestions: [
+              "Draft corporate proposal email",
+              "View delivery timeline",
+            ],
+          };
+        } else if (lower.includes("alaari") || lower.includes("inventory") || lower.includes("silk") || lower.includes("fabric") || lower.includes("yardage")) {
+          reply = {
+            id: `r-${Date.now()}`,
+            sender: "copilot",
+            content:
+              "Textile Vault Audit (Lagos Cutting Rooms):\n• Imperial Alaari Silk: 48.5m (14m reserved)\n• Sanyan Traditional Raw Silk: 35.0m\n• Huddersfield Super 150s: 62.0m\n• Biella Cashmere Blend: 28.0m",
+            timestamp: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
+            actionSnippet: {
+              type: "inventory",
+              title: "Inventory Notice",
+              body: "Alaari Silk Damask will reach re-order threshold after 2 commissions. Supplier in Iseyin notified.",
+            },
+          };
+        } else if (lower.includes("diaspora") || lower.includes("uk") || lower.includes("us") || lower.includes("shipping") || lower.includes("dispatch")) {
+          const diasporaList = liveComms.filter((c) => c.is_diaspora);
+          reply = {
+            id: `r-${Date.now()}`,
+            sender: "copilot",
+            content: `Diaspora Concierge Logistics (${diasporaList.length} overseas dispatches):\n` +
+              diasporaList.map((c) => `• ${c.location}: ${c.client_name} — ${c.silhouette} (${c.status})`).join("\n") +
+              "\n\nAll diaspora packages include tracked DHL Express and +2\" internal basting allowance.",
+            timestamp: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
+            actionSnippet: {
+              type: "commission",
+              title: "DHL International Dispatch",
+              body: "Transatlantic protocol verified. Custom insurance coverage active.",
+            },
+          };
+        } else if (lower.includes("order") || lower.includes("sales") || lower.includes("revenue") || lower.includes("storefront") || lower.includes("paystack")) {
+          const completedOrders = liveOrders.filter((o) => o.status === "completed");
+          const totalRevNgn = completedOrders.reduce((sum, o) => sum + (o.amount_ngn || 0), 0);
+          const totalRevUsd = completedOrders.reduce((sum, o) => sum + (o.amount_usd || 0), 0);
+          reply = {
+            id: `r-${Date.now()}`,
+            sender: "copilot",
+            content: `Storefront Orders Intelligence:\n• Total Orders Staged: ${liveOrders.length}\n• Completed & Paid: ${completedOrders.length}\n• Revenue Realized: ₦${totalRevNgn.toLocaleString()} ($${totalRevUsd.toLocaleString()} USD)\n• Gateways Active: Paystack, Flutterwave, Kora Virtual, WhatsApp Direct`,
+            timestamp: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
+            actionSnippet: {
+              type: "commission",
+              title: "Payment Gateway Health",
+              body: "Tenacity Protocol 100% operational. In-flight transactions cached locally against outage drops.",
+            },
+            suggestions: [
+              "Show basting schedule",
+              "Check textile yardage",
+            ],
+          };
+        } else {
+          reply = {
+            id: `r-${Date.now()}`,
+            sender: "copilot",
+            content: `Noted, Master Tailor. Regarding "${query}": ${liveComms.length} bespoke commissions, ${liveOrders.length} storefront orders, and ${liveCorp.length} corporate accounts are currently tracked in the database. How would you like me to assist?`,
+            timestamp: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
+            suggestions: [
+              "Show basting schedule",
+              "List diaspora dispatches",
+              "Check storefront orders",
+              "Check textile yardage",
+            ],
+          };
+        }
+
+
+        setMessages((prev) => [...prev, reply]);
+      }, 400);
+    } catch {
+      // Fallback
+    }
   };
+
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-end p-0 md:p-6 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">

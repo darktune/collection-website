@@ -94,8 +94,9 @@ export function AtelierAssistantModal() {
     } else if (lower.includes("bolaji") || lower.includes("call") || lower.includes("speak") || lower.includes("phone") || lower.includes("talk")) {
       replyText = "Bolaji Abayomi Abraham personally attends to client inquiries. You may place a direct call on 0812 264 0820 or send a private note via WhatsApp at 0803 443 2759 (Eranibaniso).";
       actionLink = { label: "Message Bolaji on WhatsApp", href: "https://wa.me/2348034432759" };
-      newSuggestions = ["View Founder Story & 25-Year Craft", "Book Studio Appointment in Lagos"];
+      newSuggestions = ["View Founder Story & Est. 2002 Craft", "Book Studio Appointment in Lagos"];
     } else if (lower.includes("agbada") || lower.includes("chieftaincy") || lower.includes("wedding") || lower.includes("curate") || lower.includes("identity")) {
+
       replyText = "When curating an attire for your identity, we begin with your presence: for royal celebrations and chieftaincies, our hand-loomed 8-strip Dandogo or Imperial Agbada in heavy Aso Oke drapes with sovereign weight. If you are unsure of your color or cut, we study your occasion and advise.";
       actionLink = { label: "Explore The Heritage Collection", href: "/heritage" };
       newSuggestions = ["How do I purchase immediately?", "Can I see pictures of patrons?"];

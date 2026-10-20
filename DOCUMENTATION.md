@@ -210,6 +210,24 @@ flowchart TD
     - `PROJECT_MEMORY.md` & `DOCUMENTATION.md`: Master records updated to reflect 24 years of lineage (Est. 2002).
 - **Commit**: `1eb79b1`
 
+---
+
+### Prompt 15: Silky Smooth Nav Hover Physics, Prominent Atelier Theme Switcher, Default Light Mode Lock & Admin Decoupling Audit
+- **User Directives**:
+  1. Fix "i don't see any changes": push all local commits to remote (`origin/main`) to trigger Vercel deployment.
+  2. Make the transition of the nav bar when hovered to show its full setup significantly smoother, cleaner, and free of jitter.
+  3. Ensure theme switcher is immediately prominent on the homepage in all states (light theme locked as default on reload/restart, dark theme calibrated to deep obsidian `#0B0908` that lets bright colors pop).
+  4. Guarantee zero admin vault links appear in footer or storefront chrome (restricted to staff URL).
+- **Architectural Deliverables**:
+  - **Silky Smooth Navigation Physics**: Refactored `Navigation.tsx` so the outer container maintains a stable height (`h-20 md:h-22` unscrolled, `h-16 md:h-18` scrolled), completely eliminating hover jitter/layout accordion shifts. Fixed the top heritage bar to a permanent, elegant `h-7` ticker (`EST. 2002 • 24 YEARS OF INTENTIONAL CRAFT • LAGOS`). Implemented smooth `cubic-bezier(0.16,1,0.3,1)` transition curves for frosted glass bloom and micro-typography reveals.
+  - **Unmistakable Theme Switcher**: Styled a prominent, high-contrast Atelier toggle in the top-right header with explicit icon + text indicators (`[ ☀️ Light ]` / `[ 🌙 Dark ]`) always visible across mobile and desktop. Integrated permanent toggle into `FloatingDock.tsx` without conditional hydration gaps.
+  - **Default Light Mode Lock**: Configured `ThemeProvider.tsx` and `layout.tsx` with `defaultTheme="light"`, `enableSystem={false}`, and `storageKey="abraham_theme_preference"` so OS dark preferences or restarts never override the light mode brand experience.
+  - **Zero Admin Storefront Chrome**: 100% verified that `Footer.tsx` and all storefront components contain zero links to `/admin`, completely insulating customer data from public view.
+  - **Lineage Refinements**: Updated remaining "25+ Years" references in `src/app/page.tsx` and `src/app/corporate/page.tsx` to "24 Years of Craft (Est. 2002)".
+- **Commit**: `[current]`
+
+---
+
 
 
 ---

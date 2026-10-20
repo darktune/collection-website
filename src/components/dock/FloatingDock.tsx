@@ -176,20 +176,18 @@ export function FloatingDock() {
         </button>
 
         {/* Node 6: Dedicated Theme Switcher (Always accessible on every page) */}
-        {mounted && (
-          <button
-            onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-            className="p-2.5 rounded-full transition-all duration-300 text-brand-black/70 dark:text-brand-silk/80 hover:text-brand-gold hover:bg-brand-black/5 dark:hover:bg-white/10"
-            title={theme === "dark" ? "Switch to Light Theme" : "Switch to Dark Theme"}
-            aria-label="Toggle Theme"
-          >
-            {theme === "dark" ? (
-              <Sun size={17} className="text-brand-gold animate-in spin-in-180 duration-500" />
-            ) : (
-              <Moon size={17} className="text-brand-crimson dark:text-brand-gold animate-in spin-in-180 duration-500" />
-            )}
-          </button>
-        )}
+        <button
+          onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+          className="p-2.5 rounded-full transition-all duration-300 text-brand-black/70 dark:text-brand-silk/80 hover:text-brand-gold hover:bg-brand-black/5 dark:hover:bg-white/10"
+          title={mounted ? (theme === "dark" ? "Switch to Light Theme" : "Switch to Dark Theme") : "Toggle Theme"}
+          aria-label="Toggle Theme"
+        >
+          {mounted && theme === "dark" ? (
+            <Sun size={17} className="text-brand-gold animate-in spin-in-180 duration-500" />
+          ) : (
+            <Moon size={17} className="text-brand-crimson dark:text-brand-gold animate-in spin-in-180 duration-500" />
+          )}
+        </button>
 
         <div className={`bg-brand-black/10 dark:bg-white/10 ${isHorizontal ? "w-px h-5" : "h-px w-5"}`} />
 

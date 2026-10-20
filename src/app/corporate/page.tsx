@@ -69,8 +69,8 @@ export default function CorporatePage() {
         </div>
         <div className="w-full md:w-1/2 grid grid-cols-2 gap-4">
           <div className="flex flex-col gap-8 p-6 border border-brand-white/20">
-            <h3 className="font-display text-2xl">25+ Years Experience</h3>
-            <p className="font-light text-brand-white/70 text-sm">Decades of institutional production capability.</p>
+            <h3 className="font-display text-2xl">24 Years Experience</h3>
+            <p className="font-light text-brand-white/70 text-sm">Est. 2002. Over two decades of institutional production capability.</p>
           </div>
           <div className="flex flex-col gap-8 p-6 border border-brand-white/20">
             <h3 className="font-display text-2xl">Custom Design</h3>

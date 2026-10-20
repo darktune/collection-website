@@ -18,28 +18,23 @@ export function Navigation() {
   useEffect(() => {
     setMounted(true);
     const handleScroll = () => {
-      setScrolled(window.scrollY > 30);
+      setScrolled(window.scrollY > 24);
     };
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Full nav reveals when scrolled or when hovered without height jitter
   const showFullNav = scrolled || isHovered;
 
   return (
     <header
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      className="fixed top-0 left-0 right-0 z-50 transition-all duration-500 font-sans"
+      className="fixed top-0 left-0 right-0 z-50 transition-colors duration-500 font-sans"
     >
-      {/* Top Heritage Bar: Only reveals when scrolling into full navigation view */}
-      <div
-        className={`bg-brand-onyx text-brand-silk/80 text-[8.5px] md:text-[9px] tracking-[0.28em] uppercase px-6 hidden md:flex justify-between items-center transition-all duration-500 overflow-hidden ${
-          showFullNav
-            ? "max-h-7 py-1.5 opacity-100 border-b border-white/5"
-            : "max-h-0 py-0 opacity-0 border-none"
-        }`}
-      >
+      {/* Top Heritage Bar: Permanent, stable luxury ticker (Zero layout shifts on hover) */}
+      <div className="bg-brand-onyx text-brand-silk/80 text-[8.5px] md:text-[9px] tracking-[0.28em] uppercase px-6 md:px-12 h-7 hidden md:flex justify-between items-center border-b border-white/5 select-none">
         <div className="flex items-center gap-2">
           <AdinkraheneIcon size={11} className="text-brand-gold" />
           <span>EST. 2002 &bull; 24 YEARS OF INTENTIONAL CRAFT &bull; LAGOS</span>
@@ -56,69 +51,78 @@ export function Navigation() {
         </div>
       </div>
 
-      {/* Main Navigation Bar */}
+      {/* Main Navigation Bar - Stable height dynamics:
+          - Unscrolled: stable h-20 md:h-22 (does NOT collapse on hover, eliminating jitter)
+          - Scrolled: compact h-16 md:h-18 for sticky viewing
+          - Hover: background smoothly transitions from subtle gradient to rich frosted glass */}
       <nav
-        className={`flex items-center justify-between px-6 md:px-10 lg:px-14 xl:px-20 transition-all duration-500 ease-out w-full ${
-          showFullNav
-            ? "h-16 md:h-18 glass shadow-md border-b border-brand-black/5 dark:border-white/10"
-            : "h-26 md:h-32 bg-gradient-to-b from-black/45 via-black/15 to-transparent backdrop-blur-[2px]"
+        className={`flex items-center justify-between px-6 md:px-10 lg:px-14 xl:px-20 transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] w-full ${
+          scrolled
+            ? "h-16 md:h-18 bg-[#FCFAF7]/95 dark:bg-[#0B0908]/95 backdrop-blur-xl shadow-md border-b border-brand-black/5 dark:border-white/10"
+            : isHovered
+            ? "h-20 md:h-22 bg-[#FCFAF7]/95 dark:bg-[#0B0908]/95 backdrop-blur-xl shadow-sm border-b border-brand-black/5 dark:border-white/10"
+            : "h-20 md:h-22 bg-gradient-to-b from-black/55 via-black/20 to-transparent border-b border-transparent"
         }`}
       >
         {/* Left Links (Tongoro Proportion: Delicate Micro-Typography) */}
         <div
-          className={`hidden lg:flex items-center gap-4 xl:gap-8 flex-1 justify-start transition-all duration-500 ${
+          className={`hidden lg:flex items-center gap-4 xl:gap-8 flex-1 justify-start transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
             showFullNav
               ? "opacity-100 translate-x-0 pointer-events-auto"
-              : "opacity-0 -translate-x-6 pointer-events-none"
+              : "opacity-0 -translate-x-3 pointer-events-none"
           }`}
         >
           <Link
             href="/heritage"
-            className="whitespace-nowrap text-[9px] md:text-[9.5px] xl:text-[10px] tracking-[0.25em] xl:tracking-[0.3em] uppercase font-light text-brand-black/80 dark:text-brand-silk/80 hover:text-brand-crimson dark:hover:text-brand-gold transition-colors relative group py-1"
+            className="whitespace-nowrap text-[9px] md:text-[9.5px] xl:text-[10px] tracking-[0.25em] xl:tracking-[0.3em] uppercase font-light text-brand-black/85 dark:text-brand-silk/85 hover:text-brand-crimson dark:hover:text-brand-gold transition-colors relative group py-1"
           >
             Heritage
             <span className="absolute bottom-0 left-0 w-0 h-[1px] bg-brand-crimson dark:bg-brand-gold transition-all duration-300 group-hover:w-full" />
           </Link>
           <Link
             href="/bespoke"
-            className="whitespace-nowrap text-[9px] md:text-[9.5px] xl:text-[10px] tracking-[0.25em] xl:tracking-[0.3em] uppercase font-light text-brand-black/80 dark:text-brand-silk/80 hover:text-brand-crimson dark:hover:text-brand-gold transition-colors relative group py-1"
+            className="whitespace-nowrap text-[9px] md:text-[9.5px] xl:text-[10px] tracking-[0.25em] xl:tracking-[0.3em] uppercase font-light text-brand-black/85 dark:text-brand-silk/85 hover:text-brand-crimson dark:hover:text-brand-gold transition-colors relative group py-1"
           >
             Bespoke Atelier
             <span className="absolute bottom-0 left-0 w-0 h-[1px] bg-brand-crimson dark:bg-brand-gold transition-all duration-300 group-hover:w-full" />
           </Link>
           <Link
             href="/men"
-            className="whitespace-nowrap text-[9px] md:text-[9.5px] xl:text-[10px] tracking-[0.25em] xl:tracking-[0.3em] uppercase font-light text-brand-black/80 dark:text-brand-silk/80 hover:text-brand-crimson dark:hover:text-brand-gold transition-colors relative group py-1"
+            className="whitespace-nowrap text-[9px] md:text-[9.5px] xl:text-[10px] tracking-[0.25em] xl:tracking-[0.3em] uppercase font-light text-brand-black/85 dark:text-brand-silk/85 hover:text-brand-crimson dark:hover:text-brand-gold transition-colors relative group py-1"
           >
             Tailoring
             <span className="absolute bottom-0 left-0 w-0 h-[1px] bg-brand-crimson dark:bg-brand-gold transition-all duration-300 group-hover:w-full" />
           </Link>
           <Link
             href="/corporate"
-            className="whitespace-nowrap text-[9px] md:text-[9.5px] xl:text-[10px] tracking-[0.25em] xl:tracking-[0.3em] uppercase font-light text-brand-black/80 dark:text-brand-silk/80 hover:text-brand-crimson dark:hover:text-brand-gold transition-colors relative group py-1"
+            className="whitespace-nowrap text-[9px] md:text-[9.5px] xl:text-[10px] tracking-[0.25em] xl:tracking-[0.3em] uppercase font-light text-brand-black/85 dark:text-brand-silk/85 hover:text-brand-crimson dark:hover:text-brand-gold transition-colors relative group py-1"
           >
             Corporate
             <span className="absolute bottom-0 left-0 w-0 h-[1px] bg-brand-crimson dark:bg-brand-gold transition-all duration-300 group-hover:w-full" />
           </Link>
         </div>
 
-        {/* Center Brand Identity & Motto (Tongoro Style: Authoritative, Prominent, Centered) */}
-        <div className="flex-shrink-0 flex flex-col items-center justify-center text-center px-4 transition-all duration-500 z-10">
+        {/* Center Brand Identity & Motto (Seamless, luxurious typography transitions) */}
+        <div className="flex-shrink-0 flex flex-col items-center justify-center text-center px-4 transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] z-10">
           <Link href="/" className="group flex flex-col items-center text-center">
             <span
-              className={`font-display uppercase font-medium text-brand-black dark:text-brand-white transition-all duration-500 whitespace-nowrap leading-tight ${
-                showFullNav
-                  ? "text-lg md:text-xl xl:text-2xl tracking-[0.24em] md:tracking-[0.28em]"
-                  : "text-2xl sm:text-3xl md:text-4xl lg:text-5xl tracking-[0.3em] md:tracking-[0.38em]"
+              className={`font-display uppercase font-medium transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] whitespace-nowrap leading-tight ${
+                scrolled
+                  ? "text-lg md:text-xl xl:text-2xl tracking-[0.24em] md:tracking-[0.28em] text-brand-black dark:text-brand-white"
+                  : isHovered
+                  ? "text-xl md:text-2xl xl:text-3xl tracking-[0.26em] md:tracking-[0.3em] text-brand-black dark:text-brand-white"
+                  : "text-xl md:text-2xl xl:text-3xl tracking-[0.28em] md:tracking-[0.34em] text-white drop-shadow-sm"
               }`}
             >
               Abraham Collection
             </span>
             <span
-              className={`font-sans uppercase font-light text-brand-black/70 dark:text-brand-silk/75 transition-all duration-500 whitespace-nowrap leading-none ${
-                showFullNav
-                  ? "text-[7.5px] md:text-[8.5px] tracking-[0.32em] opacity-70 mt-1"
-                  : "text-[10px] md:text-[12px] tracking-[0.42em] opacity-80 mt-2.5"
+              className={`font-sans uppercase font-light transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] whitespace-nowrap leading-none mt-1 ${
+                scrolled
+                  ? "text-[7.5px] md:text-[8px] tracking-[0.32em] text-brand-crimson dark:text-brand-gold opacity-90"
+                  : isHovered
+                  ? "text-[8px] md:text-[9px] tracking-[0.36em] text-brand-crimson dark:text-brand-gold opacity-90"
+                  : "text-[8px] md:text-[9px] tracking-[0.4em] text-white/80 opacity-90"
               }`}
             >
               Clothing That Suits
@@ -130,21 +134,21 @@ export function Navigation() {
         <div className="flex items-center gap-3.5 xl:gap-5 flex-1 justify-end">
           {/* Scroll/Hover Links */}
           <div
-            className={`hidden lg:flex items-center gap-3.5 xl:gap-5 transition-all duration-500 ${
+            className={`hidden lg:flex items-center gap-3.5 xl:gap-5 transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
               showFullNav
                 ? "opacity-100 translate-x-0 pointer-events-auto"
-                : "opacity-0 translate-x-4 pointer-events-none"
+                : "opacity-0 translate-x-3 pointer-events-none"
             }`}
           >
             <Link
               href="/about"
-              className="whitespace-nowrap text-[9px] md:text-[9.5px] xl:text-[10px] tracking-[0.25em] xl:tracking-[0.3em] uppercase font-light text-brand-black/80 dark:text-brand-silk/80 hover:text-brand-crimson dark:hover:text-brand-gold transition-colors relative group py-1"
+              className="whitespace-nowrap text-[9px] md:text-[9.5px] xl:text-[10px] tracking-[0.25em] xl:tracking-[0.3em] uppercase font-light text-brand-black/85 dark:text-brand-silk/85 hover:text-brand-crimson dark:hover:text-brand-gold transition-colors relative group py-1"
             >
               Atelier Story
               <span className="absolute bottom-0 left-0 w-0 h-[1px] bg-brand-crimson dark:bg-brand-gold transition-all duration-300 group-hover:w-full" />
             </Link>
 
-            {/* User Profile / Sign In (No pill capsule, no green dot, bespoke patron font) */}
+            {/* User Profile / Sign In (No pill capsule, no green dot, bespoke Italiana font for names) */}
             {user.isAuthenticated ? (
               <button
                 onClick={() => setActiveModal("profile")}
@@ -175,31 +179,29 @@ export function Navigation() {
             </Link>
           </div>
 
-          {/* Permanent Theme Toggle (Always visible on desktop and mobile in all scroll states) */}
-          {mounted && (
-            <button
-              onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-              className={`flex items-center gap-2 px-3 py-1.5 text-[9px] md:text-[9.5px] tracking-[0.24em] uppercase font-medium transition-all duration-300 shadow-sm ${
-                showFullNav
-                  ? "text-brand-black dark:text-brand-silk border border-brand-gold/40 hover:border-brand-gold bg-brand-gold/10 hover:bg-brand-gold/20"
-                  : "text-white bg-black/60 border border-brand-gold/50 backdrop-blur-md hover:border-brand-gold hover:bg-black/80"
-              }`}
-              aria-label="Toggle Theme"
-              title={theme === "dark" ? "Switch to Light Theme" : "Switch to Dark Theme"}
-            >
-              {theme === "dark" ? (
-                <>
-                  <Sun size={13} strokeWidth={2} className="text-brand-gold animate-in spin-in-180 duration-500" />
-                  <span className="font-semibold text-brand-gold">Light</span>
-                </>
-              ) : (
-                <>
-                  <Moon size={13} strokeWidth={2} className="text-brand-crimson dark:text-brand-gold animate-in spin-in-180 duration-500" />
-                  <span className="font-semibold">Dark</span>
-                </>
-              )}
-            </button>
-          )}
+          {/* Unmistakable Atelier Theme Toggle (Permanent, high-contrast, always visible) */}
+          <button
+            onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+            className={`flex items-center gap-2 px-3 py-1.5 text-[8.5px] md:text-[9px] tracking-[0.24em] uppercase font-medium transition-all duration-300 shadow-sm ${
+              showFullNav
+                ? "text-brand-black dark:text-brand-silk border border-brand-black/20 dark:border-brand-gold/40 hover:border-brand-crimson dark:hover:border-brand-gold bg-brand-black/5 dark:bg-brand-gold/10 hover:bg-brand-black/10 dark:hover:bg-brand-gold/20"
+                : "text-white bg-black/60 border border-brand-gold/60 backdrop-blur-md hover:border-brand-gold hover:bg-black/85 hover:text-brand-gold"
+            }`}
+            aria-label="Toggle Atelier Theme"
+            title={mounted ? (theme === "dark" ? "Switch to Light Theme" : "Switch to Dark Theme") : "Toggle Theme"}
+          >
+            {mounted && theme === "dark" ? (
+              <>
+                <Sun size={13} strokeWidth={2} className="text-brand-gold animate-in spin-in-180 duration-500" />
+                <span className="font-semibold text-brand-gold tracking-[0.24em]">Light</span>
+              </>
+            ) : (
+              <>
+                <Moon size={13} strokeWidth={2} className="text-brand-crimson dark:text-brand-gold animate-in spin-in-180 duration-500" />
+                <span className="font-semibold tracking-[0.24em]">Dark</span>
+              </>
+            )}
+          </button>
 
           {/* Mobile Menu Button */}
           <button
@@ -231,6 +233,7 @@ export function Navigation() {
                 <span>{theme === "dark" ? "Switch to Light" : "Switch to Dark"}</span>
               </button>
             </div>
+
             <Link
               href="/heritage"
               onClick={() => setMobileMenuOpen(false)}

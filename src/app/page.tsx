@@ -172,7 +172,7 @@ export default function Home() {
           </p>
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto mb-14 text-xs tracking-luxury uppercase text-brand-silk/60 font-medium">
-            <div className="p-4 border border-white/10">25+ Years Lineage</div>
+            <div className="p-4 border border-white/10">24 Years Craft (Est. 2002)</div>
             <div className="p-4 border border-white/10">Institutional Scale</div>
             <div className="p-4 border border-white/10">Bespoke Monogramming</div>
             <div className="p-4 border border-white/10">Seamless Fulfilment</div>

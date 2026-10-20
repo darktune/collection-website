@@ -239,11 +239,21 @@ flowchart TD
   - **Floating Dock Mobile Adaptation**: Automatically defaulted `dockOrientation` to `"vertical"` when `window.innerWidth < 768` in `AtelierContext.tsx`, preventing horizontal docking overflow on phone screens.
   - **Modal Responsive Widths**: Updated `CartDrawerModal.tsx`, `WishlistModal.tsx`, and `UserProfileModal.tsx` to `w-[calc(100vw-1rem)] sm:w-80 md:w-96 max-w-sm` with `bottom-16 sm:bottom-20 right-2 sm:right-4`, preventing edge-bleed on small devices.
   - **Homepage Mobile Typography & Full-Bleed Hero**: Scaled hero proclamation to `text-5xl sm:text-7xl` with `p-5 sm:p-8`, adjusted section headings to `text-2xl sm:text-4xl`, and configured `StorefrontShell.tsx` with `isHomePage ? "pt-0" : "pt-20 sm:pt-24"` for a seamless full-bleed video hero.
-- **Commit**: `[current]`
+- **Commit**: `5402a70`
 
 ---
 
-
+### Prompt 17: Full Backend, Supabase Architecture, and Anatomical Measurement Vault Audit
+- **User Directives**:
+  1. What remains to do?
+  2. Have you sorted out the backend architecture and Supabase DB for user profiles, admin dashboard, and other features?
+- **Architectural Deliverables**:
+  - **Interactive Anatomical Measurement Vault**: Transformed the previously static placeholder in `UserProfileModal.tsx` into a live 24-point anatomical measurement vault editor. Patrons can view and adjust chest, waist, hips, neck, shoulder width, sleeve length, bicep, wrist, trouser waist, seat, inseam, outseam, thigh, knee, ankle, Agbada wingspan, Kaftan tunic length, shoulder-to-waist, and posture/stance profile in inches.
+  - **Database Persistence & Resilient Fallback**: Integrated `AtelierDatabase.savePatronProfile` with offline-first local cache fallback. When live Supabase credentials are valid, measurements sync to the cloud `profiles` table; when offline or unconfigured, data persists seamlessly in local storage with 0 crashes.
+  - **Supabase Production Schema Alignment**: Verified `supabase/schema.sql` covering 6 production tables (`profiles`, `commissions`, `corporate_leads`, `newsletter_subscribers`, `orders`, `textile_inventory`) with strict Row Level Security (RLS) policies and performance indexes. Aligned founding header to Est. 2002.
+  - **Admin Studio OS Decoupling & Verification**: Verified that `/admin` is completely isolated from storefront chrome via `StorefrontShell.tsx`, protected by server-side verification (`/api/admin/verify`), and provides 6 management views with staff AI Copilot integration (`AdminCopilotModal.tsx`).
+  - **Production Launch Guide**: Documented exact steps for cloud activation (Supabase database setup, Vercel environment variables, Paystack/Flutterwave keys, custom domain).
+- **Commit**: `[pending push]`
 
 ---
 

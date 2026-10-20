@@ -1,7 +1,7 @@
 -- ==============================================================================
 -- ABRAHAM COLLECTION — MASTER ATELIER DATABASE SCHEMA & ROW-LEVEL SECURITY
 -- Framework: Supabase (PostgreSQL 15+)
--- Founder: Bolaji Abayomi Abraham (Est. 1999 • Lagos, Nigeria)
+-- Founder: Bolaji Abayomi Abraham (Est. 2002 • Lagos, Nigeria)
 -- ==============================================================================
 
 -- 1. EXTENSIONS

@@ -24,6 +24,7 @@ import { PwaManager } from "@/components/pwa/PwaManager";
 export function StorefrontShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const isAdminRoute = pathname?.startsWith("/admin");
+  const isHomePage = pathname === "/";
 
   if (isAdminRoute) {
     // Admin OS renders isolated from storefront navigation and shopping modals
@@ -33,7 +34,7 @@ export function StorefrontShell({ children }: { children: React.ReactNode }) {
   return (
     <>
       <Navigation />
-      <div className="pt-20">
+      <div className={isHomePage ? "pt-0" : "pt-20 sm:pt-24"}>
         {children}
       </div>
       <Footer />

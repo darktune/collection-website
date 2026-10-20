@@ -59,7 +59,7 @@ export function FloatingDock() {
     return (
       <aside
         aria-label="Atelier Navigation Trigger"
-        className="fixed bottom-6 right-6 z-40 transition-all duration-300"
+        className="fixed bottom-4 right-4 md:bottom-6 md:right-6 z-40 transition-all duration-300"
       >
         <button
           onClick={() => setIsDockCollapsed(false)}
@@ -82,17 +82,17 @@ export function FloatingDock() {
       aria-label="Atelier Navigation Dock"
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
-      className={`fixed bottom-6 right-6 z-40 transition-all duration-300 ease-out select-none`}
+      className={`fixed bottom-4 right-4 md:bottom-6 md:right-6 z-40 transition-all duration-300 ease-out select-none`}
     >
       <div
-        className={`glass-dock rounded-full p-2 flex items-center gap-1.5 md:gap-2 shadow-2xl border border-brand-gold/30 transition-all duration-300 ${
+        className={`glass-dock rounded-full p-1.5 md:p-2 flex items-center gap-1 md:gap-2 shadow-2xl border border-brand-gold/30 transition-all duration-300 ${
           isHorizontal ? "flex-row" : "flex-col-reverse"
         }`}
       >
         {/* Collapse Button (tucks away into corner) */}
         <button
           onClick={() => setIsDockCollapsed(true)}
-          className="p-2 text-brand-black/40 dark:text-white/40 hover:text-brand-crimson dark:hover:text-brand-gold transition-colors"
+          className="p-1.5 md:p-2 text-brand-black/40 dark:text-white/40 hover:text-brand-crimson dark:hover:text-brand-gold transition-colors"
           title="Minimize dock to corner"
         >
           {isHorizontal ? <ChevronRight size={16} /> : <ChevronRight size={16} className="rotate-90" />}

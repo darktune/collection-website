@@ -91,6 +91,10 @@ export function AtelierProvider({ children }: { children: React.ReactNode }) {
 
       const savedCart = localStorage.getItem("abraham_cart");
       if (savedCart) setCart(JSON.parse(savedCart));
+
+      if (typeof window !== "undefined" && window.innerWidth < 768) {
+        setDockOrientation("vertical");
+      }
     } catch {
       // LocalStorage access handling
     }

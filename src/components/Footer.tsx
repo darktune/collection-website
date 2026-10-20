@@ -30,8 +30,8 @@ export function Footer() {
   };
 
   return (
-    <footer className="bg-[#EAE0D2] dark:bg-black text-brand-black dark:text-[#FCFAF7] pt-24 pb-8 px-8 md:px-16 lg:px-24 overflow-hidden relative transition-colors duration-500">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16 lg:gap-8 mb-32 relative z-10">
+    <footer className="bg-[#EAE0D2] dark:bg-black text-brand-black dark:text-[#FCFAF7] pt-16 sm:pt-24 pb-8 px-6 sm:px-8 md:px-16 lg:px-24 overflow-hidden relative transition-colors duration-500">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 sm:gap-16 lg:gap-8 mb-16 sm:mb-32 relative z-10">
         
         {/* Nav 1 */}
         <div className="flex flex-col gap-4 text-sm font-light text-brand-black/80 dark:text-[#FCFAF7]/80">
@@ -127,11 +127,11 @@ export function Footer() {
       </div>
 
       {/* Centered Brand Logo */}
-      <div className="w-full flex justify-center items-center py-16 relative z-10 opacity-70 hover:opacity-100 transition-opacity duration-500">
+      <div className="w-full flex justify-center items-center py-10 sm:py-16 relative z-10 opacity-70 hover:opacity-100 transition-opacity duration-500">
         <img 
           src="/media/logo_transparent.png" 
           alt="Abraham Collection Logo" 
-          className="h-32 md:h-48 w-auto object-contain dark:brightness-0 dark:invert transition-all duration-500"
+          className="h-24 sm:h-32 md:h-48 w-auto object-contain dark:brightness-0 dark:invert transition-all duration-500"
         />
       </div>
 

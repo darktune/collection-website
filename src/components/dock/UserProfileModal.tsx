@@ -23,7 +23,7 @@ export function UserProfileModal() {
   if (activeModal !== "profile") return null;
 
   return (
-    <div className="fixed z-50 bottom-20 right-4 md:right-6 w-80 md:w-96 animate-in fade-in zoom-in-95 duration-200">
+    <div className="fixed z-50 bottom-16 sm:bottom-20 right-2 sm:right-4 md:right-6 w-[calc(100vw-1rem)] sm:w-80 md:w-96 max-w-sm animate-in fade-in zoom-in-95 duration-200">
       <div className="bg-[#FCFAF7] dark:bg-[#0D0B0A] text-brand-black dark:text-brand-white border border-brand-gold/40 rounded-2xl shadow-2xl overflow-hidden warm-glow-ring">
         
         {/* Header Profile Summary */}

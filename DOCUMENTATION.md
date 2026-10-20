@@ -224,6 +224,21 @@ flowchart TD
   - **Default Light Mode Lock**: Configured `ThemeProvider.tsx` and `layout.tsx` with `defaultTheme="light"`, `enableSystem={false}`, and `storageKey="abraham_theme_preference"` so OS dark preferences or restarts never override the light mode brand experience.
   - **Zero Admin Storefront Chrome**: 100% verified that `Footer.tsx` and all storefront components contain zero links to `/admin`, completely insulating customer data from public view.
   - **Lineage Refinements**: Updated remaining "25+ Years" references in `src/app/page.tsx` and `src/app/corporate/page.tsx` to "24 Years of Craft (Est. 2002)".
+- **Commit**: `1d1d804`
+
+---
+
+### Prompt 16: Mobile Viewport Architecture, Theme-Reactive Drawer & Responsive Dock
+- **User Directive**: Sort the same problems out for the mobile viewport too.
+- **Architectural Deliverables**:
+  - **Mobile Brand Centering**: Refactored `Navigation.tsx` into a balanced 3-column layout (`flex-1` left, `flex-shrink-0` center, `flex-1` right), guaranteeing that "Abraham Collection" and "Clothing That Suits" are 100% dead-centered on all mobile screen widths down to 320px.
+  - **Mobile Heritage Ticker**: Brought the Est. 2002 heritage banner to mobile devices (`h-6 md:h-7 px-3 text-[7.5px]`), establishing instant pedigree without layout shift.
+  - **100% Theme-Reactive Mobile Drawer**: Completely eliminated hardcoded dark styling from the mobile navigation drawer. In Light Mode, the drawer renders in Raw Silk (`bg-[#FCFAF7]/98 text-brand-black border-brand-black/10`); in Dark Mode, it renders in Velvet Obsidian (`bg-[#0B0908]/98 text-[#FCFAF7] border-white/10`).
+  - **Mobile Navigation Drawer Features**: Added dedicated mobile Theme Switcher, client dossier indicator (`user.name` in `.font-name`), sign-in link, direct WhatsApp Concierge (`08034432759`), and direct phone dialing.
+  - **Mobile Responsive Theme Button**: Designed a compact, touch-optimized icon button on mobile (`p-1.5 sm:px-3 sm:py-1.5`) that never crowds the center masthead.
+  - **Floating Dock Mobile Adaptation**: Automatically defaulted `dockOrientation` to `"vertical"` when `window.innerWidth < 768` in `AtelierContext.tsx`, preventing horizontal docking overflow on phone screens.
+  - **Modal Responsive Widths**: Updated `CartDrawerModal.tsx`, `WishlistModal.tsx`, and `UserProfileModal.tsx` to `w-[calc(100vw-1rem)] sm:w-80 md:w-96 max-w-sm` with `bottom-16 sm:bottom-20 right-2 sm:right-4`, preventing edge-bleed on small devices.
+  - **Homepage Mobile Typography & Full-Bleed Hero**: Scaled hero proclamation to `text-5xl sm:text-7xl` with `p-5 sm:p-8`, adjusted section headings to `text-2xl sm:text-4xl`, and configured `StorefrontShell.tsx` with `isHomePage ? "pt-0" : "pt-20 sm:pt-24"` for a seamless full-bleed video hero.
 - **Commit**: `[current]`
 
 ---

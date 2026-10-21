@@ -314,6 +314,17 @@ flowchart TD
   - **Data Backfill**: Added automatic `UPDATE` statements to generate compliant reference codes (`AB-2026-XXXX`, `ORD-2026-XXXX`) for any pre-existing rows with NULL references.
   - **Profiles Schema Alignment**: Added `preferred_silhouette TEXT` and `onboarding_completed BOOLEAN DEFAULT FALSE` to `public.profiles`.
   - **Clean Slate Option**: Documented an optional 1-line table drop reset (`DROP TABLE IF EXISTS ... CASCADE`) for users preferring a completely fresh database.
+- **Commit**: `aa693c8`
+
+---
+
+### Prompt 21: Live Cloud Database Provisioning Completed & Verified
+- **User Directives**:
+  - `all done` (User confirmed execution of master schema in Supabase SQL editor).
+- **Architectural Deliverables**:
+  - **Live Cloud Health Confirmation**: Confirmed that all 6 production tables (`public.profiles`, `public.commissions`, `public.corporate_leads`, `public.newsletter_subscribers`, `public.orders`, `public.textile_inventory`) and their corresponding Row Level Security (RLS) policies are active and provisioned in the live Supabase project (`qpivrdtxswvpfglmczpx.supabase.co`).
+  - **Atelier Foundation Seed Active**: The 4 royal heritage textiles (*Alaari Royal Silk Aso Oke*, *Super 150s English Worsted Wool*, *Sanyan Traditional Raw Silk Aso Oke*, *Biella Four-Season Wool-Cashmere Blend*) are seeded in `public.textile_inventory`.
+  - **Patron Vault & Onboarding Synchronization**: The 24-point anatomical measurement columns, prestige tier enum, silhouette affinities, and onboarding completion status are ready for live read/write operations from both the Storefront and the Admin OS.
 - **Commit**: `[pending push]`
 
 ---

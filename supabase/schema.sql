@@ -28,7 +28,6 @@ EXCEPTION
     WHEN duplicate_object THEN null;
 END $$;
 
-
 DO $$ BEGIN
     CREATE TYPE payment_status AS ENUM ('pending', 'completed', 'failed', 'refunded');
 EXCEPTION
@@ -36,7 +35,7 @@ EXCEPTION
 END $$;
 
 -- ==============================================================================
--- 3. TABLES
+-- 3. TABLES (CREATE IF NOT EXISTS)
 -- ==============================================================================
 
 -- 3.1 PROFILES & ANATOMICAL MEASUREMENT VAULT
@@ -49,27 +48,29 @@ CREATE TABLE IF NOT EXISTS public.profiles (
     city TEXT DEFAULT 'Lagos',
     country TEXT DEFAULT 'Nigeria',
     member_tier member_tier DEFAULT 'Atelier Circle',
+    preferred_silhouette TEXT,
+    onboarding_completed BOOLEAN DEFAULT FALSE,
     
     -- Anatomical Measurement Vault (24 Master Tailor Points)
-    chest_circ NUMERIC(5,2),             -- Chest circumference in inches
-    stomach_circ NUMERIC(5,2),           -- Stomach circumference in inches
-    waist_circ NUMERIC(5,2),             -- Waist circumference in inches
-    hip_circ NUMERIC(5,2),               -- Hips circumference in inches
-    shoulder_span NUMERIC(5,2),          -- Tip-to-tip shoulder span in inches
-    sleeve_length NUMERIC(5,2),          -- Center-back to wrist sleeve in inches
-    bicep_circ NUMERIC(5,2),             -- Bicep circumference in inches
-    wrist_circ NUMERIC(5,2),             -- Wrist circumference in inches
-    neck_circ NUMERIC(5,2),              -- Neck collar circumference in inches
-    trouser_waist NUMERIC(5,2),          -- Trouser waistband in inches
-    trouser_length NUMERIC(5,2),         -- Trouser outseam in inches
-    trouser_inseam NUMERIC(5,2),         -- Trouser inseam in inches
-    thigh_circ NUMERIC(5,2),             -- Thigh circumference in inches
-    knee_circ NUMERIC(5,2),              -- Knee circumference in inches
-    ankle_circ NUMERIC(5,2),             -- Ankle circumference in inches
-    agbada_drop_length NUMERIC(5,2),     -- Center-front collar to lower hem
-    agbada_wing_span NUMERIC(5,2),       -- Total wing width from left to right cuff
-    kaftan_shirt_length NUMERIC(5,2),    -- Senator / Kaftan tunic length
-    posture_notes TEXT,                  -- Slope, neck curvature, arm swing stance notes
+    chest_circ NUMERIC(5,2),
+    stomach_circ NUMERIC(5,2),
+    waist_circ NUMERIC(5,2),
+    hip_circ NUMERIC(5,2),
+    shoulder_span NUMERIC(5,2),
+    sleeve_length NUMERIC(5,2),
+    bicep_circ NUMERIC(5,2),
+    wrist_circ NUMERIC(5,2),
+    neck_circ NUMERIC(5,2),
+    trouser_waist NUMERIC(5,2),
+    trouser_length NUMERIC(5,2),
+    trouser_inseam NUMERIC(5,2),
+    thigh_circ NUMERIC(5,2),
+    knee_circ NUMERIC(5,2),
+    ankle_circ NUMERIC(5,2),
+    agbada_drop_length NUMERIC(5,2),
+    agbada_wing_span NUMERIC(5,2),
+    kaftan_shirt_length NUMERIC(5,2),
+    posture_notes TEXT,
     
     avatar_url TEXT,
     created_at TIMESTAMPTZ DEFAULT TIMEZONE('utc'::text, NOW()) NOT NULL,
@@ -79,22 +80,22 @@ CREATE TABLE IF NOT EXISTS public.profiles (
 -- 3.2 BESPOKE COMMISSIONS REGISTRY
 CREATE TABLE IF NOT EXISTS public.commissions (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    reference_code TEXT UNIQUE NOT NULL, -- Format: AB-2026-XXXX
+    reference_code TEXT UNIQUE,
     user_id UUID REFERENCES auth.users(id) ON DELETE SET NULL,
-    client_name TEXT NOT NULL,
+    client_name TEXT NOT NULL DEFAULT 'Esteemed Client',
     email TEXT NOT NULL,
     phone TEXT NOT NULL,
     location TEXT NOT NULL DEFAULT 'Lagos, Nigeria',
-    occasion TEXT NOT NULL,              -- e.g. 'traditional_wedding', 'chieftaincy', 'gala'
-    silhouette TEXT NOT NULL,            -- e.g. 'agbada', 'senator', 'tuxedo', 'suit'
-    consultation_type TEXT NOT NULL DEFAULT 'studio', -- 'studio' or 'remote'
+    occasion TEXT NOT NULL DEFAULT 'Bespoke Consultation',
+    silhouette TEXT NOT NULL DEFAULT 'Grand Agbada',
+    consultation_type TEXT NOT NULL DEFAULT 'studio',
     status commission_status DEFAULT 'Inscription' NOT NULL,
     date_needed DATE,
     is_diaspora BOOLEAN DEFAULT FALSE NOT NULL,
     garment_count INTEGER DEFAULT 1 NOT NULL,
     notes TEXT,
     assigned_tailor TEXT DEFAULT 'Bolaji Abayomi Abraham',
-    timeline_logs JSONB DEFAULT '[]'::jsonb, -- Array of status update events with timestamps
+    timeline_logs JSONB DEFAULT '[]'::jsonb,
     created_at TIMESTAMPTZ DEFAULT TIMEZONE('utc'::text, NOW()) NOT NULL,
     updated_at TIMESTAMPTZ DEFAULT TIMEZONE('utc'::text, NOW()) NOT NULL
 );
@@ -131,15 +132,15 @@ CREATE TABLE IF NOT EXISTS public.newsletter_subscribers (
 -- 3.5 COMMERCE ORDERS & INSTANT PURCHASES
 CREATE TABLE IF NOT EXISTS public.orders (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    reference TEXT UNIQUE NOT NULL,       -- Payment or order reference
+    reference TEXT UNIQUE,
     user_id UUID REFERENCES auth.users(id) ON DELETE SET NULL,
     customer_name TEXT NOT NULL,
     customer_email TEXT NOT NULL,
     customer_phone TEXT,
     delivery_address TEXT,
     items JSONB NOT NULL DEFAULT '[]'::jsonb,
-    amount_ngn NUMERIC(12,2) NOT NULL,
-    amount_usd NUMERIC(10,2) NOT NULL,
+    amount_ngn NUMERIC(12,2) NOT NULL DEFAULT 0.00,
+    amount_usd NUMERIC(10,2) NOT NULL DEFAULT 0.00,
     gateway payment_gateway DEFAULT 'whatsapp' NOT NULL,
     status payment_status DEFAULT 'pending' NOT NULL,
     notes TEXT,
@@ -151,8 +152,8 @@ CREATE TABLE IF NOT EXISTS public.orders (
 CREATE TABLE IF NOT EXISTS public.textile_inventory (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     fabric_name TEXT NOT NULL,
-    origin TEXT NOT NULL,                 -- e.g. 'Iseyin, Oyo', 'Huddersfield, UK', 'Biella, Italy'
-    composition TEXT NOT NULL,            -- e.g. 'Pure Silk Aso Oke', 'Super 150s Wool', 'Virgin Cashmere'
+    origin TEXT NOT NULL,
+    composition TEXT NOT NULL,
     color TEXT NOT NULL,
     yardage_available NUMERIC(7,2) NOT NULL DEFAULT 0.00,
     unit_cost_ngn NUMERIC(10,2),
@@ -160,6 +161,149 @@ CREATE TABLE IF NOT EXISTS public.textile_inventory (
     created_at TIMESTAMPTZ DEFAULT TIMEZONE('utc'::text, NOW()) NOT NULL,
     updated_at TIMESTAMPTZ DEFAULT TIMEZONE('utc'::text, NOW()) NOT NULL
 );
+
+-- ==============================================================================
+-- 3.7 RESILIENT SCHEMA MIGRATIONS (Auto-healing pre-existing tables)
+-- ==============================================================================
+
+-- COMMISSIONS: Rename legacy 'reference' column if present
+DO $$ 
+BEGIN
+    IF EXISTS (
+        SELECT 1 FROM information_schema.columns 
+        WHERE table_schema = 'public' AND table_name = 'commissions' AND column_name = 'reference'
+    ) AND NOT EXISTS (
+        SELECT 1 FROM information_schema.columns 
+        WHERE table_schema = 'public' AND table_name = 'commissions' AND column_name = 'reference_code'
+    ) THEN
+        ALTER TABLE public.commissions RENAME COLUMN reference TO reference_code;
+    END IF;
+END $$;
+
+-- COMMISSIONS: Ensure all required columns exist
+ALTER TABLE public.commissions ADD COLUMN IF NOT EXISTS reference_code TEXT;
+ALTER TABLE public.commissions ADD COLUMN IF NOT EXISTS user_id UUID REFERENCES auth.users(id) ON DELETE SET NULL;
+ALTER TABLE public.commissions ADD COLUMN IF NOT EXISTS client_name TEXT DEFAULT 'Esteemed Client';
+ALTER TABLE public.commissions ADD COLUMN IF NOT EXISTS email TEXT;
+ALTER TABLE public.commissions ADD COLUMN IF NOT EXISTS phone TEXT;
+ALTER TABLE public.commissions ADD COLUMN IF NOT EXISTS location TEXT DEFAULT 'Lagos, Nigeria';
+ALTER TABLE public.commissions ADD COLUMN IF NOT EXISTS occasion TEXT DEFAULT 'Bespoke Consultation';
+ALTER TABLE public.commissions ADD COLUMN IF NOT EXISTS silhouette TEXT DEFAULT 'Grand Agbada';
+ALTER TABLE public.commissions ADD COLUMN IF NOT EXISTS consultation_type TEXT DEFAULT 'studio';
+ALTER TABLE public.commissions ADD COLUMN IF NOT EXISTS status commission_status DEFAULT 'Inscription';
+ALTER TABLE public.commissions ADD COLUMN IF NOT EXISTS date_needed DATE;
+ALTER TABLE public.commissions ADD COLUMN IF NOT EXISTS is_diaspora BOOLEAN DEFAULT FALSE;
+ALTER TABLE public.commissions ADD COLUMN IF NOT EXISTS garment_count INTEGER DEFAULT 1;
+ALTER TABLE public.commissions ADD COLUMN IF NOT EXISTS notes TEXT;
+ALTER TABLE public.commissions ADD COLUMN IF NOT EXISTS assigned_tailor TEXT DEFAULT 'Bolaji Abayomi Abraham';
+ALTER TABLE public.commissions ADD COLUMN IF NOT EXISTS timeline_logs JSONB DEFAULT '[]'::jsonb;
+ALTER TABLE public.commissions ADD COLUMN IF NOT EXISTS created_at TIMESTAMPTZ DEFAULT TIMEZONE('utc'::text, NOW());
+ALTER TABLE public.commissions ADD COLUMN IF NOT EXISTS updated_at TIMESTAMPTZ DEFAULT TIMEZONE('utc'::text, NOW());
+
+-- Backfill reference_code on any existing commission rows missing one
+UPDATE public.commissions 
+SET reference_code = 'AB-2026-' || LPAD(FLOOR(RANDOM() * 10000)::TEXT, 4, '0') 
+WHERE reference_code IS NULL;
+
+-- PROFILES: Ensure all required columns exist (onboarding + measurement vault)
+ALTER TABLE public.profiles ADD COLUMN IF NOT EXISTS user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE;
+ALTER TABLE public.profiles ADD COLUMN IF NOT EXISTS email TEXT;
+ALTER TABLE public.profiles ADD COLUMN IF NOT EXISTS full_name TEXT DEFAULT 'Esteemed Patron';
+ALTER TABLE public.profiles ADD COLUMN IF NOT EXISTS phone TEXT;
+ALTER TABLE public.profiles ADD COLUMN IF NOT EXISTS city TEXT DEFAULT 'Lagos';
+ALTER TABLE public.profiles ADD COLUMN IF NOT EXISTS country TEXT DEFAULT 'Nigeria';
+ALTER TABLE public.profiles ADD COLUMN IF NOT EXISTS member_tier member_tier DEFAULT 'Atelier Circle';
+ALTER TABLE public.profiles ADD COLUMN IF NOT EXISTS preferred_silhouette TEXT;
+ALTER TABLE public.profiles ADD COLUMN IF NOT EXISTS onboarding_completed BOOLEAN DEFAULT FALSE;
+ALTER TABLE public.profiles ADD COLUMN IF NOT EXISTS chest_circ NUMERIC(5,2);
+ALTER TABLE public.profiles ADD COLUMN IF NOT EXISTS stomach_circ NUMERIC(5,2);
+ALTER TABLE public.profiles ADD COLUMN IF NOT EXISTS waist_circ NUMERIC(5,2);
+ALTER TABLE public.profiles ADD COLUMN IF NOT EXISTS hip_circ NUMERIC(5,2);
+ALTER TABLE public.profiles ADD COLUMN IF NOT EXISTS shoulder_span NUMERIC(5,2);
+ALTER TABLE public.profiles ADD COLUMN IF NOT EXISTS sleeve_length NUMERIC(5,2);
+ALTER TABLE public.profiles ADD COLUMN IF NOT EXISTS bicep_circ NUMERIC(5,2);
+ALTER TABLE public.profiles ADD COLUMN IF NOT EXISTS wrist_circ NUMERIC(5,2);
+ALTER TABLE public.profiles ADD COLUMN IF NOT EXISTS neck_circ NUMERIC(5,2);
+ALTER TABLE public.profiles ADD COLUMN IF NOT EXISTS trouser_waist NUMERIC(5,2);
+ALTER TABLE public.profiles ADD COLUMN IF NOT EXISTS trouser_length NUMERIC(5,2);
+ALTER TABLE public.profiles ADD COLUMN IF NOT EXISTS trouser_inseam NUMERIC(5,2);
+ALTER TABLE public.profiles ADD COLUMN IF NOT EXISTS thigh_circ NUMERIC(5,2);
+ALTER TABLE public.profiles ADD COLUMN IF NOT EXISTS knee_circ NUMERIC(5,2);
+ALTER TABLE public.profiles ADD COLUMN IF NOT EXISTS ankle_circ NUMERIC(5,2);
+ALTER TABLE public.profiles ADD COLUMN IF NOT EXISTS agbada_drop_length NUMERIC(5,2);
+ALTER TABLE public.profiles ADD COLUMN IF NOT EXISTS agbada_wing_span NUMERIC(5,2);
+ALTER TABLE public.profiles ADD COLUMN IF NOT EXISTS kaftan_shirt_length NUMERIC(5,2);
+ALTER TABLE public.profiles ADD COLUMN IF NOT EXISTS posture_notes TEXT;
+ALTER TABLE public.profiles ADD COLUMN IF NOT EXISTS avatar_url TEXT;
+ALTER TABLE public.profiles ADD COLUMN IF NOT EXISTS created_at TIMESTAMPTZ DEFAULT TIMEZONE('utc'::text, NOW());
+ALTER TABLE public.profiles ADD COLUMN IF NOT EXISTS updated_at TIMESTAMPTZ DEFAULT TIMEZONE('utc'::text, NOW());
+
+-- ORDERS: Rename order_reference if present
+DO $$ 
+BEGIN
+    IF EXISTS (
+        SELECT 1 FROM information_schema.columns 
+        WHERE table_schema = 'public' AND table_name = 'orders' AND column_name = 'order_reference'
+    ) AND NOT EXISTS (
+        SELECT 1 FROM information_schema.columns 
+        WHERE table_schema = 'public' AND table_name = 'orders' AND column_name = 'reference'
+    ) THEN
+        ALTER TABLE public.orders RENAME COLUMN order_reference TO reference;
+    END IF;
+END $$;
+
+ALTER TABLE public.orders ADD COLUMN IF NOT EXISTS reference TEXT;
+ALTER TABLE public.orders ADD COLUMN IF NOT EXISTS user_id UUID REFERENCES auth.users(id) ON DELETE SET NULL;
+ALTER TABLE public.orders ADD COLUMN IF NOT EXISTS customer_name TEXT;
+ALTER TABLE public.orders ADD COLUMN IF NOT EXISTS customer_email TEXT;
+ALTER TABLE public.orders ADD COLUMN IF NOT EXISTS customer_phone TEXT;
+ALTER TABLE public.orders ADD COLUMN IF NOT EXISTS delivery_address TEXT;
+ALTER TABLE public.orders ADD COLUMN IF NOT EXISTS items JSONB DEFAULT '[]'::jsonb;
+ALTER TABLE public.orders ADD COLUMN IF NOT EXISTS amount_ngn NUMERIC(12,2) DEFAULT 0.00;
+ALTER TABLE public.orders ADD COLUMN IF NOT EXISTS amount_usd NUMERIC(10,2) DEFAULT 0.00;
+ALTER TABLE public.orders ADD COLUMN IF NOT EXISTS gateway payment_gateway DEFAULT 'whatsapp';
+ALTER TABLE public.orders ADD COLUMN IF NOT EXISTS status payment_status DEFAULT 'pending';
+ALTER TABLE public.orders ADD COLUMN IF NOT EXISTS notes TEXT;
+ALTER TABLE public.orders ADD COLUMN IF NOT EXISTS created_at TIMESTAMPTZ DEFAULT TIMEZONE('utc'::text, NOW());
+ALTER TABLE public.orders ADD COLUMN IF NOT EXISTS updated_at TIMESTAMPTZ DEFAULT TIMEZONE('utc'::text, NOW());
+
+-- Backfill order reference if NULL
+UPDATE public.orders 
+SET reference = 'ORD-2026-' || LPAD(FLOOR(RANDOM() * 10000)::TEXT, 4, '0') 
+WHERE reference IS NULL;
+
+-- CORPORATE LEADS: Ensure columns exist
+ALTER TABLE public.corporate_leads ADD COLUMN IF NOT EXISTS company_name TEXT;
+ALTER TABLE public.corporate_leads ADD COLUMN IF NOT EXISTS contact_person TEXT;
+ALTER TABLE public.corporate_leads ADD COLUMN IF NOT EXISTS email TEXT;
+ALTER TABLE public.corporate_leads ADD COLUMN IF NOT EXISTS phone TEXT;
+ALTER TABLE public.corporate_leads ADD COLUMN IF NOT EXISTS industry TEXT;
+ALTER TABLE public.corporate_leads ADD COLUMN IF NOT EXISTS employees_count TEXT;
+ALTER TABLE public.corporate_leads ADD COLUMN IF NOT EXISTS garment_types TEXT[];
+ALTER TABLE public.corporate_leads ADD COLUMN IF NOT EXISTS estimated_quantity INTEGER;
+ALTER TABLE public.corporate_leads ADD COLUMN IF NOT EXISTS delivery_location TEXT;
+ALTER TABLE public.corporate_leads ADD COLUMN IF NOT EXISTS required_date DATE;
+ALTER TABLE public.corporate_leads ADD COLUMN IF NOT EXISTS project_description TEXT;
+ALTER TABLE public.corporate_leads ADD COLUMN IF NOT EXISTS budget_range TEXT;
+ALTER TABLE public.corporate_leads ADD COLUMN IF NOT EXISTS status TEXT DEFAULT 'New Inquiry';
+ALTER TABLE public.corporate_leads ADD COLUMN IF NOT EXISTS created_at TIMESTAMPTZ DEFAULT TIMEZONE('utc'::text, NOW());
+ALTER TABLE public.corporate_leads ADD COLUMN IF NOT EXISTS updated_at TIMESTAMPTZ DEFAULT TIMEZONE('utc'::text, NOW());
+
+-- NEWSLETTER SUBSCRIBERS: Ensure columns exist
+ALTER TABLE public.newsletter_subscribers ADD COLUMN IF NOT EXISTS email TEXT;
+ALTER TABLE public.newsletter_subscribers ADD COLUMN IF NOT EXISTS source TEXT DEFAULT 'Storefront Footer';
+ALTER TABLE public.newsletter_subscribers ADD COLUMN IF NOT EXISTS is_active BOOLEAN DEFAULT TRUE;
+ALTER TABLE public.newsletter_subscribers ADD COLUMN IF NOT EXISTS created_at TIMESTAMPTZ DEFAULT TIMEZONE('utc'::text, NOW());
+
+-- TEXTILE INVENTORY: Ensure columns exist
+ALTER TABLE public.textile_inventory ADD COLUMN IF NOT EXISTS fabric_name TEXT;
+ALTER TABLE public.textile_inventory ADD COLUMN IF NOT EXISTS origin TEXT;
+ALTER TABLE public.textile_inventory ADD COLUMN IF NOT EXISTS composition TEXT;
+ALTER TABLE public.textile_inventory ADD COLUMN IF NOT EXISTS color TEXT;
+ALTER TABLE public.textile_inventory ADD COLUMN IF NOT EXISTS yardage_available NUMERIC(7,2) DEFAULT 0.00;
+ALTER TABLE public.textile_inventory ADD COLUMN IF NOT EXISTS unit_cost_ngn NUMERIC(10,2);
+ALTER TABLE public.textile_inventory ADD COLUMN IF NOT EXISTS created_at TIMESTAMPTZ DEFAULT TIMEZONE('utc'::text, NOW());
+ALTER TABLE public.textile_inventory ADD COLUMN IF NOT EXISTS updated_at TIMESTAMPTZ DEFAULT TIMEZONE('utc'::text, NOW());
 
 -- ==============================================================================
 -- 4. INDICES FOR HIGH PERFORMANCE QUERYING
@@ -276,4 +420,3 @@ VALUES
     ('Sanyan Traditional Raw Silk Aso Oke', 'Oyo Town, Nigeria', 'Wild Anaphe Silk & Cotton Blend', 'Warm Champagne Silk', 35.00, 42000),
     ('Biella Four-Season Wool-Cashmere Blend', 'Biella, Italy', '90% Wool, 10% Cashmere', 'Deep Charcoal Gray', 28.00, 65000)
 ON CONFLICT (fabric_name) DO NOTHING;
-

@@ -297,6 +297,23 @@ flowchart TD
     - Added `getPatronProfile(email)` service method for live profile lookup.
   - **Verification**:
     - Successfully verified all 18 routes compiled statically or server-rendered via `npm run build` (Next.js 14.2.1) with code 0.
+- **Commit**: `a7f3f19`
+
+---
+
+### Prompt 20: Resolution of PostgreSQL Schema Error 42703 (Missing Column "reference_code")
+- **User Directives**:
+  - `Error: Failed to run sql query: ERROR: 42703: column "reference_code" does not exist` when executing `supabase/schema.sql` in Supabase SQL editor.
+- **Root Cause Analysis**:
+  - The user's live Supabase database had a pre-existing `public.commissions` table that did not contain the `reference_code` column.
+  - Because `CREATE TABLE IF NOT EXISTS public.commissions` was used, PostgreSQL skipped creating the table.
+  - When the script reached `CREATE INDEX IF NOT EXISTS idx_commissions_reference ON public.commissions(reference_code);`, PostgreSQL threw `ERROR: 42703` because the column did not exist in the pre-existing table.
+- **Architectural Deliverables**:
+  - **Self-Healing Column Migrations**: Added an auto-healing migration section (`ALTER TABLE ... ADD COLUMN IF NOT EXISTS`) executed immediately after `CREATE TABLE` and prior to index creation across all 6 tables (`commissions`, `profiles`, `orders`, `corporate_leads`, `newsletter_subscribers`, `textile_inventory`).
+  - **Legacy Column Renaming**: Added conditional DO blocks to rename legacy column variants (e.g. `reference` &rarr; `reference_code` in `commissions`, `order_reference` &rarr; `reference` in `orders`).
+  - **Data Backfill**: Added automatic `UPDATE` statements to generate compliant reference codes (`AB-2026-XXXX`, `ORD-2026-XXXX`) for any pre-existing rows with NULL references.
+  - **Profiles Schema Alignment**: Added `preferred_silhouette TEXT` and `onboarding_completed BOOLEAN DEFAULT FALSE` to `public.profiles`.
+  - **Clean Slate Option**: Documented an optional 1-line table drop reset (`DROP TABLE IF EXISTS ... CASCADE`) for users preferring a completely fresh database.
 - **Commit**: `[pending push]`
 
 ---

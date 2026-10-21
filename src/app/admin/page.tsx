@@ -46,6 +46,13 @@ import {
   RefreshCw,
   Mail,
   Check,
+  Download,
+  Ruler,
+  Phone,
+  Scissors,
+  FileSpreadsheet,
+  Eye,
+  X,
 } from "lucide-react";
 
 
@@ -68,9 +75,65 @@ export default function AdminDashboard() {
   const [activeTab, setActiveTab] = useState<"dashboard" | "bespoke" | "orders" | "clients" | "corporate" | "subscribers">("dashboard");
   const [selectedCommission, setSelectedCommission] = useState<CommissionRecord | null>(null);
   const [filterQuery, setFilterQuery] = useState("");
+  const [clientSearchQuery, setClientSearchQuery] = useState("");
+  const [clientCategory, setClientCategory] = useState<"all" | "complete" | "pending" | "diaspora" | "domestic">("all");
+  const [inspectedPatron, setInspectedPatron] = useState<PatronProfileRecord | null>(null);
   const [isCopilotOpen, setIsCopilotOpen] = useState(false);
   const [statusUpdating, setStatusUpdating] = useState(false);
   const { theme, setTheme } = useTheme();
+
+  const exportPatronsCSV = () => {
+    if (patrons.length === 0) return;
+    const headers = [
+      "Full Name",
+      "Email",
+      "Phone",
+      "City",
+      "Country",
+      "Member Tier",
+      "Preferred Silhouette",
+      "Chest (in)",
+      "Waist (in)",
+      "Shoulder Span (in)",
+      "Sleeve (in)",
+      "Trouser Outseam (in)",
+      "Trouser Inseam (in)",
+      "Agbada Span (in)",
+      "Kaftan Length (in)",
+      "Posture Notes",
+      "Created At"
+    ];
+
+    const rows = patrons.map((p) => [
+      `"${(p.full_name || '').replace(/"/g, '""')}"`,
+      `"${p.email || ''}"`,
+      `"${p.phone || ''}"`,
+      `"${p.city || ''}"`,
+      `"${p.country || ''}"`,
+      `"${p.member_tier || ''}"`,
+      `"${p.preferred_silhouette || ''}"`,
+      p.chest_circ || '',
+      p.waist_circ || '',
+      p.shoulder_span || '',
+      p.sleeve_length || '',
+      p.trouser_length || '',
+      p.trouser_inseam || '',
+      p.agbada_wing_span || '',
+      p.kaftan_shirt_length || '',
+      `"${(p.posture_notes || '').replace(/"/g, '""')}"`,
+      `"${p.created_at || ''}"`
+    ]);
+
+    const csvContent = [headers.join(","), ...rows.map((r) => r.join(","))].join("\n");
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.setAttribute("href", url);
+    link.setAttribute("download", `abraham_collection_patrons_${new Date().toISOString().slice(0, 10)}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
 
   // 1. Session verification on mount
   useEffect(() => {
@@ -535,7 +598,7 @@ export default function AdminDashboard() {
               </header>
 
               {/* Metric KPI Cards (Calculated directly from live database state) */}
-              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
                 <div className="p-3.5 border border-brand-black/10 dark:border-white/10 bg-brand-cream/20 dark:bg-white/[0.02]">
                   <div className="flex justify-between items-center text-[9px] font-mono uppercase tracking-[0.22em] opacity-60">
                     <span>Commissions</span>
@@ -592,7 +655,91 @@ export default function AdminDashboard() {
                   </div>
                   <span className="text-[9.5px] font-mono opacity-60">Active Subscribers</span>
                 </div>
+
+                <div className="p-3.5 border border-brand-black/10 dark:border-white/10 bg-brand-cream/20 dark:bg-white/[0.02]">
+                  <div className="flex justify-between items-center text-[9px] font-mono uppercase tracking-[0.22em] opacity-60">
+                    <span>Patrons Vault</span>
+                    <Users size={13} className="text-brand-crimson dark:text-brand-gold" />
+                  </div>
+                  <div className="font-display text-2xl font-light mt-1 mb-0.5 text-brand-black dark:text-brand-white">
+                    {patrons.length}
+                  </div>
+                  <span className="text-[9.5px] font-mono text-brand-gold">
+                    {patrons.filter((p) => p.chest_circ && p.waist_circ).length} measured (24-pt)
+                  </span>
+                </div>
               </div>
+
+              {/* Patron Intelligence & Demographic Insights */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                <div className="p-4 border border-brand-black/10 dark:border-white/10 bg-brand-cream/20 dark:bg-white/[0.02] rounded space-y-2">
+                  <div className="flex justify-between items-center text-[10px] font-mono uppercase tracking-widest">
+                    <span className="font-semibold text-brand-gold">Prestige Tiers</span>
+                    <AdeAreIcon size={14} className="text-brand-gold" />
+                  </div>
+                  <div className="space-y-1.5 text-xs font-mono pt-1">
+                    <div className="flex justify-between items-center">
+                      <span className="opacity-70">Royal Benefactor (Tier 1)</span>
+                      <span className="font-bold text-brand-gold">{patrons.filter((p) => p.member_tier === "Royal Benefactor").length}</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="opacity-70">Atelier Circle (Tier 2)</span>
+                      <span className="font-bold">{patrons.filter((p) => p.member_tier === "Atelier Circle").length}</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="opacity-70">Guest Patron (Tier 3)</span>
+                      <span className="font-bold opacity-70">{patrons.filter((p) => p.member_tier === "Guest Patron").length}</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="p-4 border border-brand-black/10 dark:border-white/10 bg-brand-cream/20 dark:bg-white/[0.02] rounded space-y-2">
+                  <div className="flex justify-between items-center text-[10px] font-mono uppercase tracking-widest">
+                    <span className="font-semibold text-brand-gold">Geographic Distribution</span>
+                    <MapPin size={14} className="text-brand-gold" />
+                  </div>
+                  <div className="space-y-1.5 text-xs font-mono pt-1">
+                    <div className="flex justify-between items-center">
+                      <span className="opacity-70">Lagos &amp; Nigeria Domestic</span>
+                      <span className="font-bold">{patrons.filter((p) => !p.country || p.country.toLowerCase() === "nigeria" || p.country.toLowerCase() === "ng").length}</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="opacity-70">Transatlantic Diaspora (UK, US, CA)</span>
+                      <span className="font-bold text-brand-gold">{patrons.filter((p) => p.country && p.country.toLowerCase() !== "nigeria" && p.country.toLowerCase() !== "ng").length}</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="opacity-70">Diaspora Ratio</span>
+                      <span className="font-bold font-mono">
+                        {patrons.length > 0 ? Math.round((patrons.filter((p) => p.country && p.country.toLowerCase() !== "nigeria" && p.country.toLowerCase() !== "ng").length / patrons.length) * 100) : 0}%
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="p-4 border border-brand-black/10 dark:border-white/10 bg-brand-cream/20 dark:bg-white/[0.02] rounded space-y-2">
+                  <div className="flex justify-between items-center text-[10px] font-mono uppercase tracking-widest">
+                    <span className="font-semibold text-brand-gold">Sartorial Vault Health</span>
+                    <Ruler size={14} className="text-brand-gold" />
+                  </div>
+                  <div className="space-y-1.5 text-xs font-mono pt-1">
+                    <div className="flex justify-between items-center">
+                      <span className="opacity-70">Vault Measurements Secured</span>
+                      <span className="font-bold text-brand-gold">{patrons.filter((p) => p.chest_circ && p.waist_circ).length}</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="opacity-70">Pending Measurements</span>
+                      <span className="font-bold opacity-60">{patrons.filter((p) => !p.chest_circ || !p.waist_circ).length}</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="opacity-70">Vault Completion Rate</span>
+                      <span className="font-bold text-brand-gold">
+                        {patrons.length > 0 ? Math.round((patrons.filter((p) => p.chest_circ && p.waist_circ).length / patrons.length) * 100) : 0}%
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
 
 
               {/* Recent Registry Table */}
@@ -881,10 +1028,10 @@ export default function AdminDashboard() {
                             <span
                               className={`px-2 py-0.5 uppercase tracking-wider text-[8px] font-mono font-medium border ${
                                 ord.status === "completed"
-                                  ? "border-emerald-500/40 bg-emerald-500/10 text-emerald-800 dark:text-emerald-300"
+                                  ? "border-brand-gold/40 bg-brand-gold/10 text-brand-gold font-semibold"
                                   : ord.status === "pending"
                                   ? "border-amber-500/40 bg-amber-500/10 text-amber-800 dark:text-amber-300"
-                                  : "border-red-500/40 bg-red-500/10 text-red-800 dark:text-red-300"
+                                  : "border-brand-crimson/40 bg-brand-crimson/10 text-brand-crimson"
                               }`}
                             >
                               {ord.status}
@@ -912,63 +1059,408 @@ export default function AdminDashboard() {
             </div>
           )}
 
-          {/* 4. CLIENT ANATOMICAL VAULT TAB */}
+          {/* 4. PATRON INTELLIGENCE & ANATOMICAL VAULT TAB */}
           {activeTab === "clients" && (
-
             <div className="space-y-6 animate-in fade-in duration-300">
-              <header className="flex items-center justify-between pb-3 border-b border-brand-black/10 dark:border-white/10">
+              <header className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-brand-black/10 dark:border-white/10">
                 <div className="flex items-center gap-2.5">
-                  <h2 className="font-display text-lg uppercase tracking-[0.2em] font-medium">Client Measurement Vault</h2>
+                  <h2 className="font-display text-lg uppercase tracking-[0.2em] font-medium">Patron Intelligence &amp; Vault</h2>
                   <span className="w-1 h-1 bg-brand-gold rotate-45" />
-                  <span className="text-[9px] font-mono opacity-50 uppercase tracking-widest hidden sm:inline">Oju Oya Archive</span>
+                  <span className="text-[9px] font-mono opacity-50 uppercase tracking-widest hidden sm:inline">Anatomical Registry</span>
                 </div>
-                <span className="text-[9px] font-mono text-brand-gold uppercase tracking-[0.2em]">24-Point Anatomical</span>
+                
+                {/* Actions: CSV Export */}
+                <div className="flex items-center gap-2.5">
+                  <button
+                    onClick={exportPatronsCSV}
+                    className="flex items-center gap-2 px-3 py-1.5 bg-brand-black/5 dark:bg-white/5 hover:bg-brand-gold/15 border border-brand-black/15 dark:border-white/15 hover:border-brand-gold text-brand-black dark:text-white text-[10px] uppercase font-mono tracking-wider rounded transition-all"
+                    title="Export Patrons to CSV for Marketing & Records"
+                  >
+                    <Download size={13} className="text-brand-gold" />
+                    <span>Export CSV ({patrons.length})</span>
+                  </button>
+                  <span className="text-[9px] font-mono text-brand-gold uppercase tracking-[0.2em]">
+                    {patrons.length} {patrons.length === 1 ? "Patron" : "Patrons"}
+                  </span>
+                </div>
               </header>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {patrons.map((patron) => (
-                  <div key={patron.id} className="p-4 border border-brand-black/10 dark:border-white/10 bg-brand-cream/20 dark:bg-white/[0.02] space-y-3">
-                    <div className="flex justify-between items-start">
+              {/* Patron Intelligence Metrics Ribbon */}
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 font-mono">
+                <div className="p-3 border border-brand-black/10 dark:border-white/10 bg-brand-cream/20 dark:bg-white/[0.02]">
+                  <span className="text-[8.5px] uppercase opacity-50 block tracking-widest">Total Patrons</span>
+                  <div className="text-xl font-display font-light text-brand-black dark:text-brand-white mt-0.5">{patrons.length}</div>
+                  <span className="text-[9px] text-brand-gold">100% cloud persistent</span>
+                </div>
+
+                <div className="p-3 border border-brand-black/10 dark:border-white/10 bg-brand-cream/20 dark:bg-white/[0.02]">
+                  <span className="text-[8.5px] uppercase opacity-50 block tracking-widest">Vault Complete</span>
+                  <div className="text-xl font-display font-light text-brand-black dark:text-brand-white mt-0.5">
+                    {patrons.filter((p) => p.chest_circ && p.waist_circ).length}
+                  </div>
+                  <span className="text-[9px] text-brand-gold">
+                    {patrons.length > 0 ? Math.round((patrons.filter((p) => p.chest_circ && p.waist_circ).length / patrons.length) * 100) : 0}% Measured
+                  </span>
+                </div>
+
+                <div className="p-3 border border-brand-black/10 dark:border-white/10 bg-brand-cream/20 dark:bg-white/[0.02]">
+                  <span className="text-[8.5px] uppercase opacity-50 block tracking-widest">Transatlantic Diaspora</span>
+                  <div className="text-xl font-display font-light text-brand-black dark:text-brand-white mt-0.5">
+                    {patrons.filter((p) => p.country && p.country.toLowerCase() !== "nigeria" && p.country.toLowerCase() !== "ng").length}
+                  </div>
+                  <span className="text-[9px] opacity-60">UK &bull; US &bull; Canada</span>
+                </div>
+
+                <div className="p-3 border border-brand-black/10 dark:border-white/10 bg-brand-cream/20 dark:bg-white/[0.02]">
+                  <span className="text-[8.5px] uppercase opacity-50 block tracking-widest">Royal Benefactors</span>
+                  <div className="text-xl font-display font-light text-brand-black dark:text-brand-white mt-0.5">
+                    {patrons.filter((p) => p.member_tier === "Royal Benefactor").length}
+                  </div>
+                  <span className="text-[9px] text-brand-crimson dark:text-brand-gold font-semibold">Tier 1 Elite</span>
+                </div>
+              </div>
+
+              {/* Search & Filter Controls */}
+              <div className="flex flex-col sm:flex-row gap-3 items-stretch sm:items-center justify-between pt-1">
+                <div className="relative flex-1 max-w-md">
+                  <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-brand-gold" />
+                  <input
+                    type="text"
+                    value={clientSearchQuery}
+                    onChange={(e) => setClientSearchQuery(e.target.value)}
+                    placeholder="Search patrons by name, email, city, or silhouette..."
+                    className="w-full pl-9 pr-3 py-2 bg-brand-black/5 dark:bg-white/5 border border-brand-black/10 dark:border-white/10 rounded-lg text-xs outline-none focus:border-brand-gold transition-colors text-brand-black dark:text-white placeholder:text-brand-black/40 dark:placeholder:text-white/30"
+                  />
+                </div>
+
+                {/* Filter Pills */}
+                <div className="flex gap-1.5 overflow-x-auto pb-1 sm:pb-0 text-[10px] uppercase font-mono tracking-wider whitespace-nowrap">
+                  <button
+                    onClick={() => setClientCategory("all")}
+                    className={`px-2.5 py-1.5 rounded transition-all ${clientCategory === "all" ? "bg-brand-onyx text-white dark:bg-white dark:text-black font-bold" : "bg-brand-black/5 dark:bg-white/5 opacity-70 hover:opacity-100"}`}
+                  >
+                    All ({patrons.length})
+                  </button>
+                  <button
+                    onClick={() => setClientCategory("complete")}
+                    className={`px-2.5 py-1.5 rounded transition-all ${clientCategory === "complete" ? "bg-brand-onyx text-white dark:bg-white dark:text-black font-bold" : "bg-brand-black/5 dark:bg-white/5 opacity-70 hover:opacity-100"}`}
+                  >
+                    Vault Complete
+                  </button>
+                  <button
+                    onClick={() => setClientCategory("pending")}
+                    className={`px-2.5 py-1.5 rounded transition-all ${clientCategory === "pending" ? "bg-brand-onyx text-white dark:bg-white dark:text-black font-bold" : "bg-brand-black/5 dark:bg-white/5 opacity-70 hover:opacity-100"}`}
+                  >
+                    Vault Pending
+                  </button>
+                  <button
+                    onClick={() => setClientCategory("diaspora")}
+                    className={`px-2.5 py-1.5 rounded transition-all ${clientCategory === "diaspora" ? "bg-brand-onyx text-white dark:bg-white dark:text-black font-bold" : "bg-brand-black/5 dark:bg-white/5 opacity-70 hover:opacity-100"}`}
+                  >
+                    Diaspora
+                  </button>
+                  <button
+                    onClick={() => setClientCategory("domestic")}
+                    className={`px-2.5 py-1.5 rounded transition-all ${clientCategory === "domestic" ? "bg-brand-onyx text-white dark:bg-white dark:text-black font-bold" : "bg-brand-black/5 dark:bg-white/5 opacity-70 hover:opacity-100"}`}
+                  >
+                    Domestic (NG)
+                  </button>
+                </div>
+              </div>
+
+              {/* Patrons Card Grid */}
+              {(() => {
+                const filtered = patrons.filter((p) => {
+                  const q = clientSearchQuery.toLowerCase();
+                  const matches =
+                    !q ||
+                    p.full_name?.toLowerCase().includes(q) ||
+                    p.email?.toLowerCase().includes(q) ||
+                    p.city?.toLowerCase().includes(q) ||
+                    p.country?.toLowerCase().includes(q) ||
+                    p.preferred_silhouette?.toLowerCase().includes(q);
+
+                  if (!matches) return false;
+                  const isComplete = !!(p.chest_circ && p.waist_circ);
+                  const isDiaspora = !!(p.country && p.country.toLowerCase() !== "nigeria" && p.country.toLowerCase() !== "ng");
+
+                  if (clientCategory === "complete") return isComplete;
+                  if (clientCategory === "pending") return !isComplete;
+                  if (clientCategory === "diaspora") return isDiaspora;
+                  if (clientCategory === "domestic") return !isDiaspora;
+                  return true;
+                });
+
+                if (filtered.length === 0) {
+                  return (
+                    <div className="p-12 text-center border border-dashed border-brand-black/15 dark:border-white/15 space-y-2">
+                      <Users size={24} className="mx-auto text-brand-gold/60" />
+                      <p className="text-xs font-mono uppercase tracking-wider opacity-70">No Patrons Match Query</p>
+                    </div>
+                  );
+                }
+
+                return (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {filtered.map((patron) => {
+                      const isComplete = !!(patron.chest_circ && patron.waist_circ);
+                      const isDiaspora = !!(patron.country && patron.country.toLowerCase() !== "nigeria" && patron.country.toLowerCase() !== "ng");
+
+                      return (
+                        <div
+                          key={patron.id || patron.email}
+                          className="p-4 border border-brand-black/10 dark:border-white/10 bg-brand-cream/20 dark:bg-white/[0.02] rounded-lg space-y-3 hover:border-brand-gold/50 transition-all flex flex-col justify-between"
+                        >
+                          <div className="space-y-2">
+                            {/* Card Header */}
+                            <div className="flex justify-between items-start gap-2">
+                              <div className="flex items-center gap-2.5">
+                                <div className="w-9 h-9 rounded-full bg-brand-gold/15 border border-brand-gold/40 flex items-center justify-center font-display font-semibold text-brand-gold text-sm flex-shrink-0">
+                                  {patron.full_name ? patron.full_name.charAt(0).toUpperCase() : "P"}
+                                </div>
+                                <div>
+                                  <h4 className="font-name italic text-[17px] text-brand-black dark:text-brand-white leading-tight">
+                                    {patron.full_name || "Esteemed Patron"}
+                                  </h4>
+                                  <p className="text-[10px] font-mono opacity-60 flex items-center gap-1 mt-0.5">
+                                    <Mail size={10} /> {patron.email}
+                                  </p>
+                                </div>
+                              </div>
+
+                              <div className="text-right flex-shrink-0 space-y-1">
+                                <span className="text-[8.5px] uppercase tracking-wider px-2 py-0.5 border border-brand-gold/40 text-brand-gold font-mono font-medium block">
+                                  {patron.member_tier}
+                                </span>
+                                <span
+                                  className={`text-[8px] font-mono uppercase tracking-widest px-1.5 py-0.5 rounded block ${
+                                    isComplete
+                                      ? "bg-brand-gold/15 text-brand-gold"
+                                      : "bg-brand-black/5 dark:bg-white/5 opacity-50"
+                                  }`}
+                                >
+                                  {isComplete ? "Vault Complete" : "Pending Vault"}
+                                </span>
+                              </div>
+                            </div>
+
+                            {/* Location & Preferred Silhouette */}
+                            <div className="flex items-center gap-3 text-[10.5px] pt-1">
+                              <span className="flex items-center gap-1 opacity-70">
+                                <MapPin size={11} className="text-brand-gold" />
+                                {patron.city || "Lagos"}, {patron.country || "Nigeria"}
+                                {isDiaspora && <span className="text-[9px] font-mono text-brand-gold ml-1">[Diaspora]</span>}
+                              </span>
+
+                              {patron.preferred_silhouette && (
+                                <span className="px-2 py-0.5 bg-brand-black/5 dark:bg-white/5 border border-brand-black/10 dark:border-white/10 rounded text-[9.5px] font-mono text-brand-gold capitalize">
+                                  {patron.preferred_silhouette}
+                                </span>
+                              )}
+                            </div>
+
+                            {/* 4 Core Measurements Preview */}
+                            <div className="grid grid-cols-4 gap-1.5 text-xs border-t border-brand-black/10 dark:border-white/10 pt-2 font-mono">
+                              <div className="p-1.5 bg-black/[0.02] dark:bg-white/[0.02] border border-brand-black/5 dark:border-white/5 text-center">
+                                <span className="opacity-50 text-[8px] uppercase block">Chest</span>
+                                <p className="font-semibold text-xs mt-0.5 text-brand-gold">{patron.chest_circ ? `${patron.chest_circ}"` : "—"}</p>
+                              </div>
+                              <div className="p-1.5 bg-black/[0.02] dark:bg-white/[0.02] border border-brand-black/5 dark:border-white/5 text-center">
+                                <span className="opacity-50 text-[8px] uppercase block">Waist</span>
+                                <p className="font-semibold text-xs mt-0.5 text-brand-gold">{patron.waist_circ ? `${patron.waist_circ}"` : "—"}</p>
+                              </div>
+                              <div className="p-1.5 bg-black/[0.02] dark:bg-white/[0.02] border border-brand-black/5 dark:border-white/5 text-center">
+                                <span className="opacity-50 text-[8px] uppercase block">Shoulder</span>
+                                <p className="font-semibold text-xs mt-0.5 text-brand-gold">{patron.shoulder_span ? `${patron.shoulder_span}"` : "—"}</p>
+                              </div>
+                              <div className="p-1.5 bg-black/[0.02] dark:bg-white/[0.02] border border-brand-black/5 dark:border-white/5 text-center">
+                                <span className="opacity-50 text-[8px] uppercase block">Trouser</span>
+                                <p className="font-semibold text-xs mt-0.5 text-brand-gold">{patron.trouser_length ? `${patron.trouser_length}"` : "—"}</p>
+                              </div>
+                            </div>
+
+                            {patron.posture_notes && (
+                              <p className="text-[10px] font-mono opacity-65 border-t border-dashed border-brand-black/10 dark:border-white/10 pt-1.5">
+                                Stance Profile: <span className="text-brand-gold">{patron.posture_notes}</span>
+                              </p>
+                            )}
+                          </div>
+
+                          {/* Action Buttons */}
+                          <div className="pt-2.5 flex items-center gap-2 border-t border-brand-black/10 dark:border-white/10 mt-1">
+                            <button
+                              onClick={() => setInspectedPatron(patron)}
+                              className="flex-1 py-1.5 px-2 bg-brand-gold/15 hover:bg-brand-gold/25 border border-brand-gold/40 text-brand-black dark:text-brand-gold text-[10px] uppercase font-mono tracking-wider rounded transition-colors flex items-center justify-center gap-1.5 font-semibold"
+                            >
+                              <Eye size={12} />
+                              <span>Inspect 24-Point Vault</span>
+                            </button>
+
+                            {patron.phone && (
+                              <a
+                                href={`https://wa.me/${patron.phone.replace(/[^0-9]/g, '')}?text=Hello%20${encodeURIComponent(patron.full_name || 'Patron')}%2C%20this%20is%20the%20Master%20Cutter%20from%20Abraham%20Collection%20Atelier.`}
+                                target="_blank"
+                                rel="noreferrer"
+                                className="py-1.5 px-2.5 border border-brand-black/15 dark:border-white/15 hover:border-brand-gold text-[10px] font-mono uppercase tracking-wider rounded transition-colors flex items-center gap-1 text-brand-gold"
+                                title="WhatsApp Bespoke Consultation"
+                              >
+                                <Phone size={11} />
+                                <span className="hidden sm:inline">WhatsApp</span>
+                              </a>
+                            )}
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                );
+              })()}
+
+              {/* Master Cutter 24-Point Anatomical Inspection Modal */}
+              {inspectedPatron && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-md animate-in fade-in duration-200">
+                  <div className="bg-[#FCFAF7] dark:bg-brand-onyx text-brand-black dark:text-brand-white border border-brand-gold/40 rounded-2xl max-w-2xl w-full overflow-hidden shadow-2xl relative warm-glow-ring flex flex-col max-h-[90vh]">
+                    
+                    {/* Header */}
+                    <div className="flex items-center justify-between p-5 border-b border-brand-black/10 dark:border-white/10 bg-[#F5EFE6] dark:bg-brand-black/60 flex-shrink-0">
                       <div>
-                        <h4 className="font-name italic text-[17px] text-brand-black dark:text-brand-white">{patron.full_name}</h4>
-                        <p className="text-[10px] font-mono opacity-60 flex items-center gap-1 mt-0.5">
-                          <MapPin size={10} /> {patron.city || "Lagos"}, {patron.country || "Nigeria"}
+                        <div className="flex items-center gap-2">
+                          <Ruler size={18} className="text-brand-gold" />
+                          <h3 className="font-name italic text-xl">{inspectedPatron.full_name || "Esteemed Patron"}</h3>
+                          <span className="text-[9px] uppercase tracking-wider px-2 py-0.5 border border-brand-gold/40 text-brand-gold font-mono font-medium">
+                            {inspectedPatron.member_tier}
+                          </span>
+                        </div>
+                        <p className="text-[10px] font-mono opacity-60 mt-0.5">
+                          {inspectedPatron.email} &bull; {inspectedPatron.city || "Lagos"}, {inspectedPatron.country || "Nigeria"}
                         </p>
                       </div>
-                      <span className="text-[8.5px] uppercase tracking-wider px-2 py-0.5 border border-brand-gold/40 text-brand-gold font-mono font-medium">
-                        {patron.member_tier}
+
+                      <button
+                        onClick={() => setInspectedPatron(null)}
+                        className="p-1 rounded-full text-brand-black/50 dark:text-white/60 hover:text-brand-black dark:hover:text-white"
+                      >
+                        <X size={18} />
+                      </button>
+                    </div>
+
+                    {/* Coordinates Body (Scrollable) */}
+                    <div className="overflow-y-auto p-6 space-y-5 text-xs font-mono">
+                      {/* 1. Upper Body */}
+                      <div className="space-y-2">
+                        <div className="flex items-center gap-2 border-b border-brand-black/10 dark:border-white/10 pb-1 text-brand-gold uppercase text-[10px] tracking-wider font-semibold">
+                          <Scissors size={13} />
+                          <span>Upper Anatomical Points (Inches)</span>
+                        </div>
+                        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                          {[
+                            { label: "Chest", val: inspectedPatron.chest_circ },
+                            { label: "Stomach", val: inspectedPatron.stomach_circ },
+                            { label: "Waist", val: inspectedPatron.waist_circ },
+                            { label: "Hips", val: inspectedPatron.hip_circ },
+                            { label: "Shoulder Span", val: inspectedPatron.shoulder_span },
+                            { label: "Sleeve Length", val: inspectedPatron.sleeve_length },
+                            { label: "Bicep", val: inspectedPatron.bicep_circ },
+                            { label: "Wrist", val: inspectedPatron.wrist_circ },
+                            { label: "Neck Collar", val: inspectedPatron.neck_circ },
+                          ].map((item, idx) => (
+                            <div key={idx} className="p-2 bg-brand-black/5 dark:bg-white/5 border border-brand-black/5 dark:border-white/5 rounded">
+                              <span className="opacity-50 text-[8px] uppercase block">{item.label}</span>
+                              <p className="font-semibold text-sm mt-0.5 text-brand-gold">{item.val ? `${item.val}"` : "—"}</p>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* 2. Lower Body */}
+                      <div className="space-y-2">
+                        <div className="flex items-center gap-2 border-b border-brand-black/10 dark:border-white/10 pb-1 text-brand-gold uppercase text-[10px] tracking-wider font-semibold">
+                          <Scissors size={13} />
+                          <span>Trouser &amp; Lower Body (Inches)</span>
+                        </div>
+                        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                          {[
+                            { label: "Trouser Waist", val: inspectedPatron.trouser_waist },
+                            { label: "Outseam Length", val: inspectedPatron.trouser_length },
+                            { label: "Inseam", val: inspectedPatron.trouser_inseam },
+                            { label: "Thigh", val: inspectedPatron.thigh_circ },
+                            { label: "Knee", val: inspectedPatron.knee_circ },
+                            { label: "Ankle Hem", val: inspectedPatron.ankle_circ },
+                          ].map((item, idx) => (
+                            <div key={idx} className="p-2 bg-brand-black/5 dark:bg-white/5 border border-brand-black/5 dark:border-white/5 rounded">
+                              <span className="opacity-50 text-[8px] uppercase block">{item.label}</span>
+                              <p className="font-semibold text-sm mt-0.5 text-brand-gold">{item.val ? `${item.val}"` : "—"}</p>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* 3. African Regalia Silhouettes */}
+                      <div className="space-y-2">
+                        <div className="flex items-center gap-2 border-b border-brand-black/10 dark:border-white/10 pb-1 text-brand-gold uppercase text-[10px] tracking-wider font-semibold">
+                          <AdeAreIcon size={14} />
+                          <span>Traditional Regalia Silhouettes (Inches)</span>
+                        </div>
+                        <div className="grid grid-cols-3 gap-2">
+                          {[
+                            { label: "Agbada Drop", val: inspectedPatron.agbada_drop_length },
+                            { label: "Agbada Wingspan", val: inspectedPatron.agbada_wing_span },
+                            { label: "Kaftan Tunic Length", val: inspectedPatron.kaftan_shirt_length },
+                          ].map((item, idx) => (
+                            <div key={idx} className="p-2 bg-brand-black/5 dark:bg-white/5 border border-brand-black/5 dark:border-white/5 rounded">
+                              <span className="opacity-50 text-[8px] uppercase block">{item.label}</span>
+                              <p className="font-semibold text-sm mt-0.5 text-brand-gold">{item.val ? `${item.val}"` : "—"}</p>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* 4. Stance & Posture */}
+                      {inspectedPatron.posture_notes && (
+                        <div className="p-3 bg-brand-gold/10 border border-brand-gold/30 rounded-lg space-y-1">
+                          <span className="text-[9px] uppercase tracking-wider text-brand-gold font-bold block">
+                            Master Cutter Stance Profile
+                          </span>
+                          <p className="text-xs font-sans text-brand-black dark:text-white leading-relaxed">
+                            {inspectedPatron.posture_notes}
+                          </p>
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Footer Actions */}
+                    <div className="p-4 border-t border-brand-black/10 dark:border-white/10 bg-[#F5EFE6] dark:bg-brand-black/60 flex items-center justify-between gap-3 flex-shrink-0">
+                      <span className="text-[9px] font-mono opacity-50">
+                        Inscribed: {inspectedPatron.created_at ? new Date(inspectedPatron.created_at).toLocaleDateString() : "Active"}
                       </span>
+
+                      <div className="flex items-center gap-2">
+                        {inspectedPatron.phone && (
+                          <a
+                            href={`https://wa.me/${inspectedPatron.phone.replace(/[^0-9]/g, '')}?text=Hello%20${encodeURIComponent(inspectedPatron.full_name || 'Patron')}%2C%20this%20is%20Bolaji%20Abayomi%20Abraham%20regarding%20your%20bespoke%20measurement%20vault.`}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="py-2 px-3 bg-brand-gold/20 hover:bg-brand-gold/30 border border-brand-gold/50 text-brand-black dark:text-brand-gold text-xs font-mono uppercase tracking-wider rounded transition-colors flex items-center gap-1.5"
+                          >
+                            <Phone size={12} />
+                            <span>Direct Tailor Line</span>
+                          </a>
+                        )}
+                        <button
+                          onClick={() => setInspectedPatron(null)}
+                          className="py-2 px-4 bg-brand-black/10 dark:bg-white/10 hover:bg-brand-black/20 text-xs uppercase font-mono tracking-wider rounded transition-colors"
+                        >
+                          Close Vault
+                        </button>
+                      </div>
                     </div>
 
-                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs border-t border-brand-black/10 dark:border-white/10 pt-2.5">
-                      <div className="p-1.5 bg-black/[0.02] dark:bg-white/[0.02] border border-brand-black/5 dark:border-white/5">
-                        <span className="opacity-50 text-[8.5px] uppercase font-mono block">Chest</span>
-                        <p className="font-mono text-xs font-medium text-brand-black dark:text-brand-white mt-0.5">{patron.chest_circ || 42.0} in</p>
-                      </div>
-                      <div className="p-1.5 bg-black/[0.02] dark:bg-white/[0.02] border border-brand-black/5 dark:border-white/5">
-                        <span className="opacity-50 text-[8.5px] uppercase font-mono block">Waist</span>
-                        <p className="font-mono text-xs font-medium text-brand-black dark:text-brand-white mt-0.5">{patron.waist_circ || 36.0} in</p>
-                      </div>
-                      <div className="p-1.5 bg-black/[0.02] dark:bg-white/[0.02] border border-brand-black/5 dark:border-white/5">
-                        <span className="opacity-50 text-[8.5px] uppercase font-mono block">Shoulder</span>
-                        <p className="font-mono text-xs font-medium text-brand-black dark:text-brand-white mt-0.5">{patron.shoulder_span || 19.5} in</p>
-                      </div>
-                      <div className="p-1.5 bg-black/[0.02] dark:bg-white/[0.02] border border-brand-black/5 dark:border-white/5">
-                        <span className="opacity-50 text-[8.5px] uppercase font-mono block">Agbada Span</span>
-                        <p className="font-mono text-xs font-medium text-brand-black dark:text-brand-white mt-0.5">{patron.agbada_wing_span || 62.0} in</p>
-                      </div>
-                    </div>
-
-                    {patron.posture_notes && (
-                      <p className="text-[10px] font-mono opacity-65 border-t border-dashed border-brand-black/10 dark:border-white/10 pt-2">
-                        Stance Profile: <span className="text-brand-gold">{patron.posture_notes}</span>
-                      </p>
-                    )}
                   </div>
-                ))}
-              </div>
+                </div>
+              )}
             </div>
           )}
+
 
           {/* 4. CORPORATE B2B LEADS TAB */}
           {activeTab === "corporate" && (

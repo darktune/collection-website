@@ -21,7 +21,7 @@
 | **Working Directory** | `c:\Users\USER\OneDrive\Documents\abraham-collection\abrhamcollectionweb` |
 | **Current Git Branch** | `main` |
 | **Last Verified Build** | `✓ Compiled successfully (18/18 static & API routes passing)` |
-| **Last Memory Update** | October 2026 (Prompt 18 - Live Supabase Cloud Reconnection) |
+| **Last Memory Update** | October 2026 (Prompt 19 - Google OAuth, Onboarding Wizard & Admin Intelligence Studio) |
 
 
 ---
@@ -110,7 +110,8 @@ These eight rules represent hard user constraints established through iterative 
 | **15** | Oct 20 | Silky smooth nav hover physics, prominent Atelier theme switcher, locked default light mode, and staff admin isolation. | Fixed hover jitter in `Navigation.tsx` by eliminating height accordion shifts and applying cubic-bezier micro-transitions; added permanent, high-contrast Theme Switcher (`[ ☀️ Light ]` / `[ 🌙 Dark ]`) in nav and floating dock; locked default light mode (`enableSystem={false}`, `defaultTheme="light"`); purged any trace of Admin links from storefront; aligned all 25+ years references to 24 Years Craft (Est. 2002). | `1d1d804` |
 | **16** | Oct 20 | Complete mobile viewport optimization: responsive nav centering, mobile heritage ticker, theme-reactive mobile drawer, vertical dock adaptation, and modal responsive scales. | Solved mobile navigation centering using balanced 3-column architecture; brought Est. 2002 heritage ticker to mobile (`h-6`); converted mobile drawer from hardcoded dark into 100% theme-reactive drawer (Raw Silk in Light Mode, Velvet Obsidian in Dark Mode) with integrated mobile Theme Switcher, Client Dossier / Sign In, and WhatsApp Concierge; auto-docked Floating Dock vertically on mobile screens (`window.innerWidth < 768`); gave shopping modals responsive widths (`w-[calc(100vw-1rem)] sm:w-80`); refined homepage typography and padding for compact screens. | `5402a70` |
 | **17** | Oct 20 | Full backend, Supabase architecture, and user profile measurement vault audit & implementation. | Audited full backend, Supabase database, admin dashboard, and user profile layer; upgraded `UserProfileModal.tsx` from placeholder alert into interactive 24-point Anatomical Measurement Vault connected to `AtelierDatabase.savePatronProfile` with offline-first local cache fallback; aligned `supabase/schema.sql` header to Est. 2002; verified decoupled Admin Studio OS with 6 management views; created comprehensive launch and live cloud connection guide. | `4854b42` |
-| **18** | Oct 21 | Live Supabase cloud reconnection, publishable key verification, and idempotent SQL schema hardening. | Reconnected to unpaused Supabase project (`qpivrdtxswvpfglmczpx`), authenticated live with `sb_publishable_4d2D_cM9FsdK7J--c7_pHw_xpfxITRp`; updated `.env.local` and authored `.env.example`; hardened `supabase/schema.sql` with `DROP POLICY IF EXISTS` and `ON CONFLICT` handlers for 100% idempotent SQL execution via the Supabase SQL editor. | `[pending push]` |
+| **18** | Oct 21 | Live Supabase cloud reconnection, publishable key verification, and idempotent SQL schema hardening. | Reconnected to unpaused Supabase project (`qpivrdtxswvpfglmczpx`), authenticated live with `sb_publishable_4d2D_cM9FsdK7J--c7_pHw_xpfxITRp`; updated `.env.local` and authored `.env.example`; hardened `supabase/schema.sql` with `DROP POLICY IF EXISTS` and `ON CONFLICT` handlers for 100% idempotent SQL execution via the Supabase SQL editor. | `cf92476` |
+| **19** | Oct 21 | Google OAuth, secure session persistence, 3-stage Patron Onboarding Wizard, and Admin Patron Intelligence Studio with CSV export. | Added "Continue with Google" OAuth and secure password auth in `AuthModal.tsx`; built 3-stage luxury initiation onboarding modal (`OnboardingModal.tsx`) capturing sartorial silhouette affinities and 4-point anatomical baseline; added `preferred_silhouette` and `onboarding_completed` to `database.types.ts` and `database.ts`; mounted in `StorefrontShell.tsx` and wired to `AtelierContext.tsx` on-auth-change; overhauled Admin OS (`/admin`) with Patron Intelligence KPI ribbon, demographic and diaspora intelligence charts, 1-click CSV patron export (`exportPatronsCSV`), and Master Cutter 24-Point Inspection Modal; purged all `emerald-*` references; verified all 18 routes pass production compilation. | `[pending push]` |
 
 
 
@@ -147,7 +148,8 @@ src/
 │   ├── layout/StorefrontShell.tsx   # Isolates public storefront chrome from /admin* routes
 │   ├── admin/AdminCopilotModal.tsx  # Staff AI Copilot for Admin OS (WhatsApp drafts, status updates)
 │   ├── auth/
-│   │   ├── AuthModal.tsx            # Supabase sign-in/sign-up with measurement vault linking
+│   │   ├── AuthModal.tsx            # Supabase sign-in/sign-up with Google OAuth & password
+│   │   ├── OnboardingModal.tsx      # 3-Stage luxury initiation wizard (tier, silhouette, baseline)
 │   │   └── StorytellingAuthPopup.tsx# Non-intrusive storytelling prompt (max 2 per session)
 │   ├── pwa/PwaManager.tsx           # Offline detection banner and service worker updater
 │   └── dock/

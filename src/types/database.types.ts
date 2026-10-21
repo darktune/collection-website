@@ -39,6 +39,8 @@ export interface PatronProfileRecord {
   agbada_wing_span?: number | null;
   kaftan_shirt_length?: number | null;
   posture_notes?: string | null;
+  preferred_silhouette?: string | null;
+  onboarding_completed?: boolean;
 
   avatar_url?: string | null;
   created_at?: string;

@@ -1,6 +1,8 @@
 "use client";
 
 import React, { createContext, useContext, useState, useEffect } from "react";
+import { supabase } from "@/lib/supabase";
+import { AtelierDatabase } from "@/lib/services/database";
 
 export interface AtelierProduct {
   id: string;
@@ -18,6 +20,7 @@ export interface CartItem extends AtelierProduct {
 }
 
 export interface UserProfile {
+  id?: string;
   name: string;
   email: string;
   phone: string;
@@ -25,6 +28,9 @@ export interface UserProfile {
   country: string;
   isAuthenticated: boolean;
   memberTier: "Guest Patron" | "Atelier Circle" | "Royal Benefactor";
+  avatarUrl?: string;
+  preferredSilhouette?: string;
+  hasVaultMeasurements?: boolean;
 }
 
 interface AtelierContextType {
@@ -41,8 +47,8 @@ interface AtelierContextType {
   login: (profile: Partial<UserProfile>) => void;
   logout: () => void;
 
-  activeModal: "none" | "assistant" | "search" | "wishlist" | "profile" | "cart" | "auth" | "quickBuy";
-  setActiveModal: (modal: "none" | "assistant" | "search" | "wishlist" | "profile" | "cart" | "auth" | "quickBuy") => void;
+  activeModal: "none" | "assistant" | "search" | "wishlist" | "profile" | "cart" | "auth" | "quickBuy" | "onboarding";
+  setActiveModal: (modal: "none" | "assistant" | "search" | "wishlist" | "profile" | "cart" | "auth" | "quickBuy" | "onboarding") => void;
 
   selectedProductForQuickBuy: AtelierProduct | null;
   openQuickBuy: (product: AtelierProduct) => void;
@@ -73,14 +79,46 @@ export function AtelierProvider({ children }: { children: React.ReactNode }) {
   });
 
   const [activeModal, setActiveModal] = useState<
-    "none" | "assistant" | "search" | "wishlist" | "profile" | "cart" | "auth" | "quickBuy"
+    "none" | "assistant" | "search" | "wishlist" | "profile" | "cart" | "auth" | "quickBuy" | "onboarding"
   >("none");
   const [selectedProductForQuickBuy, setSelectedProductForQuickBuy] = useState<AtelierProduct | null>(null);
   const [dockOrientation, setDockOrientation] = useState<"horizontal" | "vertical">("horizontal");
   const [isDockCollapsed, setIsDockCollapsed] = useState(false);
   const [storyPopupVisible, setStoryPopupVisible] = useState(false);
 
-  // Load persisted state from localStorage
+  const syncUserSession = async (sbUser: any) => {
+    if (!sbUser?.email) return;
+    const email = sbUser.email;
+    const meta = sbUser.user_metadata || {};
+    const fallbackName = meta.full_name || meta.name || email.split('@')[0] || "Esteemed Patron";
+    const profile = await AtelierDatabase.getPatronProfile(email);
+
+    const hasMeasurements = !!(
+      profile?.chest_circ || profile?.waist_circ || profile?.shoulder_span || profile?.sleeve_length
+    );
+
+    const syncedUser: UserProfile = {
+      id: sbUser.id,
+      name: profile?.full_name || fallbackName,
+      email,
+      phone: profile?.phone || meta.phone || "",
+      city: profile?.city || "Lagos",
+      country: profile?.country || "Nigeria",
+      isAuthenticated: true,
+      memberTier: (profile?.member_tier as any) || "Atelier Circle",
+      avatarUrl: profile?.avatar_url || meta.avatar_url || undefined,
+      preferredSilhouette: profile?.preferred_silhouette || undefined,
+      hasVaultMeasurements: hasMeasurements,
+    };
+
+    setUser(syncedUser);
+    try {
+      localStorage.setItem("abraham_user", JSON.stringify(syncedUser));
+    } catch {}
+    return syncedUser;
+  };
+
+  // Load persisted state from localStorage and listen to Supabase Auth
   useEffect(() => {
     try {
       const savedWishlist = localStorage.getItem("abraham_wishlist");
@@ -97,6 +135,35 @@ export function AtelierProvider({ children }: { children: React.ReactNode }) {
       }
     } catch {
       // LocalStorage access handling
+    }
+
+    // Supabase Auth listener (syncs Google OAuth redirect and email sessions)
+    try {
+      supabase.auth.getSession().then(({ data: { session } }) => {
+        if (session?.user?.email) {
+          syncUserSession(session.user);
+        }
+      });
+
+      const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
+        if (session?.user?.email) {
+          await syncUserSession(session.user);
+          if (event === "SIGNED_IN") {
+            const profile = await AtelierDatabase.getPatronProfile(session.user.email);
+            if (!profile?.onboarding_completed) {
+              setActiveModal("onboarding");
+            }
+          }
+        } else if (event === "SIGNED_OUT") {
+          logoutLocal();
+        }
+      });
+
+      return () => {
+        subscription.unsubscribe();
+      };
+    } catch (err) {
+      console.warn("Supabase auth subscription fallback:", err);
     }
   }, []);
 
@@ -175,13 +242,17 @@ export function AtelierProvider({ children }: { children: React.ReactNode }) {
 
   const login = (profile: Partial<UserProfile>) => {
     const updatedUser: UserProfile = {
-      name: profile.name || "Esteemed Patron",
-      email: profile.email || "client@abrahamcollection.com",
-      phone: profile.phone || "",
-      city: profile.city || "Lagos",
-      country: profile.country || "Nigeria",
+      ...user,
+      name: profile.name || user.name || "Esteemed Patron",
+      email: profile.email || user.email || "client@abrahamcollection.com",
+      phone: profile.phone ?? user.phone,
+      city: profile.city ?? user.city,
+      country: profile.country ?? user.country,
       isAuthenticated: true,
-      memberTier: "Atelier Circle",
+      memberTier: profile.memberTier || user.memberTier || "Atelier Circle",
+      avatarUrl: profile.avatarUrl ?? user.avatarUrl,
+      preferredSilhouette: profile.preferredSilhouette ?? user.preferredSilhouette,
+      hasVaultMeasurements: profile.hasVaultMeasurements ?? user.hasVaultMeasurements,
     };
     setUser(updatedUser);
     try {
@@ -190,7 +261,7 @@ export function AtelierProvider({ children }: { children: React.ReactNode }) {
     setStoryPopupVisible(false);
   };
 
-  const logout = () => {
+  const logoutLocal = () => {
     const guestUser: UserProfile = {
       name: "",
       email: "",
@@ -203,6 +274,13 @@ export function AtelierProvider({ children }: { children: React.ReactNode }) {
     setUser(guestUser);
     try {
       localStorage.removeItem("abraham_user");
+    } catch {}
+  };
+
+  const logout = async () => {
+    logoutLocal();
+    try {
+      await supabase.auth.signOut();
     } catch {}
   };
 

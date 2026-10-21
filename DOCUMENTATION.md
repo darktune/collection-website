@@ -266,6 +266,37 @@ flowchart TD
   - **Environment Variables Sync**: Updated `.env.local` and created `.env.example` with the active Supabase URL and publishable key.
   - **Idempotent SQL Schema**: Upgraded `supabase/schema.sql` to include `DROP POLICY IF EXISTS` prior to creating each RLS policy, added `CREATE UNIQUE INDEX IF NOT EXISTS` for textile fabrics, and added `ON CONFLICT (fabric_name) DO NOTHING` to prevent any duplicate errors when executing the script in the Supabase SQL editor.
   - **Launch Instructions**: Outlined the 3-click workflow for executing the script directly in the Supabase SQL Editor (`>_` icon on the dashboard).
+- **Commit**: `cf92476`
+
+---
+
+### Prompt 19: Google OAuth, Secure Authentication, Luxury Patron Onboarding Wizard & Admin Intelligence Studio
+- **User Directives**:
+  1. What about users onboarding process?
+  2. Industry standard and secure authentication, including Google authentication?
+  3. Saving users data to analyze and use in admin dashboard?
+- **Architectural Deliverables**:
+  - **Google OAuth Integration & Secure Session Persistence**:
+    - Implemented one-click "Continue with Google" OAuth button in `src/components/auth/AuthModal.tsx` utilizing Supabase Auth (`supabase.auth.signInWithOAuth`).
+    - Engineered dual-mode Email + Password authentication (`signUp` and `signInWithPassword`) with min 6-character passkey verification, password visibility toggle, and instant error banners.
+    - Wired persistent auth state management via `supabase.auth.getSession()` and `supabase.auth.onAuthStateChange` in `src/context/AtelierContext.tsx`, ensuring OAuth redirect tokens are captured, patron profiles are fetched from Supabase `profiles` table, and onboarding state is evaluated.
+  - **3-Stage Luxury Patron Onboarding Wizard ("The Atelier Initiation")**:
+    - Created `src/components/auth/OnboardingModal.tsx` mounted globally in `src/components/layout/StorefrontShell.tsx`.
+    - Stage 1 (*Prestige Tier Induction*): Welcomes patron to Atelier Circle with privileges (exclusive textiles, anatomical vault lock, DHL diaspora courier).
+    - Stage 2 (*Sartorial Affinity*): Captures silhouette preference (Grand Agbada, British-Italian Suiting, Executive Senator, Royal Dandogo, Architectural Womenswear) and fitting location preference (Lagos Atelier Studio vs Remote Video Concierge).
+    - Stage 3 (*Anatomical Vault Quick-Start*): Collects core 4-point measurements (chest, waist, shoulder, trouser length) or offers a skip option to complete later in the profile modal.
+    - Persists selections directly to Supabase `profiles` table via `AtelierDatabase.savePatronProfile` with `onboarding_completed: true`.
+  - **Admin Dashboard Patron Intelligence & Analytics Studio (`/admin`)**:
+    - Added 6th Executive KPI card: **Patrons Vault** tracking registered patrons and measured profiles.
+    - Built **Patron Acquisition & Demographic Intelligence** panel with live breakdowns for Prestige Tiers (Royal Benefactors, Diplomatic Guild, Atelier Patrons), Geographic Demographics (Lagos vs Diaspora: UK, US, Canada, EU), and Vault Health Index.
+    - Integrated **One-Click CSV Data Export** (`exportPatronsCSV`) in Clients view, downloading `abraham_collection_patrons_YYYY-MM-DD.csv` for CRM and cutting room planning.
+    - Implemented **Master Cutter 24-Point Inspection Modal** (`inspectedPatron`) with comprehensive tabs (Upper Body, Trousers, Regalia, Stance Profile) and one-click WhatsApp tailor dispatch.
+    - Purged remaining `emerald-500` status badge in orders table in accordance with brand rules.
+  - **Database Types & Schema Synchronization**:
+    - Added `preferred_silhouette?: string` and `onboarding_completed?: boolean` to `PatronProfile` in `src/types/database.types.ts` and `src/lib/services/database.ts`.
+    - Added `getPatronProfile(email)` service method for live profile lookup.
+  - **Verification**:
+    - Successfully verified all 18 routes compiled statically or server-rendered via `npm run build` (Next.js 14.2.1) with code 0.
 - **Commit**: `[pending push]`
 
 ---
@@ -393,21 +424,22 @@ Route (app)                              Size     First Load JS
 ┌ ○ /                                    188 B            99 kB
 ├ ○ /_not-found                          871 B          87.8 kB
 ├ ○ /about                               293 B          92.3 kB
-├ ○ /admin                               13.1 kB         107 kB
+├ ○ /admin                               18.7 kB         181 kB
+├ ƒ /api/admin/verify                    0 B                0 B
 ├ ○ /bespoke                             188 B            99 kB
-├ ○ /bespoke/commission                  5.26 kB          99 kB
+├ ○ /bespoke/commission                  5.65 kB         168 kB
 ├ ○ /contact                             4.55 kB        98.3 kB
-├ ○ /corporate                           2.75 kB         154 kB
-├ ○ /heritage                            2.45 kB         104 kB
-├ ○ /men                                 2.45 kB         104 kB
+├ ○ /corporate                           2.48 kB         158 kB
+├ ○ /heritage                            2.46 kB         173 kB
+├ ○ /men                                 2.46 kB         173 kB
 ├ ○ /offline                             3.48 kB        97.2 kB
 ├ ○ /privacy                             176 B          93.9 kB
 ├ ○ /stories                             188 B            99 kB
 ├ ○ /terms                               176 B          93.9 kB
-└ ○ /women                               2.45 kB         104 kB
+└ ○ /women                               2.46 kB         173 kB
 + First Load JS shared by all            86.9 kB
 ```
 
-- **Total Static Routes**: 17/17 generated with zero errors.
+- **Total App Routes**: 18 routes (17 static pages + 1 server-side API route handler) generated with zero errors.
 - **Middleware**: 27 kB bundle managing authentication and session headers.
 - **Compilation Result**: Clean exit code `0`.

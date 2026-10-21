@@ -12,6 +12,7 @@ import { CartDrawerModal } from "@/components/dock/CartDrawerModal";
 import { QuickBuyModal } from "@/components/dock/QuickBuyModal";
 import { VisualSearchModal } from "@/components/dock/VisualSearchModal";
 import { AuthModal } from "@/components/auth/AuthModal";
+import { OnboardingModal } from "@/components/auth/OnboardingModal";
 import { StorytellingAuthPopup } from "@/components/auth/StorytellingAuthPopup";
 import { PwaManager } from "@/components/pwa/PwaManager";
 
@@ -48,6 +49,7 @@ export function StorefrontShell({ children }: { children: React.ReactNode }) {
       <QuickBuyModal />
       <VisualSearchModal />
       <AuthModal />
+      <OnboardingModal />
       <StorytellingAuthPopup />
       <PwaManager />
     </>

@@ -427,6 +427,40 @@ export const AtelierDatabase = {
     }
   },
 
+  async getPatronProfile(email: string): Promise<PatronProfileRecord | null> {
+    if (!email) return null;
+    const cleanEmail = email.trim().toLowerCase();
+
+    // Check cloud first
+    try {
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('email', cleanEmail)
+        .maybeSingle();
+
+      if (!error && data) {
+        return data as PatronProfileRecord;
+      }
+    } catch (err) {
+      console.warn("Supabase getPatronProfile fallback:", err);
+    }
+
+    // Fallback to local cache
+    if (typeof window !== 'undefined') {
+      try {
+        const cached = localStorage.getItem(STORAGE_PROFILES);
+        if (cached) {
+          const list: PatronProfileRecord[] = JSON.parse(cached);
+          const found = list.find((p) => p.email?.toLowerCase() === cleanEmail);
+          if (found) return found;
+        }
+      } catch {}
+    }
+
+    return null;
+  },
+
   async getPatronProfiles(): Promise<PatronProfileRecord[]> {
     try {
       const { data, error } = await supabase

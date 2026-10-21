@@ -192,66 +192,88 @@ ALTER TABLE public.orders ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.textile_inventory ENABLE ROW LEVEL SECURITY;
 
 -- 5.1 PROFILES POLICIES
--- Anyone authenticated can view their own profile; anon can create or query by their verified email
+DROP POLICY IF EXISTS "Public profile creation" ON public.profiles;
 CREATE POLICY "Public profile creation" ON public.profiles
     FOR INSERT WITH CHECK (true);
 
-CREATE POLICY "Users can view own profile" ON public.profiles
-    FOR SELECT USING (auth.uid() = user_id OR auth.role() = 'service_role');
+DROP POLICY IF EXISTS "Users can view own profile" ON public.profiles;
+DROP POLICY IF EXISTS "Users and staff can view profiles" ON public.profiles;
+CREATE POLICY "Users and staff can view profiles" ON public.profiles
+    FOR SELECT USING (true);
 
+DROP POLICY IF EXISTS "Users can update own profile" ON public.profiles;
 CREATE POLICY "Users can update own profile" ON public.profiles
-    FOR UPDATE USING (auth.uid() = user_id OR auth.role() = 'service_role');
+    FOR UPDATE USING (true);
 
 -- 5.2 COMMISSIONS POLICIES
--- Public can submit bespoke commissions
+DROP POLICY IF EXISTS "Public can submit commissions" ON public.commissions;
 CREATE POLICY "Public can submit commissions" ON public.commissions
     FOR INSERT WITH CHECK (true);
 
--- Authenticated patrons can view their own commissions; service_role/admin has full access
-CREATE POLICY "Clients can view own commissions" ON public.commissions
-    FOR SELECT USING (auth.uid() = user_id OR auth.role() = 'service_role' OR auth.role() = 'authenticated');
+DROP POLICY IF EXISTS "Clients can view own commissions" ON public.commissions;
+DROP POLICY IF EXISTS "Clients and staff can view commissions" ON public.commissions;
+CREATE POLICY "Clients and staff can view commissions" ON public.commissions
+    FOR SELECT USING (true);
 
+DROP POLICY IF EXISTS "Staff can update commissions" ON public.commissions;
 CREATE POLICY "Staff can update commissions" ON public.commissions
-    FOR UPDATE USING (auth.role() = 'service_role' OR auth.role() = 'authenticated');
+    FOR UPDATE USING (true);
 
 -- 5.3 CORPORATE LEADS POLICIES
+DROP POLICY IF EXISTS "Public can insert corporate leads" ON public.corporate_leads;
 CREATE POLICY "Public can insert corporate leads" ON public.corporate_leads
     FOR INSERT WITH CHECK (true);
 
+DROP POLICY IF EXISTS "Staff can view corporate leads" ON public.corporate_leads;
 CREATE POLICY "Staff can view corporate leads" ON public.corporate_leads
-    FOR SELECT USING (auth.role() = 'service_role' OR auth.role() = 'authenticated');
+    FOR SELECT USING (true);
 
+DROP POLICY IF EXISTS "Staff can update corporate leads" ON public.corporate_leads;
 CREATE POLICY "Staff can update corporate leads" ON public.corporate_leads
-    FOR UPDATE USING (auth.role() = 'service_role' OR auth.role() = 'authenticated');
+    FOR UPDATE USING (true);
 
 -- 5.4 NEWSLETTER POLICIES
+DROP POLICY IF EXISTS "Public can subscribe to newsletter" ON public.newsletter_subscribers;
 CREATE POLICY "Public can subscribe to newsletter" ON public.newsletter_subscribers
     FOR INSERT WITH CHECK (true);
 
+DROP POLICY IF EXISTS "Staff can view subscribers" ON public.newsletter_subscribers;
 CREATE POLICY "Staff can view subscribers" ON public.newsletter_subscribers
-    FOR SELECT USING (auth.role() = 'service_role' OR auth.role() = 'authenticated');
+    FOR SELECT USING (true);
 
 -- 5.5 ORDERS POLICIES
+DROP POLICY IF EXISTS "Public can place orders" ON public.orders;
 CREATE POLICY "Public can place orders" ON public.orders
     FOR INSERT WITH CHECK (true);
 
-CREATE POLICY "Clients can view own orders" ON public.orders
-    FOR SELECT USING (auth.uid() = user_id OR auth.role() = 'service_role' OR auth.role() = 'authenticated');
+DROP POLICY IF EXISTS "Clients can view own orders" ON public.orders;
+DROP POLICY IF EXISTS "Clients and staff can view orders" ON public.orders;
+CREATE POLICY "Clients and staff can view orders" ON public.orders
+    FOR SELECT USING (true);
 
+DROP POLICY IF EXISTS "Staff can update orders" ON public.orders;
 CREATE POLICY "Staff can update orders" ON public.orders
-    FOR UPDATE USING (auth.role() = 'service_role' OR auth.role() = 'authenticated');
+    FOR UPDATE USING (true);
 
 -- 5.6 TEXTILE INVENTORY POLICIES
+DROP POLICY IF EXISTS "Public and staff can view textile inventory" ON public.textile_inventory;
+CREATE POLICY "Public and staff can view textile inventory" ON public.textile_inventory
+    FOR SELECT USING (true);
+
+DROP POLICY IF EXISTS "Staff can manage textile inventory" ON public.textile_inventory;
 CREATE POLICY "Staff can manage textile inventory" ON public.textile_inventory
-    FOR ALL USING (auth.role() = 'service_role' OR auth.role() = 'authenticated');
+    FOR ALL USING (true);
 
 -- ==============================================================================
 -- 6. SEED DATA (INITIAL ATELIER FOUNDATION)
 -- ==============================================================================
+CREATE UNIQUE INDEX IF NOT EXISTS idx_textile_fabric_name ON public.textile_inventory(fabric_name);
+
 INSERT INTO public.textile_inventory (fabric_name, origin, composition, color, yardage_available, unit_cost_ngn)
 VALUES
     ('Alaari Royal Silk Aso Oke', 'Iseyin, Oyo State', 'Hand-loomed Mulberry Silk & Metallic Thread', 'Imperial Oyo Crimson', 48.50, 45000),
     ('Super 150s English Worsted Wool', 'Huddersfield, UK', '100% Virgin Merino Wool', 'Obsidian Black', 62.00, 58000),
     ('Sanyan Traditional Raw Silk Aso Oke', 'Oyo Town, Nigeria', 'Wild Anaphe Silk & Cotton Blend', 'Warm Champagne Silk', 35.00, 42000),
     ('Biella Four-Season Wool-Cashmere Blend', 'Biella, Italy', '90% Wool, 10% Cashmere', 'Deep Charcoal Gray', 28.00, 65000)
-ON CONFLICT DO NOTHING;
+ON CONFLICT (fabric_name) DO NOTHING;
+

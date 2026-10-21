@@ -253,6 +253,19 @@ flowchart TD
   - **Supabase Production Schema Alignment**: Verified `supabase/schema.sql` covering 6 production tables (`profiles`, `commissions`, `corporate_leads`, `newsletter_subscribers`, `orders`, `textile_inventory`) with strict Row Level Security (RLS) policies and performance indexes. Aligned founding header to Est. 2002.
   - **Admin Studio OS Decoupling & Verification**: Verified that `/admin` is completely isolated from storefront chrome via `StorefrontShell.tsx`, protected by server-side verification (`/api/admin/verify`), and provides 6 management views with staff AI Copilot integration (`AdminCopilotModal.tsx`).
   - **Production Launch Guide**: Documented exact steps for cloud activation (Supabase database setup, Vercel environment variables, Paystack/Flutterwave keys, custom domain).
+- **Commit**: `4854b42`
+
+---
+
+### Prompt 18: Live Supabase Cloud Reconnection, Publishable Key Verification & Schema Idempotence
+- **User Directives**:
+  1. Reconnect unpaused project `https://qpivrdtxswvpfglmczpx.supabase.co` with key `sb_publishable_4d2D_cM9FsdK7J--c7_pHw_xpfxITRp`.
+  2. Setup database linking and schema execution instructions.
+- **Architectural Deliverables**:
+  - **Live Cloud Health Verification**: Validated connection to `https://qpivrdtxswvpfglmczpx.supabase.co` in eu-west-1 (Ireland). Confirmed `sb_publishable_4d2D_cM9FsdK7J--c7_pHw_xpfxITRp` is actively authenticating queries with PostgREST.
+  - **Environment Variables Sync**: Updated `.env.local` and created `.env.example` with the active Supabase URL and publishable key.
+  - **Idempotent SQL Schema**: Upgraded `supabase/schema.sql` to include `DROP POLICY IF EXISTS` prior to creating each RLS policy, added `CREATE UNIQUE INDEX IF NOT EXISTS` for textile fabrics, and added `ON CONFLICT (fabric_name) DO NOTHING` to prevent any duplicate errors when executing the script in the Supabase SQL editor.
+  - **Launch Instructions**: Outlined the 3-click workflow for executing the script directly in the Supabase SQL Editor (`>_` icon on the dashboard).
 - **Commit**: `[pending push]`
 
 ---

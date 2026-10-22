@@ -329,6 +329,25 @@ flowchart TD
 
 ---
 
+### Prompt 22: Relocation of Atelier Theme Selector to Top Heritage Bar
+- **User Directives**:
+  - "look the theme selector is hiding, can we find a new place to put it (follow the design rules)"
+- **Root Cause Analysis**:
+  - The theme switcher was previously situated at the far right of the primary navigation row (`<nav>`), after the desktop links cluster (`Atelier Story`, `Sign In`, `Book Bespoke`).
+  - On viewports between 1024px and 1300px (and zoomed desktop displays), the cumulative width of the left navigation links (`~380px`), centered brand masthead (`~250px`), container horizontal padding (`px-14` / `px-20`), and right CTA items forced the theme button to overflow off the right edge of the screen into the non-visible viewport margin.
+- **Architectural Deliverables**:
+  - **Top Heritage Bar Sanctuary**: Relocated the theme switcher to the permanently fixed, architectural Top Heritage Bar (`h-6 md:h-7 px-3 sm:px-6 md:px-10 lg:px-12 bg-brand-onyx`). This bar remains pinned at the very top of the screen (`top-0`) across all routes and devices, with ample horizontal real estate.
+  - **Responsive Micro-Typography & Hairline Aesthetics (Rule 8)**: Formatted the toggle with delicate Tongoro micro-typography (`text-[7.5px] sm:text-[8px] md:text-[8.5px] tracking-[0.22em]`), architectural hairline borders (`border border-white/20 hover:border-brand-gold`), muted silk text, and smooth `spin-in-180` icon rotation.
+  - **Triple-Redundant Theme Access (Rule 5)**:
+    1. *Top Heritage Bar*: Permanent, instant single-click toggle on desktop, tablet, and mobile.
+    2. *Mobile Navigation Drawer*: Full-width theme control row with mode indicators (`Velvet Obsidian Active` / `Raw Silk Light Active`).
+    3. *Atelier Floating Dock*: Node 6 quick-toggle button always floating on the screen.
+  - **Main Nav Right Cluster Streamlined**: Removed the duplicate/overflowing toggle from the main navigation bar, allowing `Book Bespoke` to stand proudly as the unencumbered terminal CTA on the right.
+  - **Optimized Container Padding**: Adjusted navbar container padding to `px-3 sm:px-6 md:px-8 lg:px-12 xl:px-16` to guarantee comfortable margins and zero collisions on all displays.
+- **Commit**: `fix(nav)`
+
+---
+
 ## 3. System Architecture & Component Anatomy
 
 ```

@@ -34,29 +34,50 @@ export function Navigation() {
       className="fixed top-0 left-0 right-0 z-50 transition-colors duration-500 font-sans"
     >
       {/* Top Heritage Bar: Permanent luxury ticker across all viewports (Mobile & Desktop) */}
-      <div className="bg-brand-onyx text-brand-silk/80 text-[7.5px] sm:text-[8px] md:text-[9px] tracking-[0.2em] sm:tracking-[0.25em] md:tracking-[0.28em] uppercase px-3 sm:px-6 md:px-12 h-6 md:h-7 flex justify-between items-center border-b border-white/5 select-none">
-        <div className="flex items-center gap-1.5 sm:gap-2">
+      <div className="bg-brand-onyx text-brand-silk/80 text-[7.5px] sm:text-[8px] md:text-[9px] tracking-[0.2em] sm:tracking-[0.25em] md:tracking-[0.28em] uppercase px-3 sm:px-6 md:px-10 lg:px-12 h-6 md:h-7 flex justify-between items-center border-b border-white/5 select-none z-50">
+        <div className="flex items-center gap-1.5 sm:gap-2 min-w-0 pr-2">
           <AdinkraheneIcon size={10} className="text-brand-gold flex-shrink-0" />
           <span className="truncate">EST. 2002 &bull; 24 YEARS OF CRAFT &bull; LAGOS</span>
         </div>
 
-        <div className="hidden sm:flex items-center gap-4 md:gap-6 text-[8px] md:text-[9px] tracking-[0.22em] md:tracking-[0.25em]">
-          <Link href="/bespoke/commission?type=diaspora" className="hover:text-brand-gold transition-colors truncate">
+        <div className="flex items-center gap-2.5 sm:gap-4 md:gap-5 text-[8px] md:text-[9px] tracking-[0.22em] md:tracking-[0.25em] flex-shrink-0">
+          <Link href="/bespoke/commission?type=diaspora" className="hidden sm:inline hover:text-brand-gold transition-colors truncate">
             DIASPORA CONCIERGE (UK &bull; US &bull; CA &bull; EU)
           </Link>
-          <span className="text-white/20">|</span>
-          <Link href="/bespoke/commission" className="hover:text-brand-gold transition-colors">
+          <span className="hidden sm:inline text-white/20">|</span>
+          <Link href="/bespoke/commission" className="hidden md:inline hover:text-brand-gold transition-colors">
             APPOINTMENTS
           </Link>
+          <span className="hidden sm:inline text-white/20">|</span>
+
+          {/* Dedicated Luxury Atelier Theme Switcher (Permanent top-right anchor, unclipped across all viewports) */}
+          <button
+            onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+            className="flex items-center gap-1.5 px-2 py-0.5 sm:px-2.5 sm:py-0.5 border border-white/20 hover:border-brand-gold text-brand-silk/90 hover:text-brand-gold transition-all duration-300 bg-white/5 hover:bg-white/10 text-[7.5px] sm:text-[8px] md:text-[8.5px] tracking-[0.22em] uppercase font-mono font-medium flex-shrink-0"
+            aria-label="Toggle Atelier Theme"
+            title={mounted ? (theme === "dark" ? "Switch to Raw Silk Light Theme" : "Switch to Velvet Obsidian Dark Theme") : "Toggle Theme"}
+          >
+            {mounted && theme === "dark" ? (
+              <>
+                <Sun size={10} className="text-brand-gold animate-in spin-in-180 duration-500" />
+                <span className="font-semibold text-brand-gold">LIGHT</span>
+              </>
+            ) : (
+              <>
+                <Moon size={10} className="text-brand-gold animate-in spin-in-180 duration-500" />
+                <span className="font-semibold text-brand-silk">DARK</span>
+              </>
+            )}
+          </button>
         </div>
       </div>
 
       {/* Main Navigation Bar - Balanced 3-column architecture:
           - Left: Desktop links / mobile spacer (ensures center logo is 100% centered on mobile)
           - Center: Prominent brand masthead & motto
-          - Right: Theme toggle, desktop action links, and mobile menu button */}
+          - Right: Desktop action links (Atelier Story, Sign In, Book Bespoke) and mobile menu button */}
       <nav
-        className={`flex items-center justify-between px-3 sm:px-6 md:px-10 lg:px-14 xl:px-20 transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] w-full ${
+        className={`flex items-center justify-between px-3 sm:px-6 md:px-8 lg:px-12 xl:px-16 transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] w-full ${
           scrolled
             ? "h-14 sm:h-16 md:h-18 bg-[#FCFAF7]/95 dark:bg-[#0B0908]/95 backdrop-blur-xl shadow-md border-b border-brand-black/5 dark:border-white/10"
             : isHovered
@@ -180,30 +201,6 @@ export function Navigation() {
               <span>Book Bespoke</span>
             </Link>
           </div>
-
-          {/* Unmistakable Atelier Theme Toggle (Optimized for Mobile & Desktop) */}
-          <button
-            onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-            className={`flex items-center justify-center gap-1.5 p-1.5 sm:px-3 sm:py-1.5 text-[8.5px] md:text-[9px] tracking-[0.2em] sm:tracking-[0.24em] uppercase font-medium transition-all duration-300 shadow-sm ${
-              scrolled || isHovered
-                ? "text-brand-black dark:text-brand-silk border border-brand-black/20 dark:border-brand-gold/40 hover:border-brand-crimson dark:hover:border-brand-gold bg-brand-black/5 dark:bg-brand-gold/10 hover:bg-brand-black/10 dark:hover:bg-brand-gold/20"
-                : "text-white bg-black/60 border border-brand-gold/60 backdrop-blur-md hover:border-brand-gold hover:bg-black/85 hover:text-brand-gold"
-            }`}
-            aria-label="Toggle Atelier Theme"
-            title={mounted ? (theme === "dark" ? "Switch to Light Theme" : "Switch to Dark Theme") : "Toggle Theme"}
-          >
-            {mounted && theme === "dark" ? (
-              <>
-                <Sun size={13} strokeWidth={2} className="text-brand-gold animate-in spin-in-180 duration-500" />
-                <span className="hidden sm:inline font-semibold text-brand-gold tracking-[0.22em]">Light</span>
-              </>
-            ) : (
-              <>
-                <Moon size={13} strokeWidth={2} className="text-brand-crimson dark:text-brand-gold animate-in spin-in-180 duration-500" />
-                <span className="hidden sm:inline font-semibold tracking-[0.22em]">Dark</span>
-              </>
-            )}
-          </button>
 
           {/* Mobile Menu Button */}
           <button

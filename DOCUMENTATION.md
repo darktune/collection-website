@@ -348,6 +348,24 @@ flowchart TD
 
 ---
 
+### Prompt 23: Google Cloud OAuth 2.0 Credentials Provisioned & Supabase Auth Provider Configured
+- **User Directives**:
+  - Set up Google OAuth in Google Cloud Console and link to Supabase Authentication.
+- **Architectural Deliverables**:
+  - **Google Cloud Console OAuth 2.0 Web Client**: Configured client with:
+    - Authorised JavaScript Origins: `https://abrhamcollectionweb.vercel.app`, `https://qpivrdtxswvpfglmczpx.supabase.co`, `http://localhost:3000`.
+    - Authorised Redirect URIs: `https://qpivrdtxswvpfglmczpx.supabase.co/auth/v1/callback`.
+  - **Supabase Authentication Provider**:
+    - Enabled Google provider in Supabase Dashboard with Google Client ID and Client Secret.
+    - Configured Site URL (`https://abrhamcollectionweb.vercel.app`) and Redirect URLs (`https://abrhamcollectionweb.vercel.app/**`, `http://localhost:3000/**`).
+  - **End-to-End Patron Initiation Flow**:
+    - Patrons can now authenticate with 1 click via "Continue with Google" in `AuthModal.tsx`.
+    - Automatically syncs patron name, email, and avatar into `AtelierContext.tsx`.
+    - Uninitiated patrons immediately trigger the 3-Stage luxury onboarding modal (`OnboardingModal.tsx`) to capture prestige tier, silhouette affinity, and anatomical measurements directly to `public.profiles`.
+- **Commit**: `docs(oauth)`
+
+---
+
 ## 3. System Architecture & Component Anatomy
 
 ```

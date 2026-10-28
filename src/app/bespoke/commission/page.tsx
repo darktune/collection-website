@@ -9,7 +9,7 @@ import {
   IrukereIcon,
   SankofaDiasporaIcon,
 } from "@/components/icons/BespokeIcons";
-import { CheckCircle2, ShieldCheck } from "lucide-react";
+import { CheckCircle2, ShieldCheck, Copy, Check, MessageSquare } from "lucide-react";
 
 import { AtelierDatabase } from "@/lib/services/database";
 
@@ -23,6 +23,15 @@ function CommissionFormInner() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [referenceCode, setReferenceCode] = useState("");
+  const [copied, setCopied] = useState(false);
+  const [submittedData, setSubmittedData] = useState<{ clientName: string; location: string } | null>(null);
+
+  const handleCopy = () => {
+    if (!referenceCode) return;
+    navigator.clipboard.writeText(referenceCode);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2500);
+  };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -40,6 +49,7 @@ function CommissionFormInner() {
     // Generate unique archival reference code
     const generatedRef = `AB-${new Date().getFullYear()}-${Math.floor(1000 + Math.random() * 9000)}`;
     setReferenceCode(generatedRef);
+    setSubmittedData({ clientName: client_name, location: event_city });
 
     try {
       await AtelierDatabase.createCommission({
@@ -68,6 +78,10 @@ function CommissionFormInner() {
   };
 
   if (submitted) {
+    const whatsappMessage = encodeURIComponent(
+      `Hello Bolaji Abraham (Abraham Collection),\n\nI have just submitted a bespoke commission on the website.\n\n* Archival Reference: ${referenceCode}\n* Client: ${submittedData?.clientName || "Esteemed Client"}\n* Location: ${submittedData?.location || "Lagos"}\n* Silhouette: ${silhouette.toUpperCase()}\n\nPlease confirm availability for fabric consultation and measurements.`
+    );
+
     return (
       <main className="min-h-[80vh] flex flex-col items-center justify-center p-8 text-center font-sans max-w-2xl mx-auto py-24">
         <div className="w-16 h-16 rounded-full bg-brand-crimson/10 dark:bg-brand-gold/10 flex items-center justify-center mb-6">
@@ -79,32 +93,69 @@ function CommissionFormInner() {
         <h1 className="font-display text-4xl md:text-5xl mb-4 text-balance">
           Commission Inscription Received
         </h1>
-        <p className="text-sm font-mono text-brand-muted mb-6 bg-brand-black/5 dark:bg-white/5 py-1 px-4 border border-brand-black/10 dark:border-white/10 inline-block">
-          REFERENCE: {referenceCode}
-        </p>
+
+        {/* Reference Code & Copy Action */}
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-2 mb-6">
+          <span className="text-sm font-mono tracking-wider text-brand-black dark:text-brand-white bg-brand-black/5 dark:bg-white/5 py-2 px-4 border border-brand-black/15 dark:border-white/15">
+            REFERENCE: <span className="font-semibold text-brand-crimson dark:text-brand-gold">{referenceCode}</span>
+          </span>
+          <button
+            onClick={handleCopy}
+            type="button"
+            className="flex items-center gap-1.5 px-3 py-2 text-xs font-mono uppercase tracking-wider border border-brand-black/15 dark:border-white/15 hover:border-brand-gold text-brand-black/80 dark:text-brand-silk/80 hover:text-brand-gold bg-brand-black/5 dark:bg-white/5 transition-all shadow-sm"
+            title="Copy reference code to clipboard"
+          >
+            {copied ? (
+              <>
+                <Check size={14} className="text-brand-gold" />
+                <span className="text-brand-gold font-medium">Copied</span>
+              </>
+            ) : (
+              <>
+                <Copy size={14} />
+                <span>Copy Code</span>
+              </>
+            )}
+          </button>
+        </div>
+
         <p className="font-light text-base opacity-80 leading-relaxed mb-8 text-balance">
-          Thank you for entrusting Abraham Collection with your occasion. Our master tailor and private client concierge will review your commission requirements and contact you within 24 hours to schedule your initial consultation.
+          Thank you for entrusting Abraham Collection with your occasion. Our master tailor and private client concierge will review your commission requirements and contact you within 24 hours to coordinate fabric swatches and fittings.
         </p>
-        <div className="p-6 border-basting bg-brand-cream/40 dark:bg-brand-charcoal text-left w-full mb-10 text-xs space-y-3 font-light">
+
+        {/* Priority Action: WhatsApp Concierge + Home Return */}
+        <div className="flex flex-col sm:flex-row gap-3 w-full justify-center mb-10">
+          <a
+            href={`https://wa.me/2348034432759?text=${whatsappMessage}`}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-brand-crimson text-brand-white dark:bg-brand-silk dark:text-brand-onyx text-xs tracking-luxury uppercase font-medium hover:bg-brand-burgundy-light dark:hover:bg-brand-cream transition-colors duration-300 shadow-md"
+          >
+            <MessageSquare size={16} className="text-brand-gold dark:text-brand-crimson" />
+            <span>Connect on WhatsApp Concierge</span>
+          </a>
+          <Link
+            href="/"
+            className="inline-flex items-center justify-center gap-2 px-6 py-3.5 border border-brand-black/20 dark:border-white/20 text-brand-black dark:text-brand-silk uppercase text-xs tracking-luxury font-medium hover:border-brand-gold hover:text-brand-gold transition-colors"
+          >
+            Return to Atelier
+          </Link>
+        </div>
+
+        <div className="p-6 border-basting bg-brand-cream/40 dark:bg-brand-charcoal text-left w-full text-xs space-y-3 font-light">
           <div className="flex items-center gap-3">
             <CheckCircle2 size={16} className="text-brand-crimson dark:text-brand-gold flex-shrink-0" />
             <span>Consultation dossiers prepared with fabric swatch availability</span>
           </div>
           <div className="flex items-center gap-3">
             <CheckCircle2 size={16} className="text-brand-crimson dark:text-brand-gold flex-shrink-0" />
-            <span>Anatomical measurement instructions dispatched via private concierge</span>
+            <span>Measurement guidelines dispatched via private concierge</span>
           </div>
           <div className="flex items-center gap-3">
             <CheckCircle2 size={16} className="text-brand-crimson dark:text-brand-gold flex-shrink-0" />
             <span>Dedicated lead tailor assigned to coordinate cutting timeline</span>
           </div>
         </div>
-        <Link
-          href="/"
-          className="inline-flex items-center gap-2 px-8 py-4 bg-brand-onyx text-brand-silk dark:bg-brand-silk dark:text-brand-onyx uppercase text-xs tracking-luxury font-medium hover:opacity-85 transition-opacity"
-        >
-          Return to Atelier Homepage
-        </Link>
       </main>
     );
   }

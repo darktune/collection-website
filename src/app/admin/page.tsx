@@ -43,6 +43,7 @@ import {
   Sun,
   Moon,
   Bot,
+  MessageSquare,
   RefreshCw,
   Mail,
   Check,
@@ -498,7 +499,7 @@ export default function AdminDashboard() {
                     : "hover:bg-black/5 dark:hover:bg-white/5 opacity-70 hover:opacity-100"
                 }`}
               >
-                <OjuOyaIcon size={14} /> <span>Anatomical Vault</span>
+                <OjuOyaIcon size={14} /> <span>Measurements ({patrons.length})</span>
               </button>
               <button
                 onClick={() => setActiveTab("corporate")}
@@ -567,7 +568,7 @@ export default function AdminDashboard() {
               onClick={() => setActiveTab("clients")}
               className={`px-2.5 py-1.5 ${activeTab === "clients" ? "bg-brand-onyx text-white dark:bg-white dark:text-black" : "bg-black/5 dark:bg-white/5"}`}
             >
-              Vault
+              Measurements ({patrons.length})
             </button>
             <button
               onClick={() => setActiveTab("corporate")}
@@ -658,7 +659,7 @@ export default function AdminDashboard() {
 
                 <div className="p-3.5 border border-brand-black/10 dark:border-white/10 bg-brand-cream/20 dark:bg-white/[0.02]">
                   <div className="flex justify-between items-center text-[9px] font-mono uppercase tracking-[0.22em] opacity-60">
-                    <span>Patrons Vault</span>
+                    <span>Patron Registry</span>
                     <Users size={13} className="text-brand-crimson dark:text-brand-gold" />
                   </div>
                   <div className="font-display text-2xl font-light mt-1 mb-0.5 text-brand-black dark:text-brand-white">
@@ -718,12 +719,12 @@ export default function AdminDashboard() {
 
                 <div className="p-4 border border-brand-black/10 dark:border-white/10 bg-brand-cream/20 dark:bg-white/[0.02] rounded space-y-2">
                   <div className="flex justify-between items-center text-[10px] font-mono uppercase tracking-widest">
-                    <span className="font-semibold text-brand-gold">Sartorial Vault Health</span>
+                    <span className="font-semibold text-brand-gold">Measurements Health</span>
                     <Ruler size={14} className="text-brand-gold" />
                   </div>
                   <div className="space-y-1.5 text-xs font-mono pt-1">
                     <div className="flex justify-between items-center">
-                      <span className="opacity-70">Vault Measurements Secured</span>
+                      <span className="opacity-70">Measurements Recorded</span>
                       <span className="font-bold text-brand-gold">{patrons.filter((p) => p.chest_circ && p.waist_circ).length}</span>
                     </div>
                     <div className="flex justify-between items-center">
@@ -731,7 +732,7 @@ export default function AdminDashboard() {
                       <span className="font-bold opacity-60">{patrons.filter((p) => !p.chest_circ || !p.waist_circ).length}</span>
                     </div>
                     <div className="flex justify-between items-center">
-                      <span className="opacity-70">Vault Completion Rate</span>
+                      <span className="opacity-70">Measurement Rate</span>
                       <span className="font-bold text-brand-gold">
                         {patrons.length > 0 ? Math.round((patrons.filter((p) => p.chest_circ && p.waist_circ).length / patrons.length) * 100) : 0}%
                       </span>
@@ -939,12 +940,16 @@ export default function AdminDashboard() {
                           {statusUpdating ? "Updating..." : selectedCommission.status === "Delivered" ? "Fully Delivered" : `Advance to Next Stage`}
                         </button>
                         <a
-                          href={`https://wa.me/${selectedCommission.phone.replace(/[^0-9]/g, "")}`}
+                          href={`https://wa.me/${selectedCommission.phone.replace(/[^0-9]/g, "")}?text=${encodeURIComponent(
+                            `Hello ${selectedCommission.client_name},\n\nThis is Bolaji Abayomi Abraham from Abraham Collection Atelier.\n\nRegarding your bespoke commission (${selectedCommission.reference_code} - ${selectedCommission.silhouette}):\nYour commission has reached the *${selectedCommission.status}* stage.\n\nPlease let us know if you have any questions or schedule updates.`
+                          )}`}
                           target="_blank"
                           rel="noreferrer"
-                          className="px-3 py-2 border border-brand-black/20 dark:border-white/20 text-[9px] uppercase tracking-[0.16em] font-medium hover:bg-black/5 dark:hover:bg-white/5 flex items-center justify-center gap-1"
+                          className="px-3 py-2 border border-brand-black/20 dark:border-white/20 hover:border-brand-gold text-[9px] uppercase tracking-[0.16em] font-medium hover:text-brand-gold flex items-center justify-center gap-1.5 transition-colors"
+                          title="Send Milestone WhatsApp Update to Patron"
                         >
-                          WhatsApp
+                          <MessageSquare size={12} className="text-brand-gold" />
+                          <span>WhatsApp Update</span>
                         </a>
                       </div>
                     </div>
@@ -961,7 +966,7 @@ export default function AdminDashboard() {
                 <div className="flex items-center gap-2.5">
                   <h2 className="font-display text-lg uppercase tracking-[0.2em] font-medium">Storefront & Instant Orders</h2>
                   <span className="w-1 h-1 bg-brand-gold rotate-45" />
-                  <span className="text-[9px] font-mono opacity-50 uppercase tracking-widest hidden sm:inline">Transaction Vault</span>
+                  <span className="text-[9px] font-mono opacity-50 uppercase tracking-widest hidden sm:inline">Transaction Registry</span>
                 </div>
                 <span className="text-[9px] font-mono text-brand-gold uppercase tracking-[0.2em]">
                   {orders.length} {orders.length === 1 ? "Order" : "Orders"} Recorded
@@ -1064,9 +1069,9 @@ export default function AdminDashboard() {
             <div className="space-y-6 animate-in fade-in duration-300">
               <header className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-brand-black/10 dark:border-white/10">
                 <div className="flex items-center gap-2.5">
-                  <h2 className="font-display text-lg uppercase tracking-[0.2em] font-medium">Patron Intelligence &amp; Vault</h2>
+                  <h2 className="font-display text-lg uppercase tracking-[0.2em] font-medium">Patron Intelligence &amp; Measurements</h2>
                   <span className="w-1 h-1 bg-brand-gold rotate-45" />
-                  <span className="text-[9px] font-mono opacity-50 uppercase tracking-widest hidden sm:inline">Anatomical Registry</span>
+                  <span className="text-[9px] font-mono opacity-50 uppercase tracking-widest hidden sm:inline">Measurements Registry</span>
                 </div>
                 
                 {/* Actions: CSV Export */}
@@ -1094,7 +1099,7 @@ export default function AdminDashboard() {
                 </div>
 
                 <div className="p-3 border border-brand-black/10 dark:border-white/10 bg-brand-cream/20 dark:bg-white/[0.02]">
-                  <span className="text-[8.5px] uppercase opacity-50 block tracking-widest">Vault Complete</span>
+                  <span className="text-[8.5px] uppercase opacity-50 block tracking-widest">Measurements Complete</span>
                   <div className="text-xl font-display font-light text-brand-black dark:text-brand-white mt-0.5">
                     {patrons.filter((p) => p.chest_circ && p.waist_circ).length}
                   </div>
@@ -1145,13 +1150,13 @@ export default function AdminDashboard() {
                     onClick={() => setClientCategory("complete")}
                     className={`px-2.5 py-1.5 rounded transition-all ${clientCategory === "complete" ? "bg-brand-onyx text-white dark:bg-white dark:text-black font-bold" : "bg-brand-black/5 dark:bg-white/5 opacity-70 hover:opacity-100"}`}
                   >
-                    Vault Complete
+                    Measurements Complete
                   </button>
                   <button
                     onClick={() => setClientCategory("pending")}
                     className={`px-2.5 py-1.5 rounded transition-all ${clientCategory === "pending" ? "bg-brand-onyx text-white dark:bg-white dark:text-black font-bold" : "bg-brand-black/5 dark:bg-white/5 opacity-70 hover:opacity-100"}`}
                   >
-                    Vault Pending
+                    Measurements Pending
                   </button>
                   <button
                     onClick={() => setClientCategory("diaspora")}
@@ -1239,7 +1244,7 @@ export default function AdminDashboard() {
                                       : "bg-brand-black/5 dark:bg-white/5 opacity-50"
                                   }`}
                                 >
-                                  {isComplete ? "Vault Complete" : "Pending Vault"}
+                                  {isComplete ? "Measurements Complete" : "Pending Measurements"}
                                 </span>
                               </div>
                             </div>
@@ -1293,7 +1298,7 @@ export default function AdminDashboard() {
                               className="flex-1 py-1.5 px-2 bg-brand-gold/15 hover:bg-brand-gold/25 border border-brand-gold/40 text-brand-black dark:text-brand-gold text-[10px] uppercase font-mono tracking-wider rounded transition-colors flex items-center justify-center gap-1.5 font-semibold"
                             >
                               <Eye size={12} />
-                              <span>Inspect 24-Point Vault</span>
+                              <span>Inspect Measurements</span>
                             </button>
 
                             {patron.phone && (
@@ -1437,7 +1442,7 @@ export default function AdminDashboard() {
                       <div className="flex items-center gap-2">
                         {inspectedPatron.phone && (
                           <a
-                            href={`https://wa.me/${inspectedPatron.phone.replace(/[^0-9]/g, '')}?text=Hello%20${encodeURIComponent(inspectedPatron.full_name || 'Patron')}%2C%20this%20is%20Bolaji%20Abayomi%20Abraham%20regarding%20your%20bespoke%20measurement%20vault.`}
+                            href={`https://wa.me/${inspectedPatron.phone.replace(/[^0-9]/g, '')}?text=Hello%20${encodeURIComponent(inspectedPatron.full_name || 'Patron')}%2C%20this%20is%20Bolaji%20Abayomi%20Abraham%20regarding%20your%20bespoke%20measurements.`}
                             target="_blank"
                             rel="noreferrer"
                             className="py-2 px-3 bg-brand-gold/20 hover:bg-brand-gold/30 border border-brand-gold/50 text-brand-black dark:text-brand-gold text-xs font-mono uppercase tracking-wider rounded transition-colors flex items-center gap-1.5"
@@ -1450,7 +1455,7 @@ export default function AdminDashboard() {
                           onClick={() => setInspectedPatron(null)}
                           className="py-2 px-4 bg-brand-black/10 dark:bg-white/10 hover:bg-brand-black/20 text-xs uppercase font-mono tracking-wider rounded transition-colors"
                         >
-                          Close Vault
+                          Close Dossier
                         </button>
                       </div>
                     </div>

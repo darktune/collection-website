@@ -16,6 +16,7 @@ import {
   ArrowLeft,
   CheckCircle2,
   Save,
+  Printer,
 } from "lucide-react";
 import { AdinkraheneIcon, PempamsieIcon, IrukereIcon } from "@/components/icons/BespokeIcons";
 import { useAtelier } from "@/context/AtelierContext";
@@ -92,6 +93,60 @@ export function UserProfileModal() {
     }
   };
 
+  const handlePrintMeasurements = () => {
+    if (typeof window === "undefined") return;
+    const printWindow = window.open("", "_blank");
+    if (!printWindow) return;
+    printWindow.document.write(`
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <title>Abraham Collection — Bespoke Measurements (${user.name || "Patron"})</title>
+          <style>
+            body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; padding: 40px; color: #121212; background: #fff; }
+            .header { border-bottom: 2px solid #CFA459; padding-bottom: 15px; margin-bottom: 25px; }
+            .title { font-size: 24px; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; }
+            .subtitle { font-size: 11px; text-transform: uppercase; letter-spacing: 3px; color: #666; margin-top: 4px; }
+            .patron { margin-bottom: 20px; font-size: 13px; line-height: 1.6; }
+            .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 20px; }
+            .item { border: 1px solid #ddd; padding: 10px 14px; background: #fafafa; }
+            .label { font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px; color: #777; }
+            .value { font-size: 18px; font-weight: 600; font-family: monospace; color: #A61C32; margin-top: 4px; }
+            .notes { margin-top: 25px; padding: 14px; border-left: 3px solid #CFA459; background: #fdfaf5; font-size: 12px; }
+            .footer { margin-top: 40px; border-top: 1px solid #eee; padding-top: 15px; font-size: 10px; color: #888; text-transform: uppercase; letter-spacing: 2px; text-align: center; }
+          </style>
+        </head>
+        <body>
+          <div class="header">
+            <div class="title">Abraham Collection</div>
+            <div class="subtitle">Bespoke Architectural Tailoring &bull; Est. 2002 &bull; Lagos</div>
+          </div>
+          <div class="patron">
+            <strong>Patron:</strong> ${user.name || "Esteemed Client"}<br>
+            <strong>Email:</strong> ${user.email || "N/A"}<br>
+            <strong>Tier:</strong> ${user.memberTier}<br>
+            <strong>Date Generated:</strong> ${new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}
+          </div>
+          <div class="grid">
+            <div class="item"><div class="label">Chest / Bust</div><div class="value">${measurements.chest}" in</div></div>
+            <div class="item"><div class="label">Natural Waist</div><div class="value">${measurements.waist}" in</div></div>
+            <div class="item"><div class="label">Shoulder Span</div><div class="value">${measurements.shoulder}" in</div></div>
+            <div class="item"><div class="label">Sleeve Length</div><div class="value">${measurements.sleeve}" in</div></div>
+            <div class="item"><div class="label">Neck Collar</div><div class="value">${measurements.neck}" in</div></div>
+            <div class="item"><div class="label">Trouser Outseam</div><div class="value">${measurements.trouserLength}" in</div></div>
+            <div class="item"><div class="label">Trouser Inseam</div><div class="value">${measurements.trouserInseam}" in</div></div>
+            <div class="item"><div class="label">Agbada Wingspan</div><div class="value">${measurements.agbadaWingspan}" in</div></div>
+            <div class="item"><div class="label">Kaftan Tunic Length</div><div class="value">${measurements.kaftanLength}" in</div></div>
+          </div>
+          ${measurements.postureNotes ? `<div class="notes"><strong>Posture & Fit Notes:</strong> ${measurements.postureNotes}</div>` : ''}
+          <div class="footer">Master Cutter: Bolaji Abayomi Abraham &bull; Concierge: 0803 443 2759 &bull; Direct: 0812 264 0820</div>
+          <script>window.onload = function() { window.print(); };</script>
+        </body>
+      </html>
+    `);
+    printWindow.document.close();
+  };
+
   return (
     <div className="fixed z-50 bottom-16 sm:bottom-20 right-2 sm:right-4 md:right-6 w-[calc(100vw-1rem)] sm:w-80 md:w-96 max-w-sm animate-in fade-in zoom-in-95 duration-200">
       <div className="bg-[#FCFAF7] dark:bg-[#0D0B0A] text-brand-black dark:text-brand-white border border-brand-gold/40 rounded-2xl shadow-2xl overflow-hidden warm-glow-ring">
@@ -118,7 +173,7 @@ export function UserProfileModal() {
                 {user.isAuthenticated ? user.name : "Welcome, Esteemed Patron"}
               </span>
               <span className="text-xs opacity-60 font-mono mt-0.5 truncate max-w-[200px]">
-                {user.isAuthenticated ? user.email : "Sign in for private measurement vault"}
+                {user.isAuthenticated ? user.email : "Sign in to save your measurements"}
               </span>
               <div className="flex items-center gap-2 mt-2">
                 <span className="text-[9px] uppercase tracking-[0.25em] px-2 py-0.5 border-l-2 border-brand-gold bg-brand-gold/10 text-brand-gold font-medium">
@@ -135,7 +190,7 @@ export function UserProfileModal() {
           </div>
         </div>
 
-        {/* Dynamic Body: Measurement Vault View OR Standard Dossier Menu */}
+        {/* Dynamic Body: Measurements View OR Standard Dossier Menu */}
         {showVault ? (
           <div className="p-4 space-y-4 max-h-[60vh] overflow-y-auto">
             <div className="flex items-center justify-between pb-2 border-b border-brand-black/10 dark:border-white/10">
@@ -146,7 +201,18 @@ export function UserProfileModal() {
                 <ArrowLeft size={14} />
                 <span>Back to Dossier</span>
               </button>
-              <span className="text-[9px] uppercase tracking-widest text-brand-gold font-mono">24-Point Vault</span>
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={handlePrintMeasurements}
+                  className="flex items-center gap-1 px-2 py-0.5 border border-brand-black/20 dark:border-white/20 hover:border-brand-gold text-[9px] uppercase tracking-wider text-brand-black/80 dark:text-brand-silk/80 hover:text-brand-gold transition-colors"
+                  title="Print or Export Measurement Card"
+                >
+                  <Printer size={11} />
+                  <span>Print</span>
+                </button>
+                <span className="text-[9px] uppercase tracking-widest text-brand-gold font-mono">Measurements</span>
+              </div>
             </div>
 
             {user.isAuthenticated ? (
@@ -252,24 +318,36 @@ export function UserProfileModal() {
                 {vaultSaved && (
                   <div className="flex items-center gap-2 p-2 bg-brand-gold/15 border border-brand-gold/40 text-brand-gold text-[10px] font-mono">
                     <CheckCircle2 size={14} />
-                    <span>Synchronized with Atelier Cutting Room &bull; Supabase Vault</span>
+                    <span>Synchronized with Atelier Cutting Room</span>
                   </div>
                 )}
 
-                <button
-                  type="submit"
-                  disabled={isSavingVault}
-                  className="w-full py-2.5 bg-brand-crimson text-white hover:bg-brand-burgundy-light transition-colors text-[10px] tracking-[0.22em] uppercase font-semibold flex items-center justify-center gap-2 shadow-sm"
-                >
-                  <Save size={13} />
-                  <span>{isSavingVault ? "Securing Vault..." : "Save Anatomical Profile"}</span>
-                </button>
+                <div className="flex gap-2 pt-1">
+                  <button
+                    type="submit"
+                    disabled={isSavingVault}
+                    className="flex-1 py-2.5 bg-brand-crimson text-white hover:bg-brand-burgundy-light transition-colors text-[10px] tracking-[0.22em] uppercase font-semibold flex items-center justify-center gap-2 shadow-sm"
+                  >
+                    <Save size={13} />
+                    <span>{isSavingVault ? "Saving..." : "Save Measurements"}</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={handlePrintMeasurements}
+                    className="px-3 py-2.5 border border-brand-black/20 dark:border-white/20 hover:border-brand-gold text-brand-black dark:text-brand-silk hover:text-brand-gold transition-colors text-[10px] tracking-wider uppercase font-mono flex items-center justify-center gap-1.5"
+                    title="Print / Save Measurement Card PDF"
+                  >
+                    <Printer size={13} />
+                    <span>Print</span>
+                  </button>
+                </div>
               </form>
             ) : (
               <div className="py-6 text-center space-y-4">
                 <Ruler size={32} className="mx-auto text-brand-gold opacity-80" />
                 <p className="text-xs font-light opacity-80">
-                  Please sign in or create an Atelier Circle profile to unlock and sync your 24 anatomical tailor measurements.
+                  Please sign in or create an Atelier Circle profile to view, save, and print your bespoke tailor measurements.
                 </p>
                 <button
                   onClick={() => {
@@ -278,7 +356,7 @@ export function UserProfileModal() {
                   }}
                   className="px-6 py-2.5 bg-brand-crimson text-white text-[10px] uppercase tracking-[0.22em] font-semibold"
                 >
-                  Sign In to Access Vault
+                  Sign In to Access Measurements
                 </button>
               </div>
             )}
@@ -334,17 +412,17 @@ export function UserProfileModal() {
               </div>
             </button>
 
-            {/* Interactive Measurement Vault Trigger */}
+            {/* Interactive Measurements Trigger */}
             <button
               onClick={() => setShowVault(true)}
               className="w-full flex items-center justify-between p-3 rounded-lg hover:bg-brand-black/5 dark:hover:bg-white/5 transition-colors group text-left"
             >
               <div className="flex items-center gap-3">
                 <Ruler size={16} className="text-brand-gold" />
-                <span>Anatomical Measurement Vault</span>
+                <span>Bespoke Measurements</span>
               </div>
               <span className="text-[9px] uppercase tracking-widest text-brand-gold font-mono group-hover:underline">
-                {user.isAuthenticated ? "Manage Vault →" : "View"}
+                {user.isAuthenticated ? "Manage →" : "View"}
               </span>
             </button>
 

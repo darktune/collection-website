@@ -362,7 +362,28 @@ flowchart TD
     - Patrons can now authenticate with 1 click via "Continue with Google" in `AuthModal.tsx`.
     - Automatically syncs patron name, email, and avatar into `AtelierContext.tsx`.
     - Uninitiated patrons immediately trigger the 3-Stage luxury onboarding modal (`OnboardingModal.tsx`) to capture prestige tier, silhouette affinity, and anatomical measurements directly to `public.profiles`.
-- **Commit**: `docs(oauth)`
+- **Commit**: `1d81fd9`
+
+---
+
+### Prompt 24: Universal "Measurements" Terminology, WhatsApp Commission Dispatch, LocalBusiness Schema.org SEO, Measurement Card Print/PDF Export, and Admin Milestone WhatsApp Updates
+- **User Directives**:
+  - "can we just name it measurements in all places and lets start with all 4 one by one and giveme more suggestions on what to improve on"
+- **Architectural Deliverables**:
+  1. **Universal "Measurements" Terminology**:
+     - Standardized terminology across the entire app from complex "measurement vault" references to client-friendly, prestigious **"Measurements"** / **"Bespoke Measurements"** in `UserProfileModal.tsx`, `FloatingDock.tsx`, `AuthModal.tsx`, `OnboardingModal.tsx`, `src/app/admin/page.tsx`, `privacy/page.tsx`, and `commission/page.tsx`.
+  2. **Instant WhatsApp Dispatch on Bespoke Bookings (`src/app/bespoke/commission/page.tsx`)**:
+     - Upgraded the submission screen with a tactile **"Copy Code"** button (with animated checkmark and copy confirmation).
+     - Added a prominent **"Connect on WhatsApp Concierge"** button with a pre-filled luxury message carrying the patron's reference code, name, silhouette, and location.
+  3. **Google Schema.org SEO & Rich Snippets (`src/app/layout.tsx`)**:
+     - Implemented JSON-LD structured data for `ClothingStore` and `LocalBusiness` specifying founder Bolaji Abayomi Abraham, operating hours, Lagos cutting rooms coordinates, phone, price range (`$$$`), and verified social channels.
+  4. **Client Measurement Card Print/PDF Export (`src/components/dock/UserProfileModal.tsx`)**:
+     - Built a 1-click **"Print Card"** action rendering an architectural Master Cutter Measurement Sheet with patron details, date, 8 core measurements, and posture notes, opening `window.print()` for physical printing or saving as PDF.
+  5. **Automated Milestone Updates in Admin OS (`src/app/admin/page.tsx`)**:
+     - Added a 1-click **"WhatsApp Update"** button in the Bespoke Registry tab that opens WhatsApp with a pre-filled status update message addressed to that specific patron.
+  6. **ESLint & Production Build Verification**:
+     - Configured `.eslintrc.json` for Next.js 14 and verified that all 18 routes compile cleanly with code `0`.
+- **Commit**: `feat(improvements)`
 
 ---
 

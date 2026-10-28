@@ -94,7 +94,7 @@ export function OnboardingModal() {
             2. Silhouette Affinity
           </div>
           <div className={`py-2 text-center border-b-2 transition-colors ${step >= 3 ? "border-brand-gold text-brand-gold font-bold" : "border-transparent opacity-40"}`}>
-            3. Vault Setup
+            3. Measurements
           </div>
         </div>
 
@@ -226,23 +226,23 @@ export function OnboardingModal() {
                   onClick={() => setStep(3)}
                   className="flex-1 py-3 bg-brand-crimson hover:bg-brand-burgundy-light text-white uppercase tracking-luxury text-xs font-semibold rounded-lg transition-colors flex items-center justify-center gap-2 shadow-lg"
                 >
-                  <span>Proceed to Vault Setup</span>
+                  <span>Proceed to Measurements</span>
                   <ArrowRight size={14} />
                 </button>
               </div>
             </div>
           )}
 
-          {/* STEP 3: ANATOMICAL MEASUREMENT VAULT QUICK-START */}
+          {/* STEP 3: MEASUREMENTS QUICK-START */}
           {step === 3 && (
             <div className="space-y-4 animate-in fade-in duration-200">
               <div className="space-y-1">
                 <div className="flex items-center gap-2 text-brand-gold">
                   <Ruler size={16} />
-                  <h4 className="font-display text-lg uppercase tracking-wider font-medium">Anatomical Vault Quick-Start</h4>
+                  <h4 className="font-display text-lg uppercase tracking-wider font-medium">Bespoke Measurements Quick-Start</h4>
                 </div>
                 <p className="text-xs opacity-70">
-                  Input your 4 core structural measurements now (in inches), or skip to explore the catalog and complete the 24-point vault later.
+                  Input your 4 core structural measurements now (in inches), or skip to explore the catalog and add your full measurements later.
                 </p>
               </div>
 
@@ -304,7 +304,7 @@ export function OnboardingModal() {
                   className="w-full py-3.5 bg-brand-crimson hover:bg-brand-burgundy-light text-white uppercase tracking-luxury text-xs font-semibold rounded-lg transition-colors flex items-center justify-center gap-2 shadow-lg disabled:opacity-50"
                 >
                   <PempamsieIcon size={14} className="text-brand-gold" />
-                  <span>{isSaving ? "Preserving Vault..." : "Seal Vault & Enter Flagship"}</span>
+                  <span>{isSaving ? "Preserving Measurements..." : "Save Measurements & Enter Flagship"}</span>
                 </button>
 
                 <button
@@ -313,7 +313,7 @@ export function OnboardingModal() {
                   onClick={() => handleFinishOnboarding(true)}
                   className="w-full py-2.5 text-center text-xs opacity-60 hover:opacity-100 hover:text-brand-gold transition-colors underline uppercase tracking-widest font-mono"
                 >
-                  I will complete my 24 measurements later
+                  I will complete my measurements later
                 </button>
               </div>
             </div>

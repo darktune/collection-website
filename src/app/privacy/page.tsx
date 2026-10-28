@@ -30,9 +30,9 @@ export default function PrivacyPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-16">
           <div className="p-6 border border-brand-black/10 dark:border-white/10 bg-brand-cream/30 dark:bg-brand-onyx/40">
             <Lock size={20} className="text-brand-crimson dark:text-brand-gold mb-4" />
-            <h3 className="font-display text-lg mb-2">Anatomical Measurement Vault</h3>
+            <h3 className="font-display text-lg mb-2">Bespoke Measurements</h3>
             <p className="font-light text-xs opacity-80 leading-relaxed">
-              Your 24 individual body measurements and fitting profiles are stored in an encrypted vault accessible solely by master cutter Bolaji Abayomi Abraham and designated senior pattern makers.
+              Your individual body measurements and fitting profiles are stored securely and accessible solely by master cutter Bolaji Abayomi Abraham and designated senior pattern makers.
             </p>
           </div>
           <div className="p-6 border border-brand-black/10 dark:border-white/10 bg-brand-cream/30 dark:bg-brand-onyx/40">

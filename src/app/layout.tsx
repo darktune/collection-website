@@ -65,6 +65,51 @@ export const metadata: Metadata = {
   },
 };
 
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "ClothingStore",
+  "name": "Abraham Collection",
+  "alternateName": "Abraham Collection Atelier",
+  "url": "https://abrahamcollection.com",
+  "logo": "https://abrahamcollection.com/media/logo_transparent.png",
+  "image": "https://abrahamcollection.com/media/hero_1.jpg",
+  "description": "Traditional heritage. Contemporary tailoring. Corporate excellence. Crafted with intention since 2002 in Lagos, Nigeria by founder Bolaji Abayomi Abraham.",
+  "founder": {
+    "@type": "Person",
+    "name": "Bolaji Abayomi Abraham",
+    "jobTitle": "Creative Director & Master Tailor"
+  },
+  "foundingDate": "2002",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Lagos",
+    "addressRegion": "Lagos State",
+    "addressCountry": "NG"
+  },
+  "telephone": "+2348122640820",
+  "priceRange": "$$$",
+  "openingHoursSpecification": [
+    {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday"
+      ],
+      "opens": "09:00",
+      "closes": "18:30"
+    }
+  ],
+  "sameAs": [
+    "https://www.instagram.com/abrahams_collection",
+    "https://www.facebook.com/bolaji.abraham.10",
+    "https://www.tiktok.com/@abraham00031"
+  ]
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -72,6 +117,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      </head>
       <body className={`${inter.variable} ${displayFont.variable} ${patronFont.variable} ${nameFont.variable} font-sans`}>
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false} storageKey="abraham_theme_preference">
           <AtelierProvider>

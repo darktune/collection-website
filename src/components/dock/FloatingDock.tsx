@@ -148,7 +148,7 @@ export function FloatingDock() {
           className={`relative p-2.5 rounded-full transition-all duration-300 text-brand-black/70 dark:text-brand-silk/80 hover:text-brand-crimson dark:hover:text-white hover:bg-brand-black/5 dark:hover:bg-white/10 ${
             activeModal === "profile" ? "bg-brand-gold/20 text-brand-gold scale-105" : ""
           }`}
-          title="Client Profile & Measurement Vault"
+          title="Client Profile & Measurements"
         >
           {user.isAuthenticated && user.name ? (
             <span className="w-4 h-4 rounded-full bg-brand-gold text-brand-onyx text-[9px] font-bold flex items-center justify-center font-display">

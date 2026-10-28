@@ -236,8 +236,8 @@ export function AuthModal() {
               <h4 className="font-display text-2xl">Welcome, {name || "Esteemed Patron"}.</h4>
               <p className="text-xs text-brand-black/70 dark:text-white/70">
                 {mode === "signup"
-                  ? "Initiating your sartorial profile and measurement vault..."
-                  : "Your anatomical measurement vault is unlocked."}
+                  ? "Setting up your sartorial profile and measurements..."
+                  : "Your profile and measurements are ready."}
               </p>
             </div>
           ) : (
@@ -390,7 +390,7 @@ export function AuthModal() {
                       ? "Securing Protocol..."
                       : mode === "signup"
                       ? "Enter Atelier Circle & Begin Onboarding"
-                      : "Unlock Atelier Vault"}
+                      : "Sign In to Your Profile"}
                   </span>
                 </button>
               </form>

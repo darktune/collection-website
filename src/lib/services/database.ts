@@ -6,7 +6,49 @@ import {
   OrderRecord,
   PatronProfileRecord,
   CommissionStatus,
+  TextileInventoryRecord,
 } from '@/types/database.types';
+
+const STORAGE_TEXTILES = 'abraham_textiles_cache';
+
+const DEFAULT_TEXTILES: TextileInventoryRecord[] = [
+  {
+    id: "txt-1",
+    fabric_name: "Alaari Royal Silk Aso Oke",
+    origin: "Iseyin, Oyo State",
+    composition: "Hand-loomed Mulberry Silk & Metallic Thread",
+    color: "Imperial Oyo Crimson",
+    yardage_available: 48.5,
+    unit_cost_ngn: 45000,
+  },
+  {
+    id: "txt-2",
+    fabric_name: "Super 150s English Worsted Wool",
+    origin: "Huddersfield, UK",
+    composition: "100% Virgin Merino Wool",
+    color: "Obsidian Black",
+    yardage_available: 62.0,
+    unit_cost_ngn: 58000,
+  },
+  {
+    id: "txt-3",
+    fabric_name: "Sanyan Traditional Raw Silk Aso Oke",
+    origin: "Oyo Town, Nigeria",
+    composition: "Wild Anaphe Silk & Cotton Blend",
+    color: "Warm Champagne Silk",
+    yardage_available: 35.0,
+    unit_cost_ngn: 42000,
+  },
+  {
+    id: "txt-4",
+    fabric_name: "Biella Four-Season Wool-Cashmere Blend",
+    origin: "Biella, Italy",
+    composition: "90% Wool, 10% Cashmere",
+    color: "Deep Charcoal Gray",
+    yardage_available: 28.0,
+    unit_cost_ngn: 65000,
+  },
+];
 
 // Default initial studio seed data to guarantee 100% immediate usability
 const DEFAULT_COMMISSIONS: CommissionRecord[] = [
@@ -592,6 +634,36 @@ export const AtelierDatabase = {
         if (cached) return JSON.parse(cached);
       }
       return [];
+    }
+  },
+
+  // 6. TEXTILE INVENTORY
+  async getTextiles(): Promise<TextileInventoryRecord[]> {
+    try {
+      const { data, error } = await supabase
+        .from('textile_inventory')
+        .select('*')
+        .order('fabric_name', { ascending: true });
+
+      if (error || !data || data.length === 0) {
+        if (typeof window !== 'undefined') {
+          const cached = localStorage.getItem(STORAGE_TEXTILES);
+          if (cached) return JSON.parse(cached);
+        }
+        return DEFAULT_TEXTILES;
+      }
+
+      if (typeof window !== 'undefined') {
+        localStorage.setItem(STORAGE_TEXTILES, JSON.stringify(data));
+      }
+
+      return data as TextileInventoryRecord[];
+    } catch {
+      if (typeof window !== 'undefined') {
+        const cached = localStorage.getItem(STORAGE_TEXTILES);
+        if (cached) return JSON.parse(cached);
+      }
+      return DEFAULT_TEXTILES;
     }
   },
 };

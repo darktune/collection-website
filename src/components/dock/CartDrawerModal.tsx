@@ -7,7 +7,7 @@ import { X, Trash2, ShoppingBag, CreditCard, MessageSquare } from "lucide-react"
 import { useAtelier } from "@/context/AtelierContext";
 
 export function CartDrawerModal() {
-  const { activeModal, setActiveModal, cart, removeFromCart, clearCart, user } = useAtelier();
+  const { activeModal, setActiveModal, cart, removeFromCart, clearCart, user, formatPrice, currency } = useAtelier();
 
   if (activeModal !== "cart") return null;
 
@@ -84,7 +84,7 @@ export function CartDrawerModal() {
                     </div>
                     <p className="text-[10px] opacity-70 uppercase font-mono mt-0.5">Size: {item.size}</p>
                     <p className="text-[11px] font-mono text-brand-crimson dark:text-brand-gold mt-1 font-medium">
-                      ₦{(item.priceNgn * item.quantity).toLocaleString()} &bull; ${item.priceUsd * item.quantity} USD
+                      {formatPrice(item.priceNgn * item.quantity, item.priceUsd * item.quantity)}
                     </p>
                   </div>
                 </div>
@@ -99,7 +99,7 @@ export function CartDrawerModal() {
             <div className="flex justify-between items-center text-xs">
               <span className="opacity-70 uppercase tracking-widest text-[10px]">Total Order</span>
               <span className="font-mono text-brand-crimson dark:text-brand-gold text-sm font-semibold">
-                ₦{totalNgn.toLocaleString()} &bull; ${totalUsd} USD
+                {formatPrice(totalNgn, totalUsd)}
               </span>
             </div>
 

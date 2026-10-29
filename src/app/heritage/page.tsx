@@ -3,6 +3,7 @@ import Link from "next/link";
 import { ProductCommerceCard } from "@/components/commerce/ProductCommerceCard";
 import { AtelierProduct } from "@/context/AtelierContext";
 import { AdinkraheneIcon, PempamsieIcon } from "@/components/icons/BespokeIcons";
+import { LoomExperience } from "@/components/heritage/LoomExperience";
 
 const HERITAGE_PRODUCTS: AtelierProduct[] = [
   {
@@ -86,6 +87,9 @@ export default function HeritagePage() {
           <span>Diaspora Concierge Available Worldwide (UK, US, Canada) &rarr;</span>
         </Link>
       </section>
+
+      {/* Interactive Master Weaver's Loom & Yoruba Textile Archive */}
+      <LoomExperience />
 
       {/* Product Grid with 3-Action Overlays (Buy Now, Custom, Wishlist) */}
       <section className="px-8 md:px-16 lg:px-24 pb-32">

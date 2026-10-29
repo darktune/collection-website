@@ -13,7 +13,7 @@ interface ProductCommerceCardProps {
 }
 
 export function ProductCommerceCard({ product, priority = false }: ProductCommerceCardProps) {
-  const { toggleWishlist, isInWishlist, openQuickBuy } = useAtelier();
+  const { toggleWishlist, isInWishlist, openQuickBuy, currency, formatPrice } = useAtelier();
   const saved = isInWishlist(product.id);
 
   return (
@@ -87,9 +87,13 @@ export function ProductCommerceCard({ product, priority = false }: ProductCommer
         </h3>
         
         <div className="flex items-center gap-2 text-xs font-mono font-medium text-brand-crimson dark:text-brand-gold">
-          <span>₦{product.priceNgn.toLocaleString()}</span>
-          <span className="text-brand-black/30 dark:text-white/30">&bull;</span>
-          <span>${product.priceUsd} USD</span>
+          <span>{formatPrice(product.priceNgn, product.priceUsd)}</span>
+          {currency !== "NGN" && (
+            <>
+              <span className="text-brand-black/30 dark:text-white/30">&bull;</span>
+              <span className="text-[10.5px] text-brand-black/50 dark:text-white/50">₦{product.priceNgn.toLocaleString()}</span>
+            </>
+          )}
         </div>
       </div>
     </div>

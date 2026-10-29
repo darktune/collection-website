@@ -19,6 +19,8 @@ export interface CartItem extends AtelierProduct {
   quantity: number;
 }
 
+export type CurrencyCode = "NGN" | "USD" | "GBP";
+
 export interface UserProfile {
   id?: string;
   name: string;
@@ -61,6 +63,10 @@ interface AtelierContextType {
   storyPopupVisible: boolean;
   dismissStoryPopup: () => void;
   triggerStoryPopup: () => void;
+
+  currency: CurrencyCode;
+  setCurrency: (c: CurrencyCode) => void;
+  formatPrice: (amountNgn: number, amountUsd?: number) => string;
 }
 
 const AtelierContext = createContext<AtelierContextType | undefined>(undefined);
@@ -85,6 +91,26 @@ export function AtelierProvider({ children }: { children: React.ReactNode }) {
   const [dockOrientation, setDockOrientation] = useState<"horizontal" | "vertical">("horizontal");
   const [isDockCollapsed, setIsDockCollapsed] = useState(false);
   const [storyPopupVisible, setStoryPopupVisible] = useState(false);
+  const [currency, setCurrencyState] = useState<CurrencyCode>("NGN");
+
+  const setCurrency = (c: CurrencyCode) => {
+    setCurrencyState(c);
+    try {
+      localStorage.setItem("abraham_currency", c);
+    } catch {}
+  };
+
+  const formatPrice = (amountNgn: number, amountUsd?: number): string => {
+    if (currency === "USD") {
+      const usd = amountUsd || Math.round(amountNgn / 1600);
+      return `$${usd.toLocaleString()} USD`;
+    }
+    if (currency === "GBP") {
+      const gbp = Math.round(amountNgn / 2050);
+      return `£${gbp.toLocaleString()} GBP`;
+    }
+    return `₦${amountNgn.toLocaleString()}`;
+  };
 
   const syncUserSession = async (sbUser: any) => {
     if (!sbUser?.email) return;
@@ -129,6 +155,11 @@ export function AtelierProvider({ children }: { children: React.ReactNode }) {
 
       const savedCart = localStorage.getItem("abraham_cart");
       if (savedCart) setCart(JSON.parse(savedCart));
+
+      const savedCurrency = localStorage.getItem("abraham_currency");
+      if (savedCurrency === "USD" || savedCurrency === "GBP" || savedCurrency === "NGN") {
+        setCurrencyState(savedCurrency as CurrencyCode);
+      }
 
       if (typeof window !== "undefined" && window.innerWidth < 768) {
         setDockOrientation("vertical");
@@ -317,6 +348,9 @@ export function AtelierProvider({ children }: { children: React.ReactNode }) {
         storyPopupVisible,
         dismissStoryPopup,
         triggerStoryPopup,
+        currency,
+        setCurrency,
+        formatPrice,
       }}
     >
       {children}

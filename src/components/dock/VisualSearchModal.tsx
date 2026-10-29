@@ -55,7 +55,7 @@ const CATALOG_ITEMS: AtelierProduct[] = [
 ];
 
 export function VisualSearchModal() {
-  const { activeModal, setActiveModal, openQuickBuy } = useAtelier();
+  const { activeModal, setActiveModal, openQuickBuy, formatPrice } = useAtelier();
   const [query, setQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
 
@@ -132,7 +132,7 @@ export function VisualSearchModal() {
                     <div className="flex items-start justify-between">
                       <span className="text-[10px] uppercase tracking-widest text-brand-gold font-mono">{item.category}</span>
                       <span className="text-xs font-mono text-brand-crimson dark:text-brand-gold font-semibold">
-                        ₦{item.priceNgn.toLocaleString()} &bull; ${item.priceUsd} USD
+                        {formatPrice(item.priceNgn, item.priceUsd)}
                       </span>
                     </div>
                     <h4 className="font-name text-base font-normal mt-0.5">{item.name}</h4>

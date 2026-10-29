@@ -7,7 +7,7 @@ import { X, Trash2, Heart } from "lucide-react";
 import { useAtelier } from "@/context/AtelierContext";
 
 export function WishlistModal() {
-  const { activeModal, setActiveModal, wishlist, toggleWishlist, openQuickBuy } = useAtelier();
+  const { activeModal, setActiveModal, wishlist, toggleWishlist, openQuickBuy, formatPrice } = useAtelier();
 
   if (activeModal !== "wishlist") return null;
 
@@ -74,7 +74,7 @@ export function WishlistModal() {
                     </div>
                     <p className="text-[10px] opacity-60 uppercase tracking-widest mt-0.5">{item.category}</p>
                     <p className="text-[11px] font-mono text-brand-crimson dark:text-brand-gold mt-1 font-medium">
-                      ₦{item.priceNgn.toLocaleString()} &bull; ${item.priceUsd} USD
+                      {formatPrice(item.priceNgn, item.priceUsd)}
                     </p>
                   </div>
 

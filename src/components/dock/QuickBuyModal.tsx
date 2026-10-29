@@ -34,7 +34,7 @@ const SIZES = [
 ];
 
 export function QuickBuyModal() {
-  const { activeModal, setActiveModal, selectedProductForQuickBuy, addToCart, user } = useAtelier();
+  const { activeModal, setActiveModal, selectedProductForQuickBuy, addToCart, user, formatPrice } = useAtelier();
   const [selectedSize, setSelectedSize] = useState(SIZES[2]);
   const [clientName, setClientName] = useState(user.name || "");
   const [clientPhone, setClientPhone] = useState(user.phone || "");
@@ -190,10 +190,8 @@ export function QuickBuyModal() {
               <div className="flex-1">
                 <span className="text-[10px] text-brand-gold uppercase tracking-widest">{product.category}</span>
                 <h4 className="font-name text-lg leading-tight mt-0.5">{product.name}</h4>
-                <div className="flex items-center gap-3 mt-1.5 font-mono text-sm text-brand-gold font-medium">
-                  <span>₦{product.priceNgn.toLocaleString()}</span>
-                  <span className="text-brand-black/40 dark:text-white/40">&bull;</span>
-                  <span>${product.priceUsd} USD</span>
+                <div className="flex items-center gap-2 mt-1.5 font-mono text-sm text-brand-gold font-medium">
+                  <span>{formatPrice(product.priceNgn, product.priceUsd)}</span>
                 </div>
               </div>
             </div>

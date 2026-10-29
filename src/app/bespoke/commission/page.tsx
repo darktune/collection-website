@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, Suspense } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import {
@@ -12,19 +12,32 @@ import {
 import { CheckCircle2, ShieldCheck, Copy, Check, MessageSquare } from "lucide-react";
 
 import { AtelierDatabase } from "@/lib/services/database";
+import { TextileInventoryRecord } from "@/types/database.types";
+import { useAtelier } from "@/context/AtelierContext";
 
 function CommissionFormInner() {
   const searchParams = useSearchParams();
   const isDiaspora = searchParams.get("type") === "diaspora";
+  const { formatPrice } = useAtelier();
 
   const [occasion, setOccasion] = useState(isDiaspora ? "diaspora_wedding" : "traditional_wedding");
   const [silhouette, setSilhouette] = useState("agbada");
+  const [selectedFabric, setSelectedFabric] = useState("Alaari Royal Silk Aso Oke");
+  const [textiles, setTextiles] = useState<TextileInventoryRecord[]>([]);
   const [consultationType, setConsultationType] = useState(isDiaspora ? "remote" : "studio");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [referenceCode, setReferenceCode] = useState("");
   const [copied, setCopied] = useState(false);
   const [submittedData, setSubmittedData] = useState<{ clientName: string; location: string } | null>(null);
+
+  useEffect(() => {
+    AtelierDatabase.getTextiles().then((data) => {
+      if (data && data.length > 0) {
+        setTextiles(data);
+      }
+    });
+  }, []);
 
   const handleCopy = () => {
     if (!referenceCode) return;
@@ -51,6 +64,8 @@ function CommissionFormInner() {
     setReferenceCode(generatedRef);
     setSubmittedData({ clientName: client_name, location: event_city });
 
+    const commissionNotes = `Fabric Swatch: ${selectedFabric}${notes ? `\n\nPatron Directives: ${notes}` : ""}`;
+
     try {
       await AtelierDatabase.createCommission({
         reference_code: generatedRef,
@@ -65,9 +80,29 @@ function CommissionFormInner() {
         date_needed: event_date || null,
         is_diaspora: isDiaspora || consultationType === 'remote',
         garment_count: parseInt(guest_count) || 1,
-        notes: notes || undefined,
+        notes: commissionNotes,
         assigned_tailor: "Bolaji Abayomi Abraham",
       });
+
+      // Dispatch automated transactional email notification via /api/commissions/notify
+      fetch("/api/commissions/notify", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          referenceCode: generatedRef,
+          clientName: client_name,
+          email,
+          phone,
+          location: event_city,
+          occasion,
+          silhouette,
+          consultationType,
+          dateNeeded: event_date,
+          garmentCount: guest_count,
+          selectedFabric,
+          notes,
+        }),
+      }).catch((err) => console.warn("Email notification dispatch error:", err));
     } catch (err) {
       console.warn("Commission persisted with local queue fallback:", err);
     }
@@ -79,7 +114,7 @@ function CommissionFormInner() {
 
   if (submitted) {
     const whatsappMessage = encodeURIComponent(
-      `Hello Bolaji Abraham (Abraham Collection),\n\nI have just submitted a bespoke commission on the website.\n\n* Archival Reference: ${referenceCode}\n* Client: ${submittedData?.clientName || "Esteemed Client"}\n* Location: ${submittedData?.location || "Lagos"}\n* Silhouette: ${silhouette.toUpperCase()}\n\nPlease confirm availability for fabric consultation and measurements.`
+      `Hello Bolaji Abraham (Abraham Collection),\n\nI have just submitted a bespoke commission on the website.\n\n* Archival Reference: ${referenceCode}\n* Client: ${submittedData?.clientName || "Esteemed Client"}\n* Location: ${submittedData?.location || "Lagos"}\n* Silhouette: ${silhouette.toUpperCase()}\n* Fabric: ${selectedFabric}\n\nPlease confirm availability for fabric consultation and measurements.`
     );
 
     return (
@@ -98,6 +133,9 @@ function CommissionFormInner() {
         <div className="flex flex-col sm:flex-row items-center justify-center gap-2 mb-6">
           <span className="text-sm font-mono tracking-wider text-brand-black dark:text-brand-white bg-brand-black/5 dark:bg-white/5 py-2 px-4 border border-brand-black/15 dark:border-white/15">
             REFERENCE: <span className="font-semibold text-brand-crimson dark:text-brand-gold">{referenceCode}</span>
+          </span>
+          <span className="text-xs font-mono tracking-wider text-brand-gold bg-brand-black/5 dark:bg-white/5 py-2 px-3 border border-brand-black/15 dark:border-white/15">
+            CLOTH: {selectedFabric}
           </span>
           <button
             onClick={handleCopy}
@@ -261,10 +299,156 @@ function CommissionFormInner() {
           </div>
         </section>
 
-        {/* Step 3: Consultation Location */}
+        {/* Step 3: Heritage Cloth & Fabric Swatch Selection */}
+        <section className="space-y-4">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
+            <label className="text-xs uppercase tracking-luxury font-semibold text-brand-onyx dark:text-brand-silk block">
+              3. Heritage Cloth &amp; Fabric Swatch
+            </label>
+            <span className="text-[10px] font-mono tracking-wider text-brand-gold">
+              Live Vault Inventory &bull; Yardage Verified
+            </span>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {(textiles.length > 0
+              ? textiles
+              : [
+                  {
+                    id: "txt-1",
+                    fabric_name: "Alaari Royal Silk Aso Oke",
+                    origin: "Iseyin, Oyo State",
+                    composition: "Hand-loomed Mulberry Silk & Metallic Thread",
+                    color: "Imperial Oyo Crimson",
+                    yardage_available: 48.5,
+                    unit_cost_ngn: 45000,
+                  },
+                  {
+                    id: "txt-2",
+                    fabric_name: "Super 150s English Worsted Wool",
+                    origin: "Huddersfield, UK",
+                    composition: "100% Virgin Merino Wool",
+                    color: "Obsidian Black",
+                    yardage_available: 62.0,
+                    unit_cost_ngn: 58000,
+                  },
+                  {
+                    id: "txt-3",
+                    fabric_name: "Sanyan Traditional Raw Silk Aso Oke",
+                    origin: "Oyo Town, Nigeria",
+                    composition: "Wild Anaphe Silk & Cotton Blend",
+                    color: "Warm Champagne Silk",
+                    yardage_available: 35.0,
+                    unit_cost_ngn: 42000,
+                  },
+                  {
+                    id: "txt-4",
+                    fabric_name: "Biella Four-Season Wool-Cashmere Blend",
+                    origin: "Biella, Italy",
+                    composition: "90% Wool, 10% Cashmere",
+                    color: "Deep Charcoal Gray",
+                    yardage_available: 28.0,
+                    unit_cost_ngn: 65000,
+                  },
+                ]
+            ).map((tex) => {
+              const isSelected = selectedFabric === tex.fabric_name;
+              const swatchColor = tex.fabric_name.includes("Alaari")
+                ? "#7A0C1E"
+                : tex.fabric_name.includes("Worsted")
+                ? "#18181B"
+                : tex.fabric_name.includes("Sanyan")
+                ? "#D4AF37"
+                : "#3F3F46";
+
+              return (
+                <button
+                  type="button"
+                  key={tex.id}
+                  onClick={() => setSelectedFabric(tex.fabric_name)}
+                  className={`p-5 text-left border transition-all duration-300 flex flex-col justify-between relative ${
+                    isSelected
+                      ? "border-brand-crimson bg-brand-crimson/5 dark:border-brand-gold dark:bg-brand-gold/5 shadow-sm"
+                      : "border-brand-black/10 dark:border-white/10 hover:border-brand-black/30 dark:hover:border-white/30"
+                  }`}
+                >
+                  <div>
+                    <div className="flex items-center justify-between mb-2">
+                      <div className="flex items-center gap-2">
+                        <span
+                          className="w-3.5 h-3.5 rounded-full border border-white/20 shadow-inner flex-shrink-0"
+                          style={{ backgroundColor: swatchColor }}
+                        />
+                        <span className="text-[10px] font-mono tracking-wider uppercase text-brand-black/60 dark:text-white/60">
+                          {tex.color}
+                        </span>
+                      </div>
+                      <span className="text-[9px] font-mono px-2 py-0.5 bg-brand-black/5 dark:bg-white/5 border border-brand-black/10 dark:border-white/10 text-brand-gold">
+                        {tex.yardage_available} yds in vault
+                      </span>
+                    </div>
+
+                    <div className="font-display text-base mb-1 text-brand-onyx dark:text-brand-silk">
+                      {tex.fabric_name}
+                    </div>
+                    <div className="text-xs font-light text-brand-muted leading-relaxed">
+                      {tex.composition} &bull; {tex.origin}
+                    </div>
+                  </div>
+
+                  <div className="pt-3 mt-3 border-t border-brand-black/5 dark:border-white/5 flex items-center justify-between text-[10px] font-mono">
+                    <span className="text-brand-muted">Studio Rate:</span>
+                    <span className="font-medium text-brand-crimson dark:text-brand-gold">
+                      {tex.unit_cost_ngn ? `${formatPrice(tex.unit_cost_ngn)}/yd` : "Atelier Quote"}
+                    </span>
+                  </div>
+                </button>
+              );
+            })}
+
+            {/* 5th Option: Bespoke / Client-Provided Cloth */}
+            <button
+              type="button"
+              onClick={() => setSelectedFabric("Client Provided / Consult at Atelier")}
+              className={`p-5 text-left border transition-all duration-300 flex flex-col justify-between relative ${
+                selectedFabric === "Client Provided / Consult at Atelier"
+                  ? "border-brand-crimson bg-brand-crimson/5 dark:border-brand-gold dark:bg-brand-gold/5 shadow-sm"
+                  : "border-brand-black/10 dark:border-white/10 hover:border-brand-black/30 dark:hover:border-white/30"
+              }`}
+            >
+              <div>
+                <div className="flex items-center justify-between mb-2">
+                  <div className="flex items-center gap-2">
+                    <span className="w-3.5 h-3.5 rounded-full border border-brand-gold bg-brand-gold/30 shadow-inner flex-shrink-0" />
+                    <span className="text-[10px] font-mono tracking-wider uppercase text-brand-black/60 dark:text-white/60">
+                      Bespoke Sourcing
+                    </span>
+                  </div>
+                  <span className="text-[9px] font-mono px-2 py-0.5 bg-brand-black/5 dark:bg-white/5 border border-brand-black/10 dark:border-white/10 text-brand-gold">
+                    Consultation
+                  </span>
+                </div>
+
+                <div className="font-display text-base mb-1 text-brand-onyx dark:text-brand-silk">
+                  Provide My Own Cloth / Consult at Fitting
+                </div>
+                <div className="text-xs font-light text-brand-muted leading-relaxed">
+                  Bring your family heirloom Aso Oke or select from master cutter swatches during your session.
+                </div>
+              </div>
+
+              <div className="pt-3 mt-3 border-t border-brand-black/5 dark:border-white/5 flex items-center justify-between text-[10px] font-mono">
+                <span className="text-brand-muted">Fitting Protocol:</span>
+                <span className="font-medium text-brand-crimson dark:text-brand-gold">Drape &amp; Inspection</span>
+              </div>
+            </button>
+          </div>
+        </section>
+
+        {/* Step 4: Consultation Location */}
         <section className="space-y-4">
           <label className="text-xs uppercase tracking-luxury font-semibold text-brand-onyx dark:text-brand-silk block">
-            3. Consultation Preference
+            4. Consultation Preference
           </label>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <button
@@ -305,10 +489,10 @@ function CommissionFormInner() {
           </div>
         </section>
 
-        {/* Step 4: Event Timeline & Logistics */}
+        {/* Step 5: Event Timeline & Logistics */}
         <section className="space-y-6 pt-4 border-t border-brand-black/10 dark:border-white/10">
           <label className="text-xs uppercase tracking-luxury font-semibold text-brand-onyx dark:text-brand-silk block">
-            4. Timeline & Event Details
+            5. Timeline &amp; Event Details
           </label>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="flex flex-col gap-2">
@@ -324,7 +508,7 @@ function CommissionFormInner() {
             </div>
             <div className="flex flex-col gap-2">
               <label htmlFor="event_city" className="text-[11px] uppercase tracking-wider text-brand-muted">
-                Event City & Country
+                Event City &amp; Country
               </label>
               <input
                 type="text"
@@ -351,10 +535,10 @@ function CommissionFormInner() {
           </div>
         </section>
 
-        {/* Step 5: Client Contact Dossier */}
+        {/* Step 6: Client Contact Dossier */}
         <section className="space-y-6 pt-4 border-t border-brand-black/10 dark:border-white/10">
           <label className="text-xs uppercase tracking-luxury font-semibold text-brand-onyx dark:text-brand-silk block">
-            5. Primary Client Contact
+            6. Primary Client Contact
           </label>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="flex flex-col gap-2">

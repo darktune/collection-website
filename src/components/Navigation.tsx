@@ -9,7 +9,7 @@ import { useAtelier } from "@/context/AtelierContext";
 
 export function Navigation() {
   const { theme, setTheme } = useTheme();
-  const { user, setActiveModal } = useAtelier();
+  const { user, setActiveModal, currency, setCurrency } = useAtelier();
   const [mounted, setMounted] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -49,6 +49,25 @@ export function Navigation() {
             APPOINTMENTS
           </Link>
           <span className="hidden sm:inline text-white/20">|</span>
+
+          {/* Multi-Currency Switcher (NGN | USD | GBP) */}
+          <div className="flex items-center border border-white/20 bg-white/5 divide-x divide-white/10 text-[7.5px] sm:text-[8px] tracking-[0.2em] font-mono flex-shrink-0">
+            {(["NGN", "USD", "GBP"] as const).map((code) => (
+              <button
+                key={code}
+                onClick={() => setCurrency(code)}
+                className={`px-1.5 py-0.5 transition-colors uppercase font-medium ${
+                  currency === code
+                    ? "bg-brand-gold text-brand-onyx font-bold"
+                    : "text-brand-silk/70 hover:text-brand-gold"
+                }`}
+                title={`Switch currency to ${code}`}
+                aria-label={`Switch currency to ${code}`}
+              >
+                {code}
+              </button>
+            ))}
+          </div>
 
           {/* Dedicated Luxury Atelier Theme Switcher (Permanent top-right anchor, unclipped across all viewports) */}
           <button
@@ -254,6 +273,33 @@ export function Navigation() {
                   </>
                 )}
               </button>
+            </div>
+
+            {/* Mobile Currency Bar */}
+            <div className="flex items-center justify-between pb-4 border-b border-brand-black/10 dark:border-white/10">
+              <div className="flex flex-col">
+                <span className="text-[10px] uppercase tracking-[0.25em] font-medium text-brand-black dark:text-white">
+                  Currency
+                </span>
+                <span className="text-[8px] font-mono text-brand-black/60 dark:text-white/60">
+                  {currency === "NGN" ? "Nigerian Naira (₦)" : currency === "USD" ? "US Dollar ($)" : "British Pound (£)"}
+                </span>
+              </div>
+              <div className="flex items-center border border-brand-black/20 dark:border-white/20 bg-brand-black/5 dark:bg-white/5 divide-x divide-brand-black/10 dark:divide-white/10 text-[9px] tracking-[0.2em] font-mono">
+                {(["NGN", "USD", "GBP"] as const).map((code) => (
+                  <button
+                    key={code}
+                    onClick={() => setCurrency(code)}
+                    className={`px-2.5 py-1.5 transition-colors uppercase font-medium ${
+                      currency === code
+                        ? "bg-brand-gold text-brand-onyx font-bold"
+                        : "text-brand-black/70 dark:text-brand-silk/70 hover:text-brand-gold"
+                    }`}
+                  >
+                    {code}
+                  </button>
+                ))}
+              </div>
             </div>
 
             {/* Mobile Client Dossier / Sign In */}

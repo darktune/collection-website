@@ -45,10 +45,10 @@ export const metadata: Metadata = {
     siteName: "Abraham Collection",
     images: [
       {
-        url: "/media/hero_1.jpg",
+        url: "/api/og",
         width: 1200,
         height: 630,
-        alt: "Abraham Collection Flagship",
+        alt: "Abraham Collection Bespoke Atelier Flagship",
       },
     ],
     locale: "en_NG",
@@ -56,8 +56,10 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Abraham Collection",
+    title: "Abraham Collection | Bespoke Atelier Est. 2002",
     description: "Clothing That Suits. Crafted with intention by Bolaji Abayomi Abraham.",
+    images: ["/api/og"],
+  },
     images: ["/media/hero_1.jpg"],
   },
   icons: {

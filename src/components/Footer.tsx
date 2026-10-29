@@ -45,7 +45,9 @@ export function Footer() {
 
         {/* Nav 2 */}
         <div className="flex flex-col gap-4 text-sm font-light text-brand-black/80 dark:text-[#FCFAF7]/80">
-          <h4 className="text-xs uppercase tracking-widest font-medium text-brand-black dark:text-white mb-2">Brand</h4>
+          <h4 className="text-xs uppercase tracking-widest font-medium text-brand-black dark:text-white mb-2">Client Services</h4>
+          <Link href="/track" className="hover:text-brand-burgundy dark:hover:text-white hover:translate-x-1 transition-all duration-300">Track Commission</Link>
+          <Link href="/bespoke/group" className="hover:text-brand-burgundy dark:hover:text-white hover:translate-x-1 transition-all duration-300">Entourage Wardrobe</Link>
           <Link href="/about" className="hover:text-brand-burgundy dark:hover:text-white hover:translate-x-1 transition-all duration-300">Our Story</Link>
           <Link href="/stories" className="hover:text-brand-burgundy dark:hover:text-white hover:translate-x-1 transition-all duration-300">The Style Anthology</Link>
           <Link href="/contact" className="hover:text-brand-burgundy dark:hover:text-white hover:translate-x-1 transition-all duration-300">Contact Studio</Link>

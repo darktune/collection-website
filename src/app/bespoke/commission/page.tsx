@@ -9,7 +9,7 @@ import {
   IrukereIcon,
   SankofaDiasporaIcon,
 } from "@/components/icons/BespokeIcons";
-import { CheckCircle2, ShieldCheck, Copy, Check, MessageSquare } from "lucide-react";
+import { CheckCircle2, ShieldCheck, Copy, Check, MessageSquare, Calendar, Download, Search } from "lucide-react";
 
 import { AtelierDatabase } from "@/lib/services/database";
 import { TextileInventoryRecord } from "@/types/database.types";
@@ -30,6 +30,42 @@ function CommissionFormInner() {
   const [referenceCode, setReferenceCode] = useState("");
   const [copied, setCopied] = useState(false);
   const [submittedData, setSubmittedData] = useState<{ clientName: string; location: string } | null>(null);
+  const [detectedTimezone, setDetectedTimezone] = useState("UTC");
+
+  useEffect(() => {
+    try {
+      const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+      if (tz) setDetectedTimezone(tz);
+    } catch {}
+  }, []);
+
+  const downloadIcs = () => {
+    if (!referenceCode) return;
+    const icsContent = [
+      "BEGIN:VCALENDAR",
+      "VERSION:2.0",
+      "PRODID:-//Abraham Collection//Bespoke Atelier Consultation//EN",
+      "BEGIN:VEVENT",
+      `UID:${referenceCode}@abrahamcollection.com`,
+      `DTSTAMP:${new Date().toISOString().replace(/[-:]/g, "").split(".")[0]}Z`,
+      `DTSTART:${new Date(Date.now() + 86400000 * 2).toISOString().replace(/[-:]/g, "").split(".")[0]}Z`,
+      `DTEND:${new Date(Date.now() + 86400000 * 2 + 3600000).toISOString().replace(/[-:]/g, "").split(".")[0]}Z`,
+      `SUMMARY:Abraham Collection Bespoke Video Consultation [REF: ${referenceCode}]`,
+      `DESCRIPTION:Bespoke tailoring consultation and fabric inspection with Master Tailor Bolaji Abayomi Abraham.\\nRef: ${referenceCode}\\nCloth: ${selectedFabric}\\nWhatsApp Concierge: +2348034432759`,
+      "LOCATION:Private Video Concierge (WhatsApp / Google Meet)",
+      "STATUS:CONFIRMED",
+      "END:VEVENT",
+      "END:VCALENDAR",
+    ].join("\r\n");
+
+    const blob = new Blob([icsContent], { type: "text/calendar;charset=utf-8" });
+    const link = document.createElement("a");
+    link.href = window.URL.createObjectURL(blob);
+    link.setAttribute("download", `Abraham_Collection_${referenceCode}.ics`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
 
   useEffect(() => {
     AtelierDatabase.getTextiles().then((data) => {
@@ -160,6 +196,40 @@ function CommissionFormInner() {
         <p className="font-light text-base opacity-80 leading-relaxed mb-8 text-balance">
           Thank you for entrusting Abraham Collection with your occasion. Our master tailor and private client concierge will review your commission requirements and contact you within 24 hours to coordinate fabric swatches and fittings.
         </p>
+
+        {/* Calendar Reservation & Real-Time Tracking Actions */}
+        <div className="flex flex-wrap items-center justify-center gap-2 mb-8 max-w-xl mx-auto">
+          <button
+            onClick={downloadIcs}
+            type="button"
+            className="flex items-center gap-1.5 px-4 py-2 border border-brand-gold/40 hover:border-brand-gold bg-brand-gold/10 text-brand-gold text-[10.5px] uppercase tracking-wider font-mono transition-colors shadow-sm"
+          >
+            <Download size={13} />
+            <span>Download .ics Calendar Invite</span>
+          </button>
+
+          <a
+            href={`https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(
+              `Abraham Collection Bespoke Consultation [${referenceCode}]`
+            )}&details=${encodeURIComponent(
+              `Bespoke tailoring consultation and fabric inspection with Master Tailor Bolaji Abayomi Abraham.\nArchival Ref: ${referenceCode}\nCloth: ${selectedFabric}\nConcierge: +234 803 443 2759`
+            )}&location=${encodeURIComponent("Private Video Concierge (Lagos Studio Desk)")}`}
+            target="_blank"
+            rel="noreferrer"
+            className="flex items-center gap-1.5 px-4 py-2 border border-brand-black/20 dark:border-white/20 hover:border-brand-gold text-brand-black/80 dark:text-brand-silk/80 hover:text-brand-gold text-[10.5px] uppercase tracking-wider font-mono transition-colors"
+          >
+            <Calendar size={13} />
+            <span>Add to Google Calendar</span>
+          </a>
+
+          <Link
+            href={`/track?ref=${encodeURIComponent(referenceCode)}`}
+            className="flex items-center gap-1.5 px-4 py-2 border border-brand-crimson/30 hover:border-brand-crimson text-brand-crimson dark:text-brand-gold text-[10.5px] uppercase tracking-wider font-mono transition-colors"
+          >
+            <Search size={13} />
+            <span>Track Live Milestone</span>
+          </Link>
+        </div>
 
         {/* Priority Action: WhatsApp Concierge + Home Return */}
         <div className="flex flex-col sm:flex-row gap-3 w-full justify-center mb-10">
@@ -447,9 +517,14 @@ function CommissionFormInner() {
 
         {/* Step 4: Consultation Location */}
         <section className="space-y-4">
-          <label className="text-xs uppercase tracking-luxury font-semibold text-brand-onyx dark:text-brand-silk block">
-            4. Consultation Preference
-          </label>
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
+            <label className="text-xs uppercase tracking-luxury font-semibold text-brand-onyx dark:text-brand-silk block">
+              4. Consultation Preference
+            </label>
+            <span className="text-[10px] font-mono tracking-wider text-brand-gold">
+              Detected Timezone: {detectedTimezone} &bull; Lagos Studio: WAT (UTC+1)
+            </span>
+          </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <button
               type="button"

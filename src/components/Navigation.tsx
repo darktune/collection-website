@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useTheme } from "next-themes";
-import { Moon, Sun, Menu, X, ArrowUpRight, MessageSquare, Phone } from "lucide-react";
+import { Moon, Sun, Menu, X, ArrowUpRight, MessageSquare, Phone, Search } from "lucide-react";
 import { useEffect, useState } from "react";
 import { PempamsieIcon, AdinkraheneIcon } from "@/components/icons/BespokeIcons";
 import { useAtelier } from "@/context/AtelierContext";
@@ -48,7 +48,11 @@ export function Navigation() {
           <Link href="/bespoke/commission" className="hidden md:inline hover:text-brand-gold transition-colors">
             APPOINTMENTS
           </Link>
-          <span className="hidden sm:inline text-white/20">|</span>
+          <span className="hidden md:inline text-white/20">|</span>
+          <Link href="/track" className="hidden lg:inline hover:text-brand-gold transition-colors">
+            TRACK ORDER
+          </Link>
+          <span className="hidden lg:inline text-white/20">|</span>
 
           {/* Multi-Currency Switcher (NGN | USD | GBP) */}
           <div className="flex items-center border border-white/20 bg-white/5 divide-x divide-white/10 text-[7.5px] sm:text-[8px] tracking-[0.2em] font-mono flex-shrink-0">
@@ -332,6 +336,17 @@ export function Navigation() {
             )}
 
             {/* Core Collections Navigation */}
+            <Link
+              href="/track"
+              onClick={() => setMobileMenuOpen(false)}
+              className="flex justify-between items-center py-2.5 border-b border-brand-black/10 dark:border-white/10 text-brand-gold hover:text-brand-crimson dark:hover:text-brand-gold transition-colors"
+            >
+              <span className="flex items-center gap-2">
+                <Search size={13} className="text-brand-gold" />
+                <span>Track Order Milestone</span>
+              </span>
+              <ArrowUpRight size={14} />
+            </Link>
             <Link
               href="/heritage"
               onClick={() => setMobileMenuOpen(false)}

@@ -227,6 +227,40 @@ export const AtelierDatabase = {
     }
   },
 
+  async getCommissionByReference(refCode: string): Promise<CommissionRecord | null> {
+    const cleanRef = refCode.trim().toUpperCase();
+    try {
+      const { data, error } = await supabase
+        .from('commissions')
+        .select('*')
+        .ilike('reference_code', cleanRef)
+        .maybeSingle();
+
+      if (!error && data) {
+        return data as CommissionRecord;
+      }
+    } catch (e) {
+      console.warn('Error querying commission by reference from Supabase:', e);
+    }
+
+    // Fallback to local cache
+    if (typeof window !== 'undefined') {
+      try {
+        const cached = localStorage.getItem(STORAGE_COMMISSIONS);
+        if (cached) {
+          const list: CommissionRecord[] = JSON.parse(cached);
+          const found = list.find((c) => c.reference_code?.toUpperCase() === cleanRef);
+          if (found) return found;
+        }
+      } catch {}
+    }
+
+    const defaultFound = DEFAULT_COMMISSIONS.find(
+      (c) => c.reference_code.toUpperCase() === cleanRef
+    );
+    return defaultFound || null;
+  },
+
   async createCommission(
     commission: Omit<CommissionRecord, 'id' | 'created_at' | 'updated_at'>
   ): Promise<CommissionRecord> {

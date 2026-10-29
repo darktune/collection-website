@@ -3,11 +3,14 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Volume2, VolumeX, Sparkles, Compass, Eye, ShieldCheck } from "lucide-react";
 import { AdinkraheneIcon, PempamsieIcon } from "@/components/icons/BespokeIcons";
+import { HeritagePronunciation } from "@/components/heritage/HeritagePronunciation";
 
 interface WeaveData {
   id: string;
   name: string;
   yorubaName: string;
+  phonetic: string;
+  tones: ("high" | "mid" | "low")[];
   origin: string;
   warpComposition: string;
   weftComposition: string;
@@ -25,6 +28,8 @@ const WEAVES: WeaveData[] = [
     id: "alaari",
     name: "Alaari Royal Silk Aso Oke",
     yorubaName: "Aṣọ Ọba Aláàrí",
+    phonetic: "ah-shoh oh-bah ah-lah-ah-ree",
+    tones: ["mid", "high", "high", "high", "low"],
     origin: "Iseyin Weaving Guilds, Oyo State",
     warpComposition: "Mulberry Silk (Indigo/Crimson vat dyed)",
     weftComposition: "Metallic Gold Lurex & Hand-spun Cotton",
@@ -40,6 +45,8 @@ const WEAVES: WeaveData[] = [
     id: "sanyan",
     name: "Sanyan Traditional Wild Raw Silk",
     yorubaName: "Sányán Àdìmúla",
+    phonetic: "sahn-yahn ah-dee-moo-lah",
+    tones: ["high", "high", "low", "high", "mid"],
     origin: "Oyo Town Master Weavers, Nigeria",
     warpComposition: "Wild Anaphe Silk Cocoon (Unbleached)",
     weftComposition: "Hand-carded Indigenous Cotton",
@@ -55,6 +62,8 @@ const WEAVES: WeaveData[] = [
     id: "etu",
     name: "Etu Indigo Pinstripe Cloth",
     yorubaName: "Ẹtù Oní-Láìkì",
+    phonetic: "eh-too oh-nee-lye-kee",
+    tones: ["low", "mid", "high", "high", "low"],
     origin: "Oshogbo Sacred Dye Pits, Osun State",
     warpComposition: "Triple-dipped Fermented Indigo Cotton",
     weftComposition: "Bleached Ivory Cotton Pinstripe",
@@ -70,6 +79,8 @@ const WEAVES: WeaveData[] = [
     id: "asake",
     name: "Asake Open-Lattice Metallic Brocade",
     yorubaName: "Àṣàkẹ́ Oní-Dúrà",
+    phonetic: "ah-shah-keh oh-nee-doo-rah",
+    tones: ["low", "low", "high", "high", "high"],
     origin: "Abraham Collection Western Atelier",
     warpComposition: "Fine Worsted Merino Wool & Silk",
     weftComposition: "Pure Gold Wire & Perforated Eyelets",
@@ -344,9 +355,16 @@ export function LoomExperience() {
                       {weave.threadCount.split(" ")[0]} EPI
                     </span>
                   </div>
-                  <p className="text-[10px] font-mono italic text-brand-crimson dark:text-brand-gold">
-                    {weave.yorubaName}
-                  </p>
+                  <div className="flex items-center gap-2 mt-0.5 mb-1">
+                    <p className="text-[10px] font-mono italic text-brand-crimson dark:text-brand-gold">
+                      {weave.yorubaName}
+                    </p>
+                    <HeritagePronunciation
+                      term={weave.yorubaName}
+                      phonetic={weave.phonetic}
+                      tones={weave.tones}
+                    />
+                  </div>
                   <p className="text-[11px] font-light text-brand-black/60 dark:text-white/60 line-clamp-1 mt-0.5">
                     {weave.origin}
                   </p>
